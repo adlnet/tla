@@ -1,9 +1,9 @@
-ADL General Server 
+ADL Auth Server 
 ==============
 
-This folder contains the following services stood up by ADL during the 2018 TLA demo:
+This folder contains the auth server components:
 
-- Keycloak Authentication Service (version 4.8.1.Final)
+- Keycloak Authentication Service (Quay's 11.0.3 version)
 - Service Registry
 
 Server Setup
@@ -15,11 +15,10 @@ Like the other servers provisioned for the TLA demos, this one uses Docker and D
 You can do this either by SSH (if it's an external machine) or just directly (if it's a VM / Metal).
 
 ### TL;DR
-1. `git clone https://github.com/adlnet/tla-demo-2019`
-1. `cd tla-demo-2019/adl-general-server`
+1. `git clone https://github.com/adlnet/tla`
+1. `cd tla/adl-auth`
 1. `sudo ./install-reqs.sh`
 1. `sudo ./rebuild.sh`
-1. `sudo ./fix-ssl.sh` (enter the commands that appear on screen, run again if postgres error comes up)
 
 #### Correcting SSL Behavior
 By default, the master realm for Keycloak required HTTPS for external requests.  Unless you configure your server / containers to use SSL, then Keycloak is rendered inoperational.  You should have corrected this by entering the above `fix-ssl` command, but if this behavior persists then something has gone wrong with setup.

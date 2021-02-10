@@ -41,7 +41,11 @@ services:
       context: service-registry
     ports:
       - "8085"
-    container_name: docker_sr
+    environment:
+      API_SECRET: ${API_SECRET}
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+      KEYCLOAK_CLIENT: ${KEYCLOAK_CLIENT}
+      KEYCLOAK_ENDPOINT: ${KEYCLOAK_ENDPOINT}
     volumes:
       - ./service-registry/data:/usr/src/app/scripts/util/data
     networks:

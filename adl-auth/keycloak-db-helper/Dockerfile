@@ -5,7 +5,7 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Copy the project in
-COPY src/ /usr/src/app/
+COPY ./ /usr/src/app/
 
 # Install the packages
 RUN npm install --save

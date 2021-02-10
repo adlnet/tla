@@ -11,7 +11,7 @@ As this service uses async / await, NodeJS version 7.6+ is required.
 Once NodeJS is installed, open a console from the root folder (the one with app.js in it) and run:
 1. `npm install`
 1. `node app.js`
-1. Navigate to `http://localhost:8085registry/registry/` to confirm that it's running.
+1. Navigate to `http://localhost:8085` to confirm that it's running.
 
 ## Using the Service Registry
 The service itself has interactive documentation, but I will add the same information here at some point.

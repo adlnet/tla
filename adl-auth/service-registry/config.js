@@ -3,8 +3,13 @@ module.exports = {
         "realm": (process.env.KEYCLOAK_REALM || "realm"),
         "auth-server-url": (process.env.KEYCLOAK_URL || "https://keycloak_server/auth"),
         "ssl-required": "none",
-        "resource": "realm-resource",
+        "resource": (process.env.KEYCLOAK_CLIENT || "default"),
         "public-client": true,
         "confidential-port": 0
+    },
+
+    api: {
+        secret: (process.env.API_SECRET || "some-secret"),
+        header: "X-TLA-POST-KEY"
     }
 }

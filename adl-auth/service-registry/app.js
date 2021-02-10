@@ -10,7 +10,6 @@ const keycloakHelper = require("simple-keycloak-adapter");
 const config = require("./config");
 
 // Utility objects from our helper blocks
-var tla = require("./tla-key");
 var posts = require("./scripts/util/posts");
 var db = require("./scripts/util/db-helpers");
 var helpers = require("./scripts/util/helpers");
@@ -145,15 +144,14 @@ app.get("/registry/export/ini", function(req, res, next){
 app.post("/registry/*", function(req, res, next){
 
     // Get the header value
-    var key = req.headers[tla.HEADER_POST_KEY] || req.headers[tla.HEADER_POST_KEY.toLowerCase()];
+    var key = req.headers[config.api.header] || req.headers[config.api.header.toLowerCase()];
 
     // We'll just authenticate with a valid header
-    if (key == tla.HEADER_POST_VALUE) {
+    if (key == config.api.secret) {
         next();
     } else {
 
-        var errorMessage = "POST requests require a valid TLA key: " +  
-            "https://github.com/adlnet/tla-demo-2018/blob/master/adl-launch-server/service-registry/src/tla-key.js";
+        var errorMessage = "POST requests require a valid API key";
 
         // Then they shouldn't be here
         res.status(400);

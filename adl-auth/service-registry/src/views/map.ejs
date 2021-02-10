@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+    <title>Service Map</title>
+    <% include partials/header.html %>
+    <body>
+        <hr>
+        <div class="container">
+            <!-- MAIN CONTENT START -->
+
+            <!-- HOW TO USE -->
+            <h2>Service Map</h2>
+            <p>
+                This page provides a map representation for each service within the TLA whose IP should be reported here.  
+                Information like a learner's device status cannot be known and are omitted.
+            </p>
+
+            <!-- Button to manually trigger an update to the map -->
+            <button id="refreshMapButton" class="btn btn-secondary align-right">Update Map</button>
+
+            <hr><br>
+            
+            <!-- MAIN CONTENT END -->
+        </div>
+
+    <% include partials/footer.html %>
+    <script src="/map.js"></script>
+    </body>
+</html>

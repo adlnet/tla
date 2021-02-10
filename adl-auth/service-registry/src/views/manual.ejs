@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+    <title>Manual Configuration</title>
+    <% include partials/header.html %>
+    <body>
+        <hr>
+        <div class="container">
+            <!-- MAIN CONTENT START -->
+
+            <!-- HOW TO USE -->
+            <h2>Manual Configuration</h2>
+            <p>
+                This page allows you to manually register a service's IP and Port number.  Once set, the Service Registry
+                will provide the service and those values on request.  To create a machine preset, visit the 
+                <a href="machines">Machine Presets</a>.
+                <br><br>
+                <b>DO NOT:</b> 
+                <ul>
+                    <li>
+                        Use this page unless you are confident that the IP and Port you are
+                        registering are visible to other services on the TLA.
+                    </li> 
+                    <li>
+                        Assign an IP unless you are <b>certain</b> it is the correct address of your target machine.
+                        Incorrect IP addresses will point to effectively random machines and will introduct serious
+                        security issues for TLA services and the machines hosting them, including this one.
+                    </li> 
+                </ul>
+            </p>
+
+            <!-- Example to submit endpoints -->
+            <table class="table">
+                <thead>
+                    <!-- Table headers -->
+                    <tr>
+                        <th scope="col" style="width: 40%">Service Code</th>
+                        <th scope="col" style="width: 30%">IP Address</th>
+                        <th scope="col" style="width: 10%">PORT</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="row">
+                            <!-- This is a dropdown that will have each service's name showing
+                                with values corresponding to the service codes expected by the api -->
+                            <select class="form-control" id="manualCodeSelection">
+                            </select>
+                        </td>
+                        <td>
+                            <!-- IP Input -->
+                            <input type="text" class="form-control" id="manualIpInput">
+                        </td>
+                        <td>
+                            <!-- Port Input -->
+                            <input type="text" class="form-control" id="manualPortInput">
+                        </td>
+                        <td>
+                            <!-- Button to register this change -->
+                            <td><!-- We'll trigger this with a hidden button -->
+                                <button id="manualSubmitButton" class="btn btn-secondary btn-danger">
+                                    Register Service
+                                </button>
+                            </td>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>    
+
+            <!-- Buttons to toggle what we're showing below the manuall input -->
+            <div>
+                <button id="buttonShowMachines" class="btn btn-secondary btn-info">Machine Presets</button>
+                <button id="buttonShowResponse" class="btn btn-secondary btn-info">Show POST Response</button>
+            </div>
+
+            <br>
+            
+            <!--  -->
+            <div id="manualMachineSection">
+
+                <!-- Example to submit services -->
+                <table class="table">
+                    <thead>
+                        <!-- Table headers -->
+                        <tr>
+                            <th style="width: 40%" scope="col">Preset Machine Name</th>
+                            <th style="width: 30%" scope="col">IP Address</th>
+                            <th style="width: 10%" scope="col"></th>
+                            <th style="width: 20%" scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="manualMachinePresets">
+                        
+                    </tbody>
+                </table>    
+            </div>
+
+            <!-- POST response from the server -->
+            <div id="manualResponseSection">
+
+                <table class="table">
+                    <thead>
+                        <!-- Table headers -->
+                        <tr>
+                            <th scope="col">POST Response</th>
+                        </tr>
+                    </thead>
+                </table>
+
+                <samp id="manualPostResponse" class="example-code">
+
+                </samp>
+
+            </div>
+            
+            <!-- Modal popup for submission of an endpoint-->
+            <!-- Submit Service Popup -->
+            <div class="modal fade" id="manualSubmitConfirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirm Service IP / Port</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body" id="manualSubmitConfirmBody">
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button id="manualSubmitConfirmModalCancel" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button id="manualSubmitConfirmModalRegister" type="button" class="btn btn-primary">Register Service</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Receipt modal for when the service was submitted -->
+            <div class="modal fade" id="manualSubmitReceiptModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirm Service IP / Port</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body" id="manualSubmitReceiptBody">
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Modal for when we had IP / Format issues -->
+            <div class="modal fade" id="manualSubmitErrorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Registration Error</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-body" id="manualSubmitErrorBody">
+                            
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hidden buttons to create our modal windows -->
+            <button type="button" id="manualSubmitConfirmModalButton" class="hidden" 
+                data-toggle="modal" data-target="#manualSubmitConfirmModal"></button>
+            <button type="button" id="manualSubmitReceiptModalButton" class="hidden" 
+                data-toggle="modal" data-target="#manualSubmitReceiptModal"></button>
+            <button type="button" id="manualSubmitErrorModalButton" class="hidden" 
+                data-toggle="modal" data-target="#manualSubmitErrorModal"></button>
+
+            <!-- MAIN CONTENT END -->
+        </div>
+
+    <% include partials/footer.html %>
+    <script src="manual.js"></script>
+    </body>
+</html>

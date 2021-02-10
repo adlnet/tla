@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+    
+    <!-- Page Title -->
+    <title>Service Codes</title>
+
+    <!-- Header -->
+    <% include partials/header.html %>
+
+    <!-- We'll be redirecting people to the main page in the event of a bad URL  -->
+    <%if (locals.path !== undefined) { %>
+        <div class="alert alert-danger" role="alert">
+            <strong>404:</strong> "<%= locals.path %>" could not be found.  Showing main page instead.
+        </div>
+    <% } %>
+ 
+    <body>
+        <hr>
+
+        <!-- Summary Container -->
+        <div class="container">
+
+            <!-- Header and general explanation -->
+            <h2>Service Names</h2>
+            <p>
+                When registering an service with a POST request to /endpoints, the <samp>X-TLA-SERVICE-NAME</samp> header MUST 
+                identify the specific service being registered.  To do this, that service must supply one of the following values
+                for that header field.
+            </p>
+            <hr><br>
+
+            <!-- Active service table -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Owner</th>
+                        <th scope="col">Service Name</th>
+                        <th scope="col">Expected Header Code</th>
+                    </tr>
+                </thead>
+
+                <!-- The service objects will populate this table -->
+                <tbody id="serviceTableBody">
+
+                    <!-- These rows will represent all registered services -->
+
+                </tbody>
+            </table>
+        </div>
+    </body>
+
+    <!-- Footer -->
+    <% include partials/footer.html %>
+
+    <!-- Load JQuery first from the footer -->
+    <script src="/codes.js"></script>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+    <title>Machine Presets</title>
+    <% include partials/header.html %>
+    <body>
+        <hr>
+        <div class="container">
+            <!-- MAIN CONTENT START -->
+
+            <!-- HOW TO USE -->
+            <h2>Machine Presets</h2>
+            <p>
+                This page allows you to assign a name to an IP.  Once saved, these machines will be available on the <a href="manual">
+                Manual Configuration</a> page.  It should go without saying, but this, too, is a potentially dangerous capability.  
+                <br><br>
+                <b>DO NOT:</b> 
+                <ul>
+                    <li>
+                        Use this page unless you are confident that the IP and Port you are
+                        registering are visible to other services on the TLA.
+                    </li> 
+                    <li>
+                        Assign an IP unless you are <b>certain</b> it is the correct address of your target machine.
+                        Incorrect IP addresses will point to effectively random machines and will introduce serious
+                        security issues for TLA services and the machines hosting them, including this one.
+                    </li> 
+                </ul>
+            </p>
+
+            <!-- Example to submit endpoints -->
+            <table class="table">
+                <thead>
+                    <!-- Table headers -->
+                    <tr>
+                        <th scope="col" style="width: 40%">Machine Name</th>
+                        <th scope="col" style="width: 30%">IP</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="row">
+                            <!-- IP Input -->
+                            <input type="text" class="form-control" id="textMachineName">
+                        </td>
+                        <td>
+                            <!-- IP Input -->
+                            <input type="text" class="form-control" id="textMachineIp">
+                        </td>
+                        <td>
+                            <!-- Button to register this change -->
+                            <button id="machineSubmitButton" class="btn btn-primary">Save Machine</button>
+                        </td>
+                    </tr>
+                </tbody>
+                
+            </table>    
+
+            <!-- Table for existing, known machines -->
+            <table class="table">
+                <thead>
+                    <!-- Table headers -->
+                    <tr>
+                        <th style="width: 40%" scope="col">Saved Machines</th>
+                        <th style="width: 30%" scope="col">IP</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+
+                <!-- Table body to show preset machines-->
+                <tbody id="tbodySavedMachines">
+                </tbody>
+                
+                <!-- Empty table body to hold our Clear button-->
+                <tbody>
+                    <tr>
+                        <td scope="row"></td><td></td>
+                        <td>
+                            <!-- Button to register this change -->
+                            <button id="machineClearButton" class="btn btn-secondary btn-danger">Clear Machines</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>   
+
+            <!-- MAIN CONTENT END -->
+        </div>
+
+    <% include partials/footer.html %>
+    <script src="machines.js"></script>
+    </body>
+</html>

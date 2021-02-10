@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+  
+    <title>Help</title>
+    <% include partials/header.html %>
+    <link rel="stylesheet" href="css/sidebar.css">
+
+    <body>
+
+        <!-- Sidebar -->
+        <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:20%">
+            <br>
+            <h3 class="w3-bar-item">Help Navigation</h3>
+
+            <br>
+            <a href="#top" class="w3-bar-item w3-button w3-border-top w3-border-bottom">How-to-Use</a>
+
+            <br>
+            <a href="#single-get" class="w3-bar-item w3-button w3-border-top w3-border-bottom">Getting a Single Endpoint</a>
+            <a href="#single-example" class="w3-bar-item w3-button w3-border-top w3-border-bottom">Example</a>
+
+            <br>
+            <a href="#multiple-get" class="w3-bar-item w3-button w3-border-top w3-border-bottom">Getting Multiple Endpoints</a>
+            <a href="#multiple-example" class="w3-bar-item w3-button w3-border-top w3-border-bottom">Example</a>
+
+            <br>
+            <a href="#register" class="w3-bar-item w3-button w3-border-top w3-border-bottom">Registering Endpoints</a>
+            <a href="#headers" class="w3-bar-item w3-button w3-border-top w3-border-bottom">Request Headers</a>
+        </div>
+            
+        <!-- Page Content -->
+        <div style="margin-left:20%">
+        
+        <hr>
+        <div class="container">
+
+            <!-- HOW TO USE -->
+            <h3 id="top">Help Guide</h3>
+            <p>
+                This page covers the core functionality of this Service Registry and provides examples for using it.
+                <br><br>
+                The primary function of this service is to inform services within the TLA microservice architecture
+                about endpoints for other services.  This Service Registry will respond to an HTTP GET request with
+                a JSON object containing all known services.
+            </p>
+            <hr><br>
+
+            <h3 id="single-get">Getting Individual Endpoints (2017 System)</h3>
+            <p>
+                Alternatively, this service is backwards compatible with the API from 2017's discovery service.  Examples
+                are given below.
+            </p>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Request Method</th>
+                        <th scope="col">Path</th>
+                        <th scope="col">Example</th>
+                        <th scope="col">Example Response</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">GET</th>
+                        <td>/list/lrs/endpoint</td>
+                        <td><button id="exampleGetOldJsonEndpointButton" class="btn btn-secondary btn-block">Get JSON Endpoint</button></td>
+                        <td class="example-code"><samp id="exampleGetOldJsonEndpointOutput" ></samp></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">GET</th>
+                        <td>/list/lrs/endpoint</td>
+                        <td><button id="exampleGetOldPlainEndpointButton" class="btn btn-secondary btn-block">Get Plain Text Endpoint</button></td>
+                        <td class="example-code"><samp id="exampleGetOldPlainEndpointOutput" ></samp></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">GET</th>
+                        <td>/list/lrs/name</td>
+                        <td><button id="exampleGetOldJsonNameButton" class="btn btn-secondary btn-block">Get JSON Name</button></td>
+                        <td class="example-code"><samp id="exampleGetOldJsonNameOutput" ></samp></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">GET</th>
+                        <td>/list/bad-service/endpoint</td>
+                        <td><button id="exampleGetInvalidOldEndpointsButton" class="btn btn-danger btn-block">Get Bad JSON Endpoint</button></td>
+                        <td class="example-code"><samp id="exampleGetInvalidOldEndpointsOutput" ></samp></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <hr><br>
+
+            <h3 id="single-example">Example of Getting Single Endpoint</h3>
+            <p>
+                Below is the function used by the Video Player and Static Content Viewer to retrieve endpoints
+                for the Activity Index and LRS.
+            </p>
+            <pre style="padding: 10px; background-color: #eeeeee; width: 80%; margin: 0px auto; float: none;">
+// Get a service's endpoint using its service code
+//
+function getEndpoint(code) {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", "http://adltla.usalearning.net:8085/list/" + code + "endpoint", false);
+    xmlHttp.setRequestHeader("Content-Type", "text/plain");
+    xmlHttp.send(null);
+    return xmlHttp.responseText;
+}
+
+// Get the endpoints for our activity index and the lrs
+//
+var lrsEndpoint = getEndpoint("lrs");
+var actEndpoint = getEndpoint("activity_index");
+            </pre>
+            
+            <hr><br>
+
+            <!-- Getting Endpoints -->
+            <h3 id="multiple-get">Getting All Endpoints</h3>
+            <p>
+                You can also retrieve all endpoints with a GET request to <samp>/endpoints</samp>.  This will return 
+                a JSON object mapping the service codes to Service Objects. 
+            </p>
+
+            <br>
+
+            <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Request Method</th>
+                    <th scope="col">Path</th>
+                    <th scope="col">Example</th>
+                    <th scope="col">Example Response</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">GET</th>
+                    <td>/endpoints</td>
+                    <td><button id="exampleGetEndpointsButton" class="btn btn-secondary btn-block">Get Endpoints</button></td>
+                    <td class="example-code"><div style="height: 150px; overflow-y: scroll"><samp id="exampleGetEndpointsOutput" ></samp></div></td>
+                </tr>
+            </tbody>
+            </table>
+
+            <p>
+                These Service Objects are defined by:
+            </p>
+                
+            <br>
+            <table class="table table-striped" style="border-radius: 5px; width: 50%; margin: 0px auto; float: none;">
+                <tr>
+                    <th>Property</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><samp>name</samp></td>
+                    <td>String</td>
+                    <td>Service Code</td>
+                </tr>
+                <tr>
+                    <td><samp>endpoint</samp></td>
+                    <td>String</td>
+                    <td>The full endpoint used to reach this service</td>
+                </tr>
+                <tr>
+                    <td><samp>ip</samp></td>
+                    <td>String</td>
+                    <td>The host IP or URL</td>
+                </tr>
+                <tr>
+                    <td><samp>port</samp></td>
+                    <td>String</td>
+                    <td>The port being used</td>
+                </tr>
+                <tr>
+                    <td><samp>status</samp></td>
+                    <td>String</td>
+                    <td>Last estimated status</td>
+                </tr>
+                <tr>
+                    <td><samp>lastChecked</samp></td>
+                    <td>String</td>
+                    <td>Most recent time where the Service Registry checked this endpoint</td>
+                </tr>
+                <tr>
+                    <td><samp>status</samp></td>
+                    <td>String</td>
+                    <td>Estimated status of this service.  This may not be accurate, as the service
+                        simply makes a GET request to the endpoint without any data or query arguments.
+                    </td>
+                </tr>
+            </table>
+            <hr><br>
+
+            <h3 id="multiple-example">Example of Getting Multiple Endpoints</h3>
+            <p>
+                This function produces the same values as the single-endpoint version above.  As it returns
+                every endpoint, this call is quite a bit more expensive.
+            </p>
+            <pre style="padding: 10px; background-color: #eeeeee; width: 80%; margin: 0px auto; float: none;">
+// Get a service's endpoint using its service code
+//
+function getEndpoints() {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET", "http://adltla.usalearning.net:8085/endpoints", false);
+    xmlHttp.send(null);
+    return JSON.parse(xmlHttp.responseText);
+}
+
+// This will return everything it knows about
+var endpoints = getEndpoints();
+
+// Get the endpoints for our activity index and the lrs
+//
+var lrsEndpoint = endpoints["lrs"].endpoint;
+var actEndpoint = endpoints["activity_index"].endpoint;
+            </pre>
+            <hr><br>
+
+            <!-- Registering Endpoints -->
+            <h3 id="register">Registering Endpoints</h3>
+            <p>
+                In addition to supplying services with the known endpoints, it also allows for services to register
+                themselves.  
+                <br><br>
+                While the GET request to retrieve endpoints can be made without a payload, this capability
+                requires a POST request with specific headers.  <i>POST requests will respond with the same JSON object
+                returned by GET.</i>
+                
+            </p>
+            
+            <!-- Example to submit endpoints -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Request Method</th>
+                        <th scope="col">Path</th>
+                        <th scope="col">Example</th>
+                        <th scope="col">Example Response</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">POST</th>
+                        <td>/endpoints</td>
+                        <td><button id="examplePostEndpointsButton" class="btn btn-secondary btn-block">Post Endpoint</button></td>
+                        <td class="example-code"><samp id="examplePostEndpointsOutput" ></samp></td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">POST</th>
+                        <td>/endpoints</td>
+                        <td><button id="examplePostBadEndpointsButton" class="btn btn-danger btn-block">Post Bad Endpoint</button></td>
+                        <td class="example-code"><samp id="examplePostBadEndpointsOutput" ></samp></td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr><br>
+
+            <div class="alert alert-info" role="alert">
+                <b>Note:</b> The IP / URL is <b>NO LONGER OPTIONAL</b>.  You must specify an IP / URL to register a service, but the 
+                Port can be omitted.  This will default to either <samp>80 for http</samp> or <samp>443 for https</samp>. 
+            </div>
+            <!-- Header Explanations -->
+            <table id="headers" class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Header</th>
+                    <th scope="col">Summary</th>
+                    <th scope="col">Example</th>
+                    <th scope="col">Required</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">X-TLA-SERVICE-NAME</th>
+                    <td>Name of this TLA Service.  For the list of all names, <a href="codes">see here</a>.</td>
+                    <td><samp>cass</samp></td>
+                    <td>YES</td>
+                </tr>
+                <tr>
+                    <th scope="row">X-TLA-SERVICE-IP</th>
+                    <td>IP or URL of the server hosting this service.</td>
+                    <td><samp>192.60.1.101</samp></td>
+                    <td>YES</td>
+                </tr>
+                <tr>
+                    <th scope="row">X-TLA-SERVICE-PORT</th>
+                    <td>Port where this service can be found on its host server.</td>
+                    <td><samp>8081</samp></td>
+                    <td>NO</td>
+                </tr>
+                <tr>
+                    <th scope="row">X-TLA-POST-KEY</th>
+                    <td>Passphrase to submit data to this server.</td>
+                    <td><samp>Check tla-key.js</samp></td>
+                    <td>POST-only</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+
+
+    <% include partials/footer.html %>
+
+    <!-- Load JQuery first from the footer -->
+    <script src="help.js"></script>
+    </body>
+</html>

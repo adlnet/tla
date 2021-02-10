@@ -1,0 +1,19 @@
+{
+    "name": "keycloak-db-helper",
+    "version": "1.0.0",
+    "description": "Example app to send data to Kafka",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "ejs": "^2.7.1",
+        "express": "^4.17.1",
+        "pg": "^7.12.1",
+        "simple-keycloak-adapter": "0.0.1"
+    }
+}

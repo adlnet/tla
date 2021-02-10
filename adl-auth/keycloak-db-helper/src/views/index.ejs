@@ -1,0 +1,88 @@
+<html lang="en">
+
+<head>
+	<title>Keycloak Helper</title>
+
+	<link rel="icon" href="<%= locals.root %>/images/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="<%= locals.root %>/images/favicon.ico" type="image/x-icon" />
+
+	<!--Our CSS-->
+	<link href="<%= locals.root %>/css/helper.css" rel="stylesheet">
+
+	<!-- Bootstrap core CSS -->
+	<link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://getbootstrap.com/docs/4.0/examples/cover/cover.css" rel="stylesheet">
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<style>
+		body {
+			background-color: #192d38fd;
+		}
+	</style>
+</head>
+
+<body class="text-center">
+
+	<div class="cover-container d-flex h-100 p-3 mx-auto flex-column">
+		<header class="masthead mb-auto">
+			<div class="inner">
+				<nav class="nav nav-masthead justify-content-center"></nav>
+			</div>
+		</header>
+
+		<main role="main" class="inner cover">
+			<h1 class="cover-heading">It's up!</h1>
+			<p class="lead">
+				Simplified Keycloak API queries should now be live.
+			</p>
+			<p class="lead">Examples</p>
+			<div id="features">
+
+			</div>
+
+		</main>
+
+		<footer class="mastfoot mt-auto">
+			
+		</footer>
+	</div>
+
+	<script>
+		let features = [{
+				href: "<%= locals.root %>/api/users",
+				text: "Get Non-Admin Users"
+			},
+			{
+				href: "<%= locals.root %>/api/everyone",
+				text: "Get ALL Users"
+			},
+		]
+
+		let featureDiv = document.getElementById("features")
+		for (let feature of features) {
+
+			let node = document.createElement("a")
+			node.innerHTML = `
+					<a target="_blank" href=${feature.href} class="btn btn-block btn-dark" style="margin-top: .5rem">
+						${feature.text}
+					</a>
+				`;
+			document.getElementById("features").append(node)
+		}
+	</script>
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+	</script>
+	<script>
+		window.jQuery || document.write(
+			'<script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/jquery-slim.min.js"><\/script>')
+	</script>
+	<script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
+	<script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

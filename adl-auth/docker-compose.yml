@@ -1,0 +1,107 @@
+version: '3'
+services:
+ 
+  # Nginx instance controlling traffic to each service
+  #
+  nginx:
+    restart: always
+    build:
+      context: nginx
+      args:
+        - HOSTNAME=${HOSTNAME}
+    ports:
+      - 80:80
+      - 443:443
+    container_name: docker_nginx
+    volumes:
+      - ./nginx/letsencrypt:/usr/share/nginx/html
+      - ./certbot/etc:/usr/share/keys
+    networks:
+      - public
+
+  # Certbot for SSL automation
+  #
+  certbot:
+    container_name: 'docker_certbot'
+    image: certbot/certbot
+    volumes:
+      - ./keys:/var/lib/letsencrypt
+      - ./nginx/letsencrypt:/data/letsencrypt
+      - ./certbot/etc:/etc/letsencrypt
+      - ./certbot/log:/var/log/letsencrypt
+    networks:
+      - public
+    depends_on:
+      - nginx
+
+  service-registry:
+    restart: always
+    container_name: docker_registry
+    build: 
+      context: service-registry
+    ports:
+      - "8085"
+    container_name: docker_sr
+    volumes:
+      - ./service-registry/data:/usr/src/app/scripts/util/data
+    networks:
+      - public
+
+  postgres:
+    restart: always
+    container_name: docker_postgres
+    build: 
+      context: postgres
+    ports:
+      - "127.0.0.1:5432:5432"
+    environment: 
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    networks:
+      - public
+
+  keycloak:
+    restart: always
+    container_name: docker_keycloak
+    build: 
+      context: keycloak
+    ports:
+      - "8080"
+      - "9990"
+    links:
+      - postgres:docker_postgres
+    environment:
+      PROXY_ADDRESS_FORWARDING: "true"
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: ${POSTGRES_DB}
+      DB_SCHEMA: public
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KEYCLOAK_USER: ${KEYCLOAK_USER}
+      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+    networks:
+      - public
+
+  keycloak-db-helper:
+    restart: always
+    container_name: docker_helper
+    build: 
+      context: keycloak-db-helper
+    environment:
+      API_SECRET: ${API_SECRET}
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+      KEYCLOAK_CLIENT: ${KEYCLOAK_CLIENT}
+      KEYCLOAK_ENDPOINT: ${KEYCLOAK_ENDPOINT}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_ENDPOINT: postgres
+    networks:
+      - public
+
+networks:
+  public: 
+    driver: bridge

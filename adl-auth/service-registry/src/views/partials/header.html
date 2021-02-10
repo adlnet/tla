@@ -1,0 +1,92 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="icon" href="/registry/images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/registry/images/favicon.ico" type="image/x-icon" />
+
+    <!-- Bootstrap core CSS -->
+    <link href="/registry/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/registry/css/jumbotron.css" rel="stylesheet">
+
+    <!-- Helper css for this site -->
+    <link href="/registry/css/helper.css" rel="stylesheet">
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <h1 class="navbar-brand unselectable" >Service Registry</h1>
+    
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <!-- Empty space -->
+                <li class="nav-item" style="width: 2rem;">        
+                </li>
+
+                <!-- Main / Status page -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/registry">Status</a>
+                </li>
+
+                <!-- Service Codes page -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/registry/codes">Service Codes</a>
+                </li>
+
+                <!-- Manual Configuration page -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/registry/manual">Manual Config</a>
+                </li>
+
+                <!-- Machine Configuration page -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/registry/machines">Machine Presets</a>
+                </li>
+
+                <!-- Import page -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/registry/import">Import</a>
+                </li>
+                
+                <!-- Export page -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/registry/export">Export</a>
+                </li>
+
+                <!-- Help page -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/registry/help">Help</a>
+                </li>
+            </ul>
+
+            <input type="text" id="headerTLAKeyInput" class="form-control hidden" 
+                    placeholder="Key Required to Send Data" required="" autofocus="" style="width: 20%;">
+
+            <!-- Small script to highlight the active page within the navbar-->
+            <script>
+
+                // Hide the password section unless we're going to need it
+                for (let url of ["/registry/manual", "/registry/machines", "/registry/help", "/registry/import"] ) {
+                    if (window.location.pathname === url) {
+                        document.getElementById("headerTLAKeyInput").classList.remove("hidden");
+                    }
+                }
+
+                let found = false;
+                for (let url of ["/registry", "/registry/codes", "/registry/manual", "/registry/machines", "/registry/help", "/registry/export", "/registry/import"] ) {
+                    if (window.location.pathname === url) {
+                        let element = document.querySelector('a[href="' + url + '"]');
+                        element.classList.add("active");
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found === false) {
+                    let element = document.querySelector('a[href="/registry"]').classList.add("active");
+                }
+
+            </script>
+        </div>
+    </nav>
+</head>

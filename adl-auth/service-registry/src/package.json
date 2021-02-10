@@ -1,0 +1,26 @@
+{
+    "name": "service-registry",
+    "private": true,
+    "version": "1.0.0",
+    "description": "Service Registry for the 2019 TLA Demo",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "ADL",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^0.18.0",
+        "cookie-parser": "^1.4.3",
+        "cors": "^2.8.4",
+        "ejs": "^2.5.8",
+        "express": "^4.16.3",
+        "html": "^1.0.0",
+        "ini": "^1.3.5",
+        "path": "^0.12.7",
+        "readline": "^1.3.0",
+        "sqlite3": "4.0.6",
+        "simple-keycloak-adapter": "^0.0.1"
+    }
+}

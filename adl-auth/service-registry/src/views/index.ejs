@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+    
+    <!-- Page Title -->
+    <title>Service Registry</title>
+
+    <!-- Header -->
+    <% include partials/header.html %>
+
+    <!-- We'll be redirecting people to the main page in the event of a bad URL  -->
+    <%if (locals.path !== undefined) { %>
+        <div class="alert alert-danger" role="alert">
+            <strong>404:</strong> "<%= locals.path %>" could not be found.  Showing main page instead.
+        </div>
+    <% } %>
+ 
+    <body>
+        
+        <hr>
+
+        <!-- Summary Container -->
+        <div class="container">
+
+            <!-- Header and general explanation -->
+            <h2>
+                Endpoint Summary
+            </h2>
+            <p>
+                If you are seeing this page, then the Service Registry has started correctly!  This service will receive the IP and Port from
+                TLA microservices and inform other members of the TLA architecture about that service's endpoint.  
+                <br><br>
+                When a service POSTs its IP and Port here, that service will be registered and its endpoint will be available to any
+                other service who requests it.  By default, the values will be stored offline and those values will be available
+                if this service is restarted. 
+            </p>
+
+            <!-- Button to manually trigger an update on registered services -->
+            <button id="refreshTableButton" class="btn btn-secondary align-right">Update Table</button>
+            
+            <!-- Thin line to divide summary from the table -->
+            <hr>
+        </div>
+
+        <!-- Active service table -->
+        <table class="table service-table">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 20%">Service</th>
+                    <th scope="col" style="width: 15%">IP Address / URL</th>
+                    <th scope="col" style="width: 10%">Port</th>
+                    <th scope="col" style="width: 15%">Status</th>
+                    <th scope="col" style="width: 10%">Last Checked</th>
+                    <th scope="col" style="width: 30%">Endpoint</th>
+                </tr>
+            </thead>
+
+            <!-- The service objects will populate this table -->
+            <tbody id="serviceTableBody">
+
+                <!-- These rows will represent all registered services -->
+
+            </tbody>
+        </table>
+
+        <!-- We'll show this if we haven't checked for services yet.  This 
+            will not be visible 99% of the time. -->
+        <div id="servicePlaceholderInitial">
+            <h6 class="text-muted text-center">
+                <br><br>
+                Checking service registration ...
+            </h6>
+        </div>
+
+        <!-- We'll show this if there aren't any services here yet.  This 
+            will not be visible unless there aren't services registered. -->
+        <div id="servicePlaceholder">
+            <h6 class="text-muted text-center">
+                <br><br>
+                No services have been registered.
+                <br><br>
+                To view example calls to this server's API, <a href="help">visit the Help page</a>.
+                <br><br>
+                To manually enter service data, visit the manual configuration page.
+            </h6>
+        </div>
+    </body>
+
+    <!-- Footer -->
+    <% include partials/footer.html %>
+
+    <!-- Load JQuery first from the footer -->
+    <script src="index.js"></script>
+</html>

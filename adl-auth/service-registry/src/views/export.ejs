@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+    <title>Export Configuration</title>
+    <% include partials/header.html %>
+
+    <body>
+        <hr>
+        <div class="container">
+            <!-- MAIN CONTENT START -->
+
+            <!-- HOW TO USE -->
+            <h2>Export TLA Configuration</h2>
+            <p>
+                This page allows you to export the current service configuration in JSON format.  The configuration 
+                can then be uploaded on the <a href="import">Import Page</a> to reload that configuration later.
+            </p>
+            <br>
+
+            <!-- Get the name we intend to use for this configuration-->
+            <h6>Configuration Name</h6>
+            <input  type="text" id="exportConfigNameInput" class="form-control" 
+                    placeholder="Enter configuration name" required="" autofocus=""
+                    style="width: 50%;">
+            <br><br>
+
+            <table class="table" style="width: 100%;">
+                <thead>
+                    <th style="width: 20%">Data Type</td>
+                    <th style="width: 40%">Description</td>
+                    <th style="width: 20%">Includes Machines</td>
+                    <th style="width: 20%">Download Link</td>
+                </thead>
+
+                <!-- INI Row-->
+                <tr>
+                    <td>INI</td>
+                    <td>
+                        This option will download the current endpoint configuration with the <samp>.ini</samp> format
+                        used in the 2017 demo.  This format <b>will not include machine presets</b>, but is simpler to edit 
+                        in a standard text editor than the JSON format.
+                    </td>
+                    <td>NO</td>
+                    <td>
+                        <a id="exportDownloadLinkINI" href="export/ini" download>
+                            <button class="btn btn-primary btn-block">
+                                Download INI
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+
+                <!-- JSON Row-->
+                <tr>
+                    <td>JSON</td>
+                    <td>
+                        This option will download the current endpoint configuration with the <samp>.json</samp> format.  
+                        This format <b>will</b> include machine presets, but isn't edited as easily as the <samp>.ini</samp> format.
+                    </td>
+                    <td>YES</td>
+                    <td>
+                        <a id="exportDownloadLinkJSON" href="export/json" download>
+                            <button class="btn btn-primary btn-block">
+                                Download JSON
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- MAIN CONTENT END -->
+        </div>
+
+    <% include partials/footer.html %>
+    <script src="export.js"></script>
+    </body>
+</html>

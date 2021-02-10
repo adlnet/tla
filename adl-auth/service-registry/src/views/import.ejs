@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+    <title>Import Configuration</title>
+    <% include partials/header.html %>
+
+    <body>
+        <hr>
+        <div class="container">
+            <!-- MAIN CONTENT START -->
+
+            <!-- HOW TO USE -->
+            <h2>Import TLA Configuration</h2>
+            <p>
+                This page allows you to import a service configuration from either JSON or INI format.  These files
+                can be created manually or downloaded through the <a href="export">Export Page</a>.
+            </p>
+
+            <!-- Use the bootstrap cards for this-->
+            <div class="card-deck mb-3 text-center">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">From INI</h4>
+                    </div>
+                    <div class="card-body">
+                        <label class="btn btn-lg btn-block btn-danger">
+                            Upload INI<input id="importSelectINI" accept=".ini" type="file" style="display: none;">
+                        </label>
+                    </div>
+                </div>
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">From JSON</h4>
+                    </div>
+                    <div class="card-body">
+                        <label class="btn btn-lg btn-block btn-danger">
+                            Upload JSON<input id="importSelectJSON" accept=".json" type="file" style="display: none;">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <h4>Upload Response</h4>
+            <div class="p-3 mb-2 bg-light text-dark">
+                <div id="importAlertSuccess" class="alert alert-success" style="display: none;">
+                    <strong>Success!</strong> Configuration has been successfully loaded.  <a href="/">Return to Status Page</a>
+                </div>
+                <div id="importAlertError" class="alert alert-danger" style="display: none;">
+                    <strong>Error: </strong> There were problems loading the selected configuration.
+                    <br>
+                    <samp id="importAlertErrorMessage">
+                        
+                    </samp>
+                </div>
+            </div>
+
+            <!-- MAIN CONTENT END -->
+        </div>
+
+    <% include partials/footer.html %>
+    <script src="import.js"></script>
+    </body>
+</html>

@@ -1,0 +1,168 @@
+version: '3'
+
+services:
+  zoo-1:
+    build: 
+      context: zookeeper
+      args:
+        KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
+        KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
+    container_name: zoo_1
+    network_mode: host
+    restart: always
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 12181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_SERVERS: localhost:22888:23888;localhost:32888:33888;localhost:42888:43888
+      KAFKA_OPTS: -Djava.security.auth.login.config=/tmp/kafka/zookeeper.txt
+        -Dzookeeper.authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+        -Dzookeeper.requiredClientAuthScheme=sasl
+    volumes:
+      - ./zookeeper/data/zk-1/zk-data:/var/lib/zookeeper/data
+      #- ./zookeeper/data/zk-1/zk-logs:/var/lib/zookeeper/log
+    extra_hosts:
+      - "moby:127.0.0.1"
+
+  zoo-2:
+    env_file:
+      - ../global.env
+    build: 
+      context: zookeeper
+      args:
+        KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
+        KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
+    container_name: zoo_2
+    network_mode: host
+    restart: always
+    depends_on:
+      - zoo-1
+    environment:
+      ZOOKEEPER_SERVER_ID: 2
+      ZOOKEEPER_CLIENT_PORT: 22181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_SERVERS: localhost:22888:23888;localhost:32888:33888;localhost:42888:43888
+      KAFKA_OPTS: -Djava.security.auth.login.config=/tmp/kafka/zookeeper.txt
+        -Dzookeeper.authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+        -Dzookeeper.requiredClientAuthScheme=sasl
+    volumes:
+      - ./zookeeper/data/zk-2/zk-data:/var/lib/zookeeper/data
+      #- ./zookeeper/data/zk-2/zk-logs:/var/lib/zookeeper/log
+    extra_hosts:
+      - "moby:127.0.0.1"
+
+  zoo-3:
+    build: 
+      context: zookeeper
+      args:
+        KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
+        KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
+    container_name: zoo_3
+    network_mode: host
+    restart: always
+    depends_on:
+      - zoo-1
+      - zoo-2
+    environment:
+      ZOOKEEPER_SERVER_ID: 3
+      ZOOKEEPER_CLIENT_PORT: 32181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_SERVERS: localhost:22888:23888;localhost:32888:33888;localhost:42888:43888
+      KAFKA_OPTS: -Djava.security.auth.login.config=/tmp/kafka/zookeeper.txt
+        -Dzookeeper.authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+        -Dzookeeper.requiredClientAuthScheme=sasl
+    volumes:
+      - ./zookeeper/data/zk-3/zk-data:/var/lib/zookeeper/data
+      #- ./zookeeper/data/zk-3/zk-logs:/var/lib/zookeeper/log
+    extra_hosts:
+      - "moby:127.0.0.1"
+
+  kafka-1:
+    build: 
+      context: kafka
+      args:
+        KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
+        KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
+    container_name: kafka_1
+    network_mode: host
+    restart: always
+    depends_on:
+      - zoo-1
+      - zoo-2
+      - zoo-3
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: localhost:12181,localhost:22181,localhost:32181
+      KAFKA_ADVERTISED_HOST_NAME: "${KAFKA_HOST}"
+      KAFKA_ADVERTISED_LISTENERS: "SASL_PLAINTEXT://${KAFKA_HOST}:19092"
+      KAFKA_SECURITY_INTER_BROKER_PROTOCOL: SASL_PLAINTEXT
+      KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
+      KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_OPTS: -Djava.security.auth.login.config=/tmp/kafka/server.txt
+        -Dauto.create.topics.enable=false
+    volumes:
+      - ./kafka/data/broker-1:/var/lib/kafka/data
+    extra_hosts:
+      - "moby:127.0.0.1"
+      
+  kafka-2:
+    build: 
+      context: kafka
+      args:
+        KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
+        KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
+    container_name: kafka_2
+    network_mode: host
+    restart: always
+    depends_on:
+      - zoo-1
+      - zoo-2
+      - zoo-3
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: localhost:12181,localhost:22181,localhost:32181
+      KAFKA_ADVERTISED_HOST_NAME: "${KAFKA_HOST}"
+      KAFKA_ADVERTISED_LISTENERS: "SASL_PLAINTEXT://${KAFKA_HOST}:29092"
+      KAFKA_SECURITY_INTER_BROKER_PROTOCOL: SASL_PLAINTEXT
+      KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
+      KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_OPTS: -Djava.security.auth.login.config=/tmp/kafka/server.txt
+        -Dauto.create.topics.enable=false
+    volumes:
+      - ./kafka/data/broker-2:/var/lib/kafka/data
+    extra_hosts:
+      - "moby:127.0.0.1"
+
+  kafka-3:
+    build: 
+      context: kafka
+      args:
+        KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
+        KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
+    container_name: kafka_3
+    network_mode: host
+    restart: always
+    depends_on:
+      - zoo-1
+      - zoo-2
+      - zoo-3
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_ZOOKEEPER_CONNECT: localhost:12181,localhost:22181,localhost:32181
+      KAFKA_ADVERTISED_HOST_NAME: "${KAFKA_HOST}"
+      KAFKA_ADVERTISED_LISTENERS: "SASL_PLAINTEXT://${KAFKA_HOST}:39092"
+      KAFKA_SECURITY_INTER_BROKER_PROTOCOL: SASL_PLAINTEXT
+      KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
+      KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_OPTS: -Djava.security.auth.login.config=/tmp/kafka/server.txt
+        -Dauto.create.topics.enable=false
+    volumes:
+      - ./kafka/data/broker-3:/var/lib/kafka/data
+    extra_hosts:
+      - "moby:127.0.0.1"

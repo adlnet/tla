@@ -1,0 +1,9 @@
+[Unit]
+Description=LRS
+
+[Service]
+ExecStart=/var/lrs/env/bin/uwsgi --emperor /etc/uwsgi/vassals
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -4,7 +4,7 @@ Automated Docker installer for the ADL LRS.
 
 If you have been struggling to stand up a local version of the ADL LRS, then this might be the place for you.  The goal of this project is to streamline the installation of the public ADL LRS and further the accessibility of xAPI by automating the lengthy steps required to stand one up.  
 
-This project uses a direct clone of official ADL repository with a single, minor modification to the `fabfile.py` for the sake of convenience when working with Docker.
+This project uses a direct clone of the ADL LRS repository with a modifications to the `fabfile.py` for the sake of convenience when working with Docker.
 
 ## Recent Updates 🌟
 The container structure has changed a bit, with the inclusion of Certbot, a more modern forwarding approach for the LRS itself, and a local network for the Docker Compose setup.  If you upgrade from an earlier version of this repo, you may need to do the SSL step shown below with the 🌟 symbol.

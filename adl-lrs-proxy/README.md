@@ -11,7 +11,6 @@ The container structure has changed a bit, with the inclusion of Certbot, a more
 
 ## Things to Note
 - **This project is in development and should be used with caution.**
-- **This project is not directly associated with the ADL Initiative.**
 - **This project DOES NOT include SMTP configuration!**
 - **This project DOES NOT create a Django superuser by default.**
 

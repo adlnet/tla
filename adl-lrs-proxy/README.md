@@ -27,8 +27,8 @@ This project will create Docker containers for the following services:
 As this project is centered around Docker, there's very little setup required on the host machine. 
 
 ### TL;DR
-1. `git clone https://github.com/vbhayden/adl-lrs-docker`
-1. `cd adl-lrs-docker`
+1. `git clone https://github.com/adlnet/tla`
+1. `cd tla/adl-lrs-proxy`
 1. `sudo ./install-reqs.sh`
 1. `sudo ./init-ssl.sh localhost` (🌟 NEW)
 1. `sudo ./rebuild.sh`

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+    <meta name="description" content="A shorthand syntax for communicating xAPI Statements">
+    <meta name="author" content="Soartech">
+
+    <title>Static Content Viewer</title>
+    <link rel="stylesheet" href="lib/bootstrap.min.css">
+</head>
+
+<body style="overflow: hidden;">
+
+    <section id="svc-overlay-bar" class="container"
+        style="width:100%; height:120px; position: fixed; z-index: 100; background: white;">
+        <div class="page-header">
+            <h1 class="text-primary">
+                Static Content Viewer
+                <button id="completedButton" class="btn btn-primary btn-lg" type="button" style="float:right;">Mark as
+                    Complete</button>
+            </h1>
+        </div>
+    </section>
+
+    <section class="container-fluid" style="position: absolute;top: 120px;left: 0px;right: 0px;bottom: 0px;">
+        <div id="embed-responsive-container" class="embed-responsive embed-responsive-16by9"
+            style="padding-bottom: 100%; position: initial;">
+            <iframe id="pdf-frame" class="col-md-4 col-md-4 col-md-4 embed-responsive-item">
+
+            </iframe>
+        </div>
+    </section>
+
+    <script type="text/javascript" src="lib/tla.js"></script>
+    <script>
+        function buildStatement(verb, objectId) {
+            return {
+                actor: {
+                    "name": "<%= locals.user.name %>",
+                    "account": {
+                        "homePage": "<%= locals.keycloak.url %>",
+                        "name": "<%= locals.user.id %>"
+                    }
+                },
+                verb: verb,
+                object: {
+                    id: objectId,
+                    definition: {
+                        name: {
+                            "en-US": "TLA PDF Viewer"
+                        },
+                        type: "<%= locals.mom.activityTypes.activity %>"
+                    }
+                },
+                result: {
+                    success: true
+                },
+                context: {
+                    "contextActivities": {
+                        "parent": [{
+                            "id": objectId
+                        }]
+                    }
+                }
+            }
+        }
+
+        async function sendStatement(verb, objectId) {
+            let statement = buildStatement(verb, objectId)
+            return await fetch("<%= locals.lrs.endpoint %>" + "statements", {
+                method: "POST",
+                headers: {
+                    "Authorization": "Basic " + btoa("<%= locals.lrs.user %>:<%= locals.lrs.pass %>"),
+                    "Content-Type": "application/json",
+                    "X-Experience-API-Version": "1.0.3"
+                },
+                body: JSON.stringify(statement)
+            })
+                .then(res => res.json())
+                .catch(console.error)
+        }
+
+        function showButtonReady(btn) {
+            btn.disabled = undefined
+            btn.classList.add("btn-primary");
+            btn.classList.remove("btn-secondary");
+            btn.classList.remove("btn-success");
+            btn.innerHTML = "Mark as Complete"
+        }
+        function showButtonPending(btn) {
+            btn.disabled = "disabled"
+            btn.classList.remove("btn-primary");
+            btn.classList.add("btn-secondary");
+            btn.classList.remove("btn-success");
+            btn.innerHTML = "Sending ..."
+        }
+        function showButtonComplete(btn) {
+            btn.disabled = "disabled"
+            btn.classList.remove("btn-primary");
+            btn.classList.remove("btn-secondary");
+            btn.classList.add("btn-success");
+            btn.innerHTML = "<span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></span> Completed!"
+        }
+        function showButtonError(btn) {
+            btn.disabled = "disabled"
+            btn.classList.remove("btn-primary");
+            btn.classList.remove("btn-secondary");
+            btn.classList.add("btn-error");
+            btn.innerHTML = "Error Sending Statement"
+        }
+    </script>
+    <script>
+        // We only need to mess with 2 controls here
+        let iframe = document.getElementById("pdf-frame");
+        let button = document.getElementById("completedButton")
+
+        // This is a newer way of getting query arguments and saves us a bit of headache
+        let query = new URLSearchParams(window.location.search)
+        let objectId = window.location.href
+
+        // Make sure they actually provided a PDF path here
+        let source = query.get("src")
+        if (source) {
+            
+            // Assign our iframe source to be that PDF
+            iframe.src = query.get("src")
+            
+            // Set up our button events.  These are async/await style, so you can write them
+            // out a bit as promises if a browser doesn't support that syntax.  
+            button.onclick = async () => {
+                showButtonPending(button)
+                let storedIds = await sendStatement(TLA.verbs.completed, objectId);
+                if (storedIds)
+                    showButtonComplete(button)
+                else
+                    showButtonError(button)
+            }
+            iframe.onload = async () => sendStatement(TLA.verbs.initialized, objectId);
+        }
+
+    </script>
+</body>
+
+</html>

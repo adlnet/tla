@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=2.0">
+    <meta name="description" content="A shorthand syntax for communicating xAPI Statements">
+    <meta name="author" content="ADL">
+    <link rel="icon" href="favicon.ico">
+
+    <title>xAPI Video Tracking</title>
+    <link rel="stylesheet" href="common/bootstrap.min.css">
+    <link rel="stylesheet" href="common/font-awesome.min.css">
+    <link rel="stylesheet" href="css/video.css">
+
+</head>
+
+<body>
+
+    <div id="header_box" class="bg-primary">
+        <div class="container">
+            <h1 id="header_text" class="text-white">TLA Video Player</h1>
+        </div>
+    </div>
+
+    <!-- Container where video player and text are generated -->
+    <section class="main_container">
+
+        <div style="margin: auto; text-align: center; background-color: black">
+            <div id="player" class="iframe_container" style="text-align: center">
+
+            </div>
+        </div>
+        <div id="vidInfoContainer" style="text-align: left; margin: auto; width: 75%">
+
+        </div>
+
+    </section>
+
+    <script type="text/javascript" src="common/cryptojs_v3.1.2.js"></script>
+    <script type="text/javascript" src="common/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="js/xapiwrapper/verbs.js"></script>
+    <script type="text/javascript" src="js/xapiwrapper/xapistatement.js"></script>
+    <script type="text/javascript" src="js/xapiwrapper/xapiwrapper.js"></script>
+    <script type="text/javascript" src="js/xapi-youtube-statements.js"></script>
+    <script>
+        // Dispatch Youtube statements with XAPIWrapper
+        ADL.XAPIYoutubeStatements.onStateChangeCallback = function (event, stmt) {
+            if (stmt)
+                ADL.XAPIWrapper.sendStatement(stmt, function () { });
+        }
+
+        // We'll define these ahead of time for use in the automated YouTube API event below.  
+        // These are also used for the generic video handling below.
+        var player = null;
+        var youtubeVideo = "";
+        var playerWidth = 640;
+        var playerHeight = 390;
+
+        // This function is called by the YouTube API, not manually.  We need to make sure it's defined here
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: playerHeight,
+                width: playerWidth,
+                videoId: youtubeVideo,
+                playerVars: {
+                    'autoplay': 1
+                },
+                events: {
+                    'onReady': ADL.XAPIYoutubeStatements.onPlayerReady,
+                    'onStateChange': ADL.XAPIYoutubeStatements.onStateChange,
+                    'unstarted': ADL.XAPIYoutubeStatements.onPlayerReady
+                }
+            });
+        }
+    </script>
+    <script>
+
+        // Default video for debugging
+        var defaultNative = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+        var defaultYouTube = "https://www.youtube.com/watch?v=oAHbLRjF0vo"
+
+        // Get our "src" argument from the query
+        var query = new URLSearchParams(window.location.search)
+        var querySource = query.get("src")
+        var debugIndicator = query.get("debug")
+        
+        // Default will be YouTube unless we gave it `debug=1` or some other truthy value
+        var defaultSource = !debugIndicator ? defaultYouTube : defaultNative 
+        var videoSource = querySource ? querySource : defaultSource
+
+        let activityID = window.location.href
+
+        function loadVideo(source) {
+            var youtubeRegex = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/
+            var matches = youtubeRegex.exec(source)
+
+            if (matches != undefined) 
+                loadYT(source)
+            else
+                loadNative(source)
+        }
+        
+        function loadYT(source) {
+
+            youtubeVideo = new URL(source).searchParams.get("v")
+
+            var tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            var firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            console.log("LOADING YOUTUBE:", source)
+        }
+
+        function loadNative(source) {
+            var videoTag = document.createElement("video");
+            videoTag.preload = "auto"
+            videoTag.controls = "controls";
+            videoTag.autoplay = true;
+            videoTag.style = "height: 100%; ";
+
+            videoTag.onplay = ADL.XAPIYoutubeStatements.playVideo
+            videoTag.onpause = ADL.XAPIYoutubeStatements.pauseVideo
+            videoTag.onended = ADL.XAPIYoutubeStatements.completedVideo
+            videoTag.oncanplay = ADL.XAPIYoutubeStatements.onPlayerReady;
+
+            var sourceTag = document.createElement("source")
+            sourceTag.src = source
+            sourceTag.type = "video/mp4"
+
+            // Put video into the Player container
+            videoTag.appendChild(sourceTag);
+            document.getElementById("player").appendChild(videoTag);
+        }
+
+        ADL.XAPIYoutubeStatements.changeConfig({
+            "actor": {
+                "name": "<%= locals.user.name %>",
+                "account": {
+                    "homePage": "<%= locals.keycloak.url %>",
+                    "name": "<%= locals.user.id %>"
+                }
+            },
+            "videoActivity": {
+                "id": activityID,
+                "definition": {
+                    "name": {
+                        "en-US": "TLA Video Player"
+                    },
+                    "type": "<%= locals.mom.activityTypes.activity %>"
+                }
+            },
+            "activityID": activityID
+        });
+
+        ADL.XAPIWrapper.changeConfig({
+            auth: "Basic " + btoa("<%= locals.lrs.user %>:<%= locals.lrs.pass %>"),
+            endpoint: "<%= locals.lrs.endpoint %>"
+        });
+
+        loadVideo(videoSource)
+    </script>
+
+</body>
+
+</html>

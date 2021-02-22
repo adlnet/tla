@@ -1,0 +1,73 @@
+version: '3'
+services:
+  
+  # Nginx instance controlling traffic to each service
+  #
+  nginx:
+    restart: always
+    build:
+      context: nginx
+      args:
+        - CONTENT_HOST=${CONTENT_HOST}
+    ports:
+      - 80:80
+      - 443:443
+    container_name: docker_nginx
+    volumes:
+      - ./nginx/letsencrypt:/usr/share/nginx/html
+      - ./certbot/etc:/usr/share/keys
+    networks:
+      - public
+
+  # Certbot for SSL automation
+  #
+  certbot:
+    container_name: 'docker_certbot'
+    image: certbot/certbot
+    volumes:
+      - ./keys:/var/lib/letsencrypt
+      - ./nginx/letsencrypt:/data/letsencrypt
+      - ./certbot/etc:/etc/letsencrypt
+      - ./certbot/log:/var/log/letsencrypt
+    networks:
+      - public
+    depends_on:
+      - nginx
+
+  # Video and PDF players
+  #
+  players:
+    restart: always
+    build: 
+      context: players
+    container_name: docker_players
+    environment:
+      - LRS_ENDPOINT=$LRS_ENDPOINT
+      - LRS_USER=$LRS_USER
+      - LRS_PASS=$LRS_PASS
+      - KEYCLOAK_REALM=$KEYCLOAK_REALM
+      - KEYCLOAK_URL=$KEYCLOAK_URL
+      - PORT=3000
+    networks:
+      - public
+
+  # Static Content
+  #
+  content:
+    restart: always
+    build: 
+      context: static-content
+    container_name: docker_content
+    networks:
+      - public
+    environment:
+      - LRS_ENDPOINT=$LRS_ENDPOINT
+      - LRS_USER=$LRS_USER
+      - LRS_PASS=$LRS_PASS
+      - KEYCLOAK_REALM=$KEYCLOAK_REALM
+      - KEYCLOAK_URL=$KEYCLOAK_URL
+      - PORT=3000
+   
+networks:
+  public: 
+    driver: bridge

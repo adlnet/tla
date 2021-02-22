@@ -1,0 +1,20 @@
+{
+  "name": "example-service",
+  "version": "1.0.0",
+  "description": "Simple example service protected by Keycloak",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Trey Hayden",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cors": "^2.8.5",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "simple-keycloak-adapter": "^0.0.3",
+    "tla-mom-proto": "^0.13.1"
+  }
+}

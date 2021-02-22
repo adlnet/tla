@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <!--Basic Properties-->
+    <meta name="ID" content="A GUID that uniquely describes the activity." />
+    <meta name="Name" content="The human- readable name of the activity. Will usually match title" />
+    <meta name="Description" content="A human- readable description of the activity." />
+    <meta name="Language" content="The primary language used in the activity." />
+    <meta name="Subject" content="The primary topic covered by the activity." />
+    <meta name="Authors" content="Person or organization that created the activity." />
+    <meta name="Contributors" content="Person or organization that supported the author , e.g. (e.g.e.g., artists, reviewers)." />
+    <meta name="Publishers" content="The person or organization that produced and distributed the activity." />
+    <meta name="Providers" content="The software application or service that hosts the activity." />
+    <meta name="Licenses" content="The legal constraints that govern distribution and use of the activity." />
+    <meta name="Versions" content="A number representing the release version of the activity. Each should be related to a release date." />
+    <meta name="ReleaseDates" content="The date when the activity was created or updated. Each date should be related to a specific version." />
+    <meta name="Size" content="A number representing the file size of the activity." />
+    <meta name="CompletionStatus" content="A description of the current lifecycle state of the activity (e.g.e.g., draft, alpha, beta, final)." />
+    <meta name="Icon" content="An image that represents the activity graphically." />
+    <meta name="Preview" content="A video snippet that represents the activity." />
+    <meta name="Keywords" content="Search engine- compatible words that describe the activity." />
+    <meta name="FullText" content="The full text of the activity (if applicable)." />
+    <meta name="UserGuide" content="User manual describing activity usage and installation." />
+    <meta name="Citations" content="Relevant bibliographic citations." />
+    <!--Interoperability Properties-->
+    <meta name="LaunchURI" content="The web URI used to launch the activity (if applicable)." />
+    <meta name="Protocols" content="The transport protocols the activity is compatible with (e.g.e.g., REST, Pub/Sub, Security, Compression, etc.)." />
+    <meta name="AuthorizationLevels" content="The permissions of the activity that govern what data it can read/write/access" />
+    <meta name="ContentURIs" content="The locations of content resources the activity uses but does not host." />
+    <meta name="MetadataURIs" content="The locations of content resources the activity uses but does not host." />
+    <meta name="Platforms" content="The operating system types and versions that are required or compatible with the activity." />
+    <meta name="Devices" content="The devices (e.g.e.g., mobile device, laptop) that are required or compatible with the activity." />
+    <meta name="InputModalitys" content="The input devices that are required or compatible with the activity (e.g.e.g., mouse)" />
+    <meta name="Browsers" content="The web browsers that are required or compatible with the activity." />
+    <meta name="Sensors" content="The sensor devices that are required or compatible with the activity (e.g., eye tracking)." />
+    <meta name="OtherRequirements" content="Strings or GUIDs that describe other TLA components or functional roles required for correct behavior (e.g.e.g., requires an LRS)." />
+    <meta name="MetadataAuthors" content="The creators of Activity metadata. May be a person or a software component." />
+    <meta name="Locations" content="Locations that are required or compatible with performing this activity (e.g.e.g., home, simulation center, live exercise field etc.)." />
+    <meta name="AccessibilityFeatures" content="Alternate content of the activity that support accessibility." />
+    <meta name="AccessibilityAPIs" content="The specific Accessibility APIs this activity is compatible with." />
+    <meta name="AccessibilityDevices" content="The accessibility input and output modalities compatible the activity is compatible with." />
+    <meta name="AccessibilityHazards" content="Characteristics of the activity that could be physiologically dangerous to some learners." />
+    <meta name="DebugFlags" content="Flags that can be used for debug and development purposes (e.g.e.g., testing, placeholder)." />
+    <!--Learning Experience Properties-->
+    <meta name="TargetUser" content="The intended activity user (e.g.e.g., learner, teacher etc.)." />
+    <meta name="ExpectedCompletionTime" content="Expected average time needed for completion of the activity. May be a range." />
+    <meta name="MinimumCompletionTime" content="Minimum suggested time for completion of the activity." />
+    <meta name="MaximumCompletionTime" content="Maximum allowed time for completion of the activity." />
+    <meta name="EnforceCompletionTime" content="Boolean indicating if the maximum completion time should be enforced." />
+    <meta name="EducationalContext" content="The level of education the activity was designed for (e.g.e.g., middle school, high school, university, training)." />
+    <meta name="InstructionalScopes" content="The functional granularity (e.g.e.g., course, unit, lesson) that the activity represents." />
+    <meta name="LearningResourceTypes" content="The types of content presented by the activity (e.g.,e.g., text, simulation, video, audio, augmented reality). It should be descriptive of the medium used by the activity, rather than the educational purpose for which the activity is intended." />
+    <meta name="InstructionalStrategys" content="The instructional design strategy or model that was used to design this activity. (e.g. Bloom, Gagne, Merrrill). Caveat: This field is deliberately open ended so that both accepted, and newly emerging strategies and models can be used with the TLA." />
+    <meta name="InstructionalTypes" content="The types of instructional use that the activity was designed for (e.g., practice, assessment). It should be descriptive of the educational purpose the activity is intended for rather than the type of content presented by the activity." />
+    <meta name="SupportLevel" content="The amount of support the activity provides (e.g., high/low)." />
+    <meta name="SupportMechanisms" content="The types of support the activity employs (e.g., scaffolding, tutoring, feedback)." />
+    <meta name="LearnerControlTypes" content="The type of control the learner is allowed in the activity (e.g.e.g., self-paced vs. timed)." />
+    <meta name="ReplayabilityLevel" content="How suitable the activity is for repetition." />
+    <meta name="MinimumReplayWaitingPeriod" content="The minimum amount of time that should elapse between repetitions." />
+    <meta name="FormFitFunctionFidelity" content="The fidelity level of the activity as it applies to what is being taught (e.g., high/med/low)." />
+    <!--Competency Relationships-->
+    <meta name="EducationalFrameworks" content="The educational framework(s) that this activity is aligned to." />
+    <meta name="CompetencyLevel" content="The expected level (e.g., novice/intermediate/advanced) in one or more specific competencies that this activity's Instructional Type is targeting." />
+    <meta name="ChallengeLevel" content="The amount of challenge per competency that the activity presents to the learner." />
+    <meta name="Interactivity Level" content="The level of interactivity (e.g., Passive, Limited Participation, Complex Participation, Real-time Participation) per competency that the activity presents to the learner." />
+    <meta name="ExpectedMastery" content="The expected level of mastery per Competency that the learner is expected to have upon completion of the activity with an affiliated confidence value." />
+    <meta name="Credentials" content="Specific types of credentials per Competency that are expected to be awarded to the learner upon completion of the activity. Could be formal (e.g., degree or certification) or informal (e.g., badges)." />
+    <meta name="Rewards" content="Specific types of incentive that are expected to be awarded to the learner per competency during the activity (e.g., points, coins, tokens)." />
+    <meta name="ScoreTypes" content="The type of measurements this Activity produces per competency if it performs assessment or scoring (e.g., percentage vs. pass/fail)." />
+    <!--Activity Relationships-->
+    <meta name="ActivityRelations" content="Expresses the relationship of this activity to another specific activity (e.g., prerequisite activities, assessments that are appropriate for specific teaching activities, reference materials that relate to the activity). There may be many relationships." />
+    <!--Learner Relationships-->
+    <meta name="LearnerCulture" content="The expected cultural bias of the learner that the activity is designed for." />
+    <meta name="LearnerLanguage" content="The expected primary language of the learner the activity is designed for." />
+    <meta name="LearnerAge" content="The expected age range of the learner that the activity is designed for." />
+    <meta name="LearnerHeight" content="The expected height range of the learner that the activity is designed for." />
+    <meta name="LearnerWeight" content="The expected weight range of the learner that the activity is designed for." />
+    <meta name="LearnerFitnessLevel" content="The expected fitness range of the learner that the activity is designed for." />
+    <meta name="LearnerMaximumExertionLevel" content="The maximum level of exertion that the activity will require." />
+    <meta name="LearnerAccessibility" content="The accessibility situations the activity is designed to accommodate (sight/hearing/hands/full body)." />
+    <meta name="LearnerIntrinsicMotivationLevel" content="The expected intrinsic motivation range of the learner that the activity is designed for." />
+    <meta name="LearnerIntelligenceLevels" content="The range of intelligence levels (e.g., IQ) that the activity is designed for." />
+    <meta name="LearnerReadingLevels" content="The range of reading levels (e.g., K–12) the activity is designed for." />
+    <meta name="LearnerPreferences" content="This property provides an open-ended location to indicate one or more learner preferences that this activity was designed for (e.g., audio vs. text)." />
+    <meta name="LearnerInterests" content="This property provides an open-ended location to indicate one or more learner interests that this activity was designed for (e.g., hobbies)." />
+    <meta name="LearnerJobs" content="The expected learner job function, role or MOS that this activity was designed for." />
+    <meta name="LearnerCredentials" content="The expected learner credentials (e.g., degree or certifications) that are prerequisites for this activity." />
+    <meta name="LearnerRanks" content="The expected learner military rank that this activity was designed for." />
+    <title></title>
+
+</head>
+<body style="background-color:black;">
+    <style>
+        .center {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+        }
+    </style>
+
+    <div class="container">
+        <div class="center">
+            <!--This element is used to show the video and track Video xAPI events.  To change the video
+                being shown, change the "src" property here.  -->
+            <video id="video" src="Whodunnit.mp4" controls></video>
+        </div>
+    </div>
+    <script type="text/javascript" src="build/xapiwrapper.min.js"></script>
+    <script type="text/javascript" src="build/verbs.js"></script>
+
+    <script type="text/javascript">
+
+        // The video element itself.  The video adapter will listen for HTML5 events
+        // and send statements accordingly.
+        var vid = document.getElementById("video");
+
+        // Activity Information
+        var vidURI = 'demo:video';
+        var vidName = 'Demo Page Video';
+        var vidDes = 'A website that exercises the functions of the xAPIWrapper for converting flash videos'
+
+        // User Information
+        var email = 'mailto:florian.tolk.ctr@adlnet.gov';
+        var username = 'Florian Tolk'
+
+        // Instance of the wrapper itself.  We'll be reusing this throughout the process.
+        var wrapper = ADL.XAPIWrapper;
+
+        wrapper.changeConfig({
+            // Your LRS's xAPI endpoint.  This isn't guaranteed to be something 
+            // ending in /xAPI, but that is the most popular convention.
+            "endpoint": "https://lrs.adlnet.gov/xAPI/",
+
+            // Basic Auth string, form of Base64("username:password")
+            "auth": "Basic " + toBase64("ADLTechTeam:xapiIsCool!")
+        });
+
+        //creates new statement
+        var stmt;
+        function initSTMT() {
+            //creates statement
+            stmt = new ADL.XAPIStatement(
+                new ADL.XAPIStatement.Agent(wrapper.hash(email), username),
+                verbs.interacted,
+                new ADL.XAPIStatement.Activity(vidURI, vidName, )
+            );
+            //sets up extensions
+            wrapper.baseURI = "https://w3id.org/xapi/video/extensions/";
+            stmt.result = { extensions: {} };
+            stmt.context = { extensions: {} };
+        };
+
+        //When page is loaded
+        vid.onloadeddata = function () {
+            initSTMT();
+            stmt.verb = verbs.initialized;
+            stmt.context.extensions[wrapper.baseURI + "length"] = vid.duration;
+            stmt.context.extensions[wrapper.baseURI + "language"] = "English";
+            var resp_obj = wrapper.sendStatement(stmt);
+        };
+
+        //When seeking starts
+        vid.onseeking = function () {
+            initSTMT();
+            stmt.verb = verbs.seeked;
+            stmt.result.extensions[wrapper.baseURI + "time-from"] = vid.currentTime;
+        };
+
+        //when seeking ends
+        vid.onseeked = function () {
+            stmt.result.extensions[wrapper.baseURI + "time-to"] = vid.currentTime;
+            stmt.context.extensions[wrapper.baseURI + "length"] = vid.duration;
+            var resp_obj = wrapper.sendStatement(stmt);
+        };
+
+        //on play
+        vid.onplay = function () {
+            initSTMT();
+            stmt.verb = verbs.played;
+            stmt.result.extensions[wrapper.baseURI + "time"] = vid.currentTime;
+            stmt.context.extensions[wrapper.baseURI + "length"] = vid.duration;
+            var resp_obj = wrapper.sendStatement(stmt);
+        };
+
+        //on pause
+        vid.onpause = function () {
+            initSTMT();
+            stmt.verb = verbs.paused;
+            stmt.result.extensions[wrapper.baseURI + "time"] = vid.currentTime;
+            stmt.context.extensions[wrapper.baseURI + "length"] = vid.duration;
+            var resp_obj = wrapper.sendStatement(stmt);
+        };
+
+        //once video end is reached
+        vid.onended = function () {
+            initSTMT();
+            stmt.verb = verbs.completed;
+            stmt.context.extensions[wrapper.baseURI + "length"] = vid.duration;
+            stmt.result.extensions[wrapper.baseURI + "time"] = vid.currentTime;
+            var resp_obj = wrapper.sendStatement(stmt);
+        };
+
+        //on terminate
+        vid.onabort = function () {
+            initSTMT();
+            stmt.verb = verbs.terminated;
+            stmt.context.extensions[wrapper.baseURI + "length"] = vid.duration;
+            stmt.result.extensions[wrapper.baseURI + "progress"] = vid.currentTime;
+        };
+    </script>
+</body>
+</html>

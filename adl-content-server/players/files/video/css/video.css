@@ -1,0 +1,49 @@
+#header_box {
+    width: 100%;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+#header_text {
+    padding-bottom: 10px;
+    font-weight: bold;
+}
+
+.video_container {
+    text-align: center;
+    margin: 25px auto auto;
+}
+
+#description_container {
+    text-align: left;
+    margin: auto;
+}
+
+/* Class that is added to the generated iframe element*/
+.iframe_container {
+    width: 720px;
+    height: 439px;
+    text-align: center;
+    margin: 25px auto auto;
+}
+
+@media only screen and (max-width: 700px) {
+    .iframe_container {
+        width: 320px;
+        height: 195px;
+    }
+}
+
+.theater {
+    /* -webkit-transform: scale(1.5,1.5); */
+    /* position: fixed;
+left: 400px;
+top: 100px; */
+    border-right: 100% solid black;
+    border-left: 100% solid black;
+    margin: auto;
+}
+
+#main_container {
+    width: 100%;
+}

@@ -1,0 +1,22 @@
+html,
+body {
+  height: 100%;
+  background-color: #3E3E3E;
+}
+body {
+  color: #fff;
+  text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
+}
+a,
+a:focus,
+a:hover {
+  color: #fff;
+}
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:focus {
+  color: #3E3E3E;
+  text-shadow: none; /* Prevent inheritance from `body` */
+  background-color: #fff;
+  border: .25rem solid #fff;
+}

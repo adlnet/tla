@@ -47,7 +47,7 @@ services:
       LRS_PASS: ${LRS_PASS}
       KEYCLOAK_URL: ${KEYCLOAK_URL}
       KEYCLOAK_REALM: ${KEYCLOAK_REALM}
-      KEYCLOAK_REALM: ${KEYCLOAK_CLIENT}
+      KEYCLOAK_CLIENT: ${KEYCLOAK_CLIENT}
       PORT: 3000
     networks:
       - public
@@ -64,7 +64,7 @@ services:
     environment:
       KEYCLOAK_URL: ${KEYCLOAK_URL}
       KEYCLOAK_REALM: ${KEYCLOAK_REALM}
-      KEYCLOAK_REALM: ${KEYCLOAK_CLIENT}
+      KEYCLOAK_CLIENT: ${KEYCLOAK_CLIENT}
       PORT: 3000
    
 networks:

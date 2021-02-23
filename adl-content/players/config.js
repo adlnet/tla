@@ -14,7 +14,7 @@ module.exports = {
         "realm": (process.env.KEYCLOAK_REALM || "tla"),
         "auth-server-url": (process.env.KEYCLOAK_URL || "https://tla-dev-auth.usalearning.net/auth"),
         "ssl-required": "all",
-        "resource": "static-content-viewer",
+        "resource": (process.env.KEYCLOAK_URL || "default"),
         "public-client": true,
         "confidential-port": 0
     },

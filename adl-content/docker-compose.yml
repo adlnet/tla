@@ -42,12 +42,13 @@ services:
       context: players
     container_name: docker_players
     environment:
-      - LRS_ENDPOINT=$LRS_ENDPOINT
-      - LRS_USER=$LRS_USER
-      - LRS_PASS=$LRS_PASS
-      - KEYCLOAK_REALM=$KEYCLOAK_REALM
-      - KEYCLOAK_URL=$KEYCLOAK_URL
-      - PORT=3000
+      LRS_ENDPOINT: ${LRS_ENDPOINT}
+      LRS_USER: ${LRS_USER}
+      LRS_PASS: ${LRS_PASS}
+      KEYCLOAK_URL: ${KEYCLOAK_URL}
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+      KEYCLOAK_REALM: ${KEYCLOAK_CLIENT}
+      PORT: 3000
     networks:
       - public
 
@@ -61,12 +62,10 @@ services:
     networks:
       - public
     environment:
-      - LRS_ENDPOINT=$LRS_ENDPOINT
-      - LRS_USER=$LRS_USER
-      - LRS_PASS=$LRS_PASS
-      - KEYCLOAK_REALM=$KEYCLOAK_REALM
-      - KEYCLOAK_URL=$KEYCLOAK_URL
-      - PORT=3000
+      KEYCLOAK_URL: ${KEYCLOAK_URL}
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+      KEYCLOAK_REALM: ${KEYCLOAK_CLIENT}
+      PORT: 3000
    
 networks:
   public: 

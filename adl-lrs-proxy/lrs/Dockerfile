@@ -28,7 +28,7 @@ COPY modified-fabfile.py /opt/lrs/ADL_LRS/fabfile.py
 RUN cat /opt/lrs/ADL_LRS/adl_lrs/settings_temp.ini \
 	| envsubst '$SMTP_HOST' \
 	| envsubst '$SMTP_PORT' \
-	| envsubst '$SMTP_USERNAME' \
+	| envsubst '$SMTP_USER' \
 	| envsubst '$SMTP_PASSWORD' \
 	| envsubst '$SMTP_USE_TLS' \
 	| envsubst '$SMTP_USE_SSL' \

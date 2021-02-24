@@ -8,4 +8,4 @@ RUN echo "Server { \n\
    username="$KAFKA_SASL_USER" \n\
    password="$KAFKA_SASL_PASS" \n\
    user_$KAFKA_SASL_USER="$KAFKA_SASL_PASS"; \n\
-};" > /tmp/kafka/zookeeper.txt
+};" > /var/lib/zookeeper/login-config.txt

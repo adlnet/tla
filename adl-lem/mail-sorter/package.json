@@ -10,7 +10,7 @@
     "ejs": "^2.7.1",
     "express": "^4.17.1",
     "simple-kafka-consumer": "^0.0.5",
-    "simple-kafka-producer": "^0.1.2",
+    "simple-kafka-producer": "^0.1.4",
     "simple-keycloak-adapter": "^0.0.1",
     "tla-mom-proto": "^0.13.1"
   },

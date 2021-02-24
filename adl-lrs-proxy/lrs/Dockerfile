@@ -30,6 +30,8 @@ RUN cat /opt/lrs/ADL_LRS/adl_lrs/settings_temp.ini \
 	| envsubst '$SMTP_PORT' \
 	| envsubst '$SMTP_USERNAME' \
 	| envsubst '$SMTP_PASSWORD' \
+	| envsubst '$SMTP_USE_TLS' \
+	| envsubst '$SMTP_USE_SSL' \
 	| tee /opt/lrs/ADL_LRS/adl_lrs/settings.ini
 
 # We'll need to run the setup

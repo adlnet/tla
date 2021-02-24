@@ -53,7 +53,7 @@ services:
       
       KEYCLOAK_REALM: "${KEYCLOAK_REALM}"
       KEYCLOAK_CLIENT: "${KEYCLOAK_CLIENT}"
-      KEYCLOAK_ENDPOINT: "${KEYCLOAK_ENDPOINT}"
+      KEYCLOAK_ENDPOINT: "${KEYCLOAK_URL}"
     volumes:
       - ./goals/data:/usr/src/app/data
       
@@ -77,7 +77,7 @@ services:
       
       KEYCLOAK_REALM: "${KEYCLOAK_REALM}"
       KEYCLOAK_CLIENT: "${KEYCLOAK_CLIENT}"
-      KEYCLOAK_ENDPOINT: "${KEYCLOAK_ENDPOINT}"
+      KEYCLOAK_ENDPOINT: "${KEYCLOAK_URL}"
     networks:
       - public
       
@@ -103,7 +103,7 @@ services:
       
       KEYCLOAK_REALM: "${KEYCLOAK_REALM}"
       KEYCLOAK_CLIENT: "${KEYCLOAK_CLIENT}"
-      KEYCLOAK_ENDPOINT: "${KEYCLOAK_ENDPOINT}"
+      KEYCLOAK_ENDPOINT: "${KEYCLOAK_URL}"
       
       XI_ENDPOINT: "${XI_ENDPOINT}"
     networks:
@@ -129,7 +129,7 @@ services:
 
       KEYCLOAK_REALM: "${KEYCLOAK_REALM}"
       KEYCLOAK_CLIENT: "${KEYCLOAK_CLIENT}"
-      KEYCLOAK_ENDPOINT: "${KEYCLOAK_ENDPOINT}"
+      KEYCLOAK_ENDPOINT: "${KEYCLOAK_URL}"
       
       LRS_ENDPOINT: "${LRS_ENDPOINT}"
       LRS_USER: "${LRS_USER}"
@@ -155,7 +155,7 @@ services:
       
       KEYCLOAK_REALM: "${KEYCLOAK_REALM}"
       KEYCLOAK_CLIENT: "${KEYCLOAK_CLIENT}"
-      KEYCLOAK_ENDPOINT: "${KEYCLOAK_ENDPOINT}"
+      KEYCLOAK_ENDPOINT: "${KEYCLOAK_URL}"
     volumes:
       - ./competencies/data:/usr/src/app/data
       

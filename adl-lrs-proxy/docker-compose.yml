@@ -68,3 +68,44 @@ services:
     depends_on:
       - nginx
 
+  lrs-proxy-1:
+    restart: always
+    build:
+      context: kafka-lrs-proxy
+    container_name: proxy_1
+    environment:
+      PORT: "${PROXY_PORT}"
+      PROXY_INFER: "${PROXY_INFER}"
+      PROXY_LRS_ROOT: "${PROXY_LRS_ROOT}"
+      KAFKA_BROKER: "${KAFKA_BROKER}"
+      KAFKA_XAPI_TOPIC: "${KAFKA_XAPI_TOPIC}"
+      KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
+      KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
+
+  lrs-proxy-2:
+    restart: always
+    build:
+      context: kafka-lrs-proxy
+    container_name: proxy_2
+    environment:
+      PORT: "${PROXY_PORT}"
+      PROXY_INFER: "${PROXY_INFER}"
+      PROXY_LRS_ROOT: "${PROXY_LRS_ROOT}"
+      KAFKA_BROKER: "${KAFKA_BROKER}"
+      KAFKA_XAPI_TOPIC: "${KAFKA_XAPI_TOPIC}"
+      KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
+      KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
+
+  lrs-proxy-3:
+    restart: always
+    build:
+      context: kafka-lrs-proxy
+    container_name: proxy_3
+    environment:
+      PORT: "${PROXY_PORT}"
+      PROXY_INFER: "${PROXY_INFER}"
+      PROXY_LRS_ROOT: "${PROXY_LRS_ROOT}"
+      KAFKA_BROKER: "${KAFKA_BROKER}"
+      KAFKA_XAPI_TOPIC: "${KAFKA_XAPI_TOPIC}"
+      KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
+      KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"

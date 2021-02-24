@@ -7,5 +7,5 @@ Current resource checklist:
 - ❌ Experience Index
 - ✅ LRS w/ Kafka Forwarding
 - ✅ Content Hosting Server
-- ❌ Basic Learner Profile
-- ❌ Basic LEM Services
+- ✅ Basic Learner Profile
+- ✅ Basic LEM Services

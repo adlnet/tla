@@ -4,6 +4,8 @@ ARG SMTP_HOST
 ARG SMTP_PORT
 ARG SMTP_USERNAME
 ARG SMTP_PASSWORD
+ARG SMTP_USE_SSL
+ARG SMTP_USE_TLS
 
 ENV UWSGI_PIP_VERSION 2.0.13.1 
 
@@ -28,7 +30,7 @@ COPY modified-fabfile.py /opt/lrs/ADL_LRS/fabfile.py
 RUN cat /opt/lrs/ADL_LRS/adl_lrs/settings_temp.ini \
 	| envsubst '$SMTP_HOST' \
 	| envsubst '$SMTP_PORT' \
-	| envsubst '$SMTP_USER' \
+	| envsubst '$SMTP_USERNAME' \
 	| envsubst '$SMTP_PASSWORD' \
 	| envsubst '$SMTP_USE_TLS' \
 	| envsubst '$SMTP_USE_SSL' \

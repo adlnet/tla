@@ -37,6 +37,8 @@ services:
         SMTP_PORT: "${SMTP_PORT}"
         SMTP_USERNAME: "${SMTP_USERNAME}"
         SMTP_PASSWORD: "${SMTP_PASSWORD}"
+        SMTP_USE_SSL: "${SMTP_USE_SSL}"
+        SMTP_USE_TLS: "${SMTP_USE_TLS}"
     container_name: docker_lrs
     links:
       - postgres

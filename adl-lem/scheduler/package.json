@@ -16,7 +16,7 @@
     "cors": "^2.8.5",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
-    "simple-kafka-consumer": "^0.0.5",
+    "simple-kafka-consumer": "^0.0.7",
     "simple-keycloak-adapter": "^0.0.1",
     "sqlite3": "^4.1.1",
     "sqliter-models": "^0.0.6",

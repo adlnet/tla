@@ -21,7 +21,7 @@ const dbPath = __dirname + "/data/scheduler.db";
 const db = new sqlite.Database(dbPath, sqlite.OPEN_READWRITE | sqlite.OPEN_CREATE, err => console.error(err));
 
 (async() => {
-    kafka.init();
+    kafka.init(config.kafka);
     await models.init(db);
     routes.init(app, [models.approvals, models.tasks]);
     

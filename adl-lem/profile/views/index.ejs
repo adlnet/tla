@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+
+<%- include( "partials/header.ejs" ) %>
+
+<title>Learner Profile API</title>
+
+<body class="grey darken-1">
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <br><br>
+            <h1 class="header center white-text">Learner Profile API</h1>
+            <div class="row center">
+                <h5 class="header col s12 white-text">The profile API seems to be online.</h5>
+            </div>
+            <div class="row center">
+                <a href="<%= locals.root %>/docs" class="btn-large blue-grey darken-3 waves-effect waves-light">Record Editor</a>
+            </div>
+            <br><br>
+
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="section">
+
+            <!--   Icon Section   -->
+            <div class="row">
+
+                <h5 class="center white-text">
+                    This service encapsulates three main components of the TLA data strategy:
+                </h5>
+
+                <div class="col s12 m4">
+                    <div class="icon-block">
+                        <h2 class="center white-text"><i class="material-icons icon-lg">person</i></h2>
+                        <h5 class="center white-text bold">People</h5>
+
+                        <p class="white-text">People represent unique human entities that will be interacting with
+                            the TLA ecosystem.  These can have multiple aliases and roles, all attributed to the 
+                            unique person.</p>
+                    </div>
+                </div>
+
+                <div class="col s12 m4">
+                    <div class="icon-block">
+                        <h2 class="center white-text"><i class="material-icons icon-lg">group</i></h2>
+                        <h5 class="center white-text bold">Groups</h5>
+
+                        <p class="white-text">Groups are collections of people with a set of permissions and members.  These
+                            may be classes, protected groups, and/or candidates and can possess a single Role attribute. 
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col s12 m4">
+                    <div class="icon-block">
+                        <h2 class="center white-text"><i class="material-icons icon-lg">settings</i></h2>
+                        <h5 class="center white-text bold">Roles</h5>
+
+                        <p class="white-text">Roles represent authority within a given domain and are mapped in a 1-to-many relationship
+                            with people and a 1-to-1 relationship with groups.  These are not necessarily UX roles, which is a property 
+                            of people.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <br><br>
+    </div>
+
+</body>
+
+<%- include( "partials/footer.ejs") %>
+
+</html>

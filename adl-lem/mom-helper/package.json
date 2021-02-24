@@ -1,0 +1,25 @@
+{
+  "name": "statement-sender",
+  "version": "0.0.1",
+  "description": "Small page to send TLA-relevant xAPI testing statements from the logged-in user.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "exit 0"
+  },
+  "author": "Trey Hayden",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0",
+    "simple-keycloak-adapter": "^0.0.1",
+    "tla-mom-proto": "^0.12.4"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  }
+}

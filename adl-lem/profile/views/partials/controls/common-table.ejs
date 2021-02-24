@@ -1,0 +1,14 @@
+<!-- <h6><%= locals.title %></h6> -->
+<table class="table table-responsive highlight">
+    <thead class="<%= locals.headerClass ? locals.headerClass : "" %>">
+        <tr>
+            <% for (let index in props) { %>
+            <th scope="col" <% if (index == props.length - 1) { %> class="align-right" <% } %>><%= props[index] %></th>
+            <% } %>
+        </tr>
+    </thead>
+    <tbody id="<%= locals.id %>">
+        
+    </tbody>
+</table>
+<br>

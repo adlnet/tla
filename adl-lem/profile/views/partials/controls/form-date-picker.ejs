@@ -1,0 +1,22 @@
+<div class="form-group input-field" id="<%= locals.name %>Group">
+
+    <!--Control Form Input-->
+    <input id="<%= locals.name %>" type="text" class="datepicker form-control" <% if (locals.readonly) { %> disabled data-readonly="true" <% } %> >
+    <label for="<%= locals.name %>" class="active"><%= locals.title %></label>
+
+    <!--Help text if used-->
+    <% if (locals.help) { %>
+    <small id="<%= locals.name %>Help" class="form-text text-muted"><%= locals.help %></small>
+    <% } %>
+
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('.datepicker');
+        var instances = M.Datepicker.init(elems, {});
+        
+        $("#<%= locals.name %>Group").data("populate", value => {
+            $("#<%= locals.name %>").val(value);
+        })
+    });
+</script>

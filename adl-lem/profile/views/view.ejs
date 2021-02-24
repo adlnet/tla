@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+
+<%- include( "partials/header.ejs" ) %>
+
+<title>Profile View</title>
+
+<body ><div class="container" id="main">
+    <h4>Profile View</h4>
+    <p>
+        Simplified view of profile data.  This page will show recent xAPI statements, competencies,
+        tasks, and goals in table form.
+    </p>
+    <hr/>
+    
+    <%- include("partials/controls/common-table.ejs", {
+        id: "tbl-comps",
+        title: "Competencies",
+        headerClass: "blue lighten-4",
+        props: [
+            "Competency Name",
+            "Confidence",
+            "Date Recognized",
+            "Linkage"
+        ]
+    }); %>
+    
+    <%- include("partials/controls/common-table.ejs", {
+        id: "tbl-goals",
+        title: "Goals",
+        headerClass: "green lighten-4",
+        props: [
+            "Goal Name",
+            "Goal Type",
+            "Status",
+            "Last Updated",
+            "Linkage"
+        ]
+    }); %>
+    
+    <%- include("partials/controls/common-table.ejs", {
+        id: "tbl-tasks",
+        title: "Tasks",
+        headerClass: "purple lighten-4",
+        props: [
+            "Task Name",
+            "Status",
+            "Last Updated",
+            "Linkage"
+        ]
+    }); %>
+
+    
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', update)
+
+    async function update() {
+        let me = await getMe();
+
+        let comps = await competencyRows(me.competencies)
+        let goals = await goalRows(me.goals)
+        let tasks = await taskRows(me.tasks)
+        
+        assignToTable("tbl-comps", comps)
+        assignToTable("tbl-tasks", tasks)
+        assignToTable("tbl-goals", goals)
+    }
+
+    async function competencyRows(comps) {
+        let defs = await Promise.all(comps.map(comp => {
+            return fetch(comp.competencyID).then(res => res.json())
+        }))
+
+        let names = defs.map(def => {
+            if (typeof def.name == "string") 
+                return def.name
+            else if (Array.isArray(def.name))
+                return def.name[0]["@value"]
+        })
+        
+        return comps.map((comp, index) => [
+            names[index],
+            comp.confidence,
+            comp.timestamp,
+            `<a class="btn" href="${comp.competencyID}" target="_blank">CaSS</a>`
+        ])
+    }
+
+    async function goalRows(goals) {
+        let defs = await Promise.all(goals.map(goal => {
+            return fetch(goal.goal).then(res => res.json())
+        }))
+
+        let names = defs.map(def => {
+            if (typeof def.name == "string") 
+                return def.name
+            else if (Array.isArray(def.name))
+                return def.name[0]["@value"]
+        })
+        
+        return goals.map((goal, index) => [
+            names[index],
+            goal.type,
+            goal.status,
+            goal.timestamp,
+            `<a class="btn btn-info" href="${goal.goal}" target="_blank">CaSS</a>`
+        ])
+    }
+
+    async function taskRows(tasks) {
+        let defs = await Promise.all(tasks.map(task => {
+            return fetch(task.uri).then(res => res.json()).then(data => data.rows[0])
+        }))
+
+        let names = defs.map(def => def.description)
+        
+        return tasks.map((task, index) => [
+            names[index],
+            task.status,
+            task.timestamp,
+            `<a class="btn btn-info" href="${task.uri}" target="_blank">XI Entry</a>`
+        ])
+    }
+
+    async function getMe() {
+        let res = await fetch("/profile/me")
+        let data = await res.json();
+
+        return data;
+    }
+
+    function assignToTable(id, rows) {
+
+        let tbody = $("#" + id)
+        
+        if (rows.length == 0) {
+            tbody.empty();
+            return;
+        }
+
+        let rowElements = rows.map(row => `
+            <tr>
+                ${row.map((col, index) => (index == row.length - 1) ? `<td class="align-right">${col}</td>` : `<td>${col}</td>`)}
+            </tr>
+        `).join("")
+
+        tbody.empty();
+        tbody.append(rowElements);
+        
+        console.log(rowElements)
+    }
+
+</script>
+</body>
+
+<%- include( "partials/footer.ejs") %>
+
+</html>

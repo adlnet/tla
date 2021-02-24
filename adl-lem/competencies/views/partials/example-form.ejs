@@ -1,0 +1,26 @@
+<form method="<%= locals.method %>" action="<%= locals.action %>" target="_blank"
+    style="background: #DDDDDD; padding: 10px; border-radius: 8px;">
+    <div class="form-row">
+        
+        <% if (locals.include.user) { %>
+        <div class="form-group col-md-4">
+            <input name="user" type="text" class="form-control" placeholder="User UUID" value="<%= locals.user.id %>" required>
+        </div>
+        <% } %>
+
+        <% if (locals.include.competencyID) { %>
+        <div class="form-group col-md-4">
+            <input name="competencyID" type="text" class="form-control" placeholder="Competency IRI" value="https://aws.amazon.com/certification/">
+        </div>
+        <% } %>
+
+        <% if (locals.include.confidence) { %>
+        <div class="form-group col-md-2">
+            <input name="confidence" type="text" class="form-control" placeholder="Confidence Value" value="1" required>
+        </div>
+        <% } %>
+        <div class="form-group col-mid-2">
+            <button type="submit" class="btn btn-block <%= locals.style ? locals.style : "btn-success" %>"><%= locals.submit %></button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,9 @@
+<div class="input-field" id="<%= locals.name %>Group">
+    <input id="<%= locals.name %>" 
+        class="form-control" 
+        type="hidden"
+        value="<%= locals.value %>"
+        
+        <% if (locals.readonly) { %> disabled <% } %>
+    >
+</div>

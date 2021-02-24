@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+
+<!-- Page Title -->
+<title>Kafka Web Socket Example</title>
+
+<!-- Header -->
+<% include partials/header.ejs %>
+
+<body>
+
+    <hr>
+
+    <!-- Summary Container -->
+    <div class="service-table">
+
+        <!-- Header and general explanation -->
+        <p>
+            This page interfaces with a simple Kafka consumer to display all messages from all topics via WebSockets.
+            In addition to outages, you can use this page to confirm the cluster's functionality and diagnose issues.
+            The consumer powering this service has implemented a redundancy check, so no duplication should occur.
+        </p>
+
+        <hr>
+        <div class="row">
+            <div class="col-6">
+                <h4>Stream Log</h4>
+            </div>
+            <div class="col-6 pull-right">
+                <div class="btn-group btn-group-toggle" style="width: 100%" data-toggle="buttons">
+                    <label class="btn btn-outline-secondary btn-block active">
+                      <input type="radio" class="xapi-filter" id="option1" autocomplete="off" checked> All
+                    </label>
+
+                    <% for (let k=0; k<locals.topics.length; k++) { %>
+                        
+                        <% let topic = locals.topics[k]; %>
+
+                        <label class="btn btn-outline-<%= topic.bootstrap %> btn-block">
+                        <input type="radio" class="xapi-filter" name="<%= topic.name %>" id="option<%=k%>" autocomplete="off"> <%= topic.pretty %>
+                        </label>
+
+                    <% } %>
+                  </div>
+            </div>
+        </div>
+
+        <div class="bg-dark">
+            <p id="socket-output" class="text-light"
+                style="padding: 20px; height: 1000px; overflow-y: scroll; overflow-x: scroll">
+
+            </p>
+        </div>
+
+        <h4>Controls</h4>
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <button type="button" class="btn btn-secondary" id="reconnect-button">Reconnect</button>
+            <button type="button" class="btn btn-secondary" id="disconnect-button">Disconnect</button>
+
+            <div class="col-sm-3 my-1">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Displayed Messages: </div>
+                    </div>
+                    <input type="text" class="form-control" id="message-counter" placeholder="0" disabled>
+                </div>
+            </div>
+            <div class="col-sm-3 my-1">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">Total Messages: </div>
+                    </div>
+                    <input type="text" class="form-control" id="message-counter-total" placeholder="0" disabled>
+                </div>
+            </div>
+            <button type="button" class="btn btn-secondary" id="clear-button">Clear Log</button>
+        </div>
+    </div>
+
+    <div class="modal" id="stmtModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary">
+                    <h4 class="modal-title w-100 text-white" id="modalLabel">Statement Info</h4>
+                </div>
+                <div class="modal-body bg-dark" id="stmtModalBody"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    // Get our log object
+    var output = document.getElementById("socket-output");
+    var reconnectButton = document.getElementById("reconnect-button");
+    var disconnectButton = document.getElementById("disconnect-button");
+    var clearButton = document.getElementById("clear-button");
+
+    var messageCounter = document.getElementById("message-counter");
+    var mesageCounterTotal = document.getElementById("message-counter-total");
+
+    var outputModal = document.getElementById("stmtModalBody");
+
+    // Keep track of our socket
+    var socket = null;
+    var messageTotal = 0;
+    var messageCount = 0;
+    var messageLimit = 1000;
+
+    var messageThrottle = 50;
+    var recentCount = 0;
+
+    var buttonIndex = 0;
+    var currentFilter = "";
+
+    // Button callbacks
+    reconnectButton.onclick = reconnect;
+    disconnectButton.onclick = disconnect;
+    clearButton.onclick = clear;
+
+    // Start by connecting
+    setTimeout(connect, 20);
+
+    function appendLog(header, msg) {
+
+        let failure = header.indexOf("KAFKA FAILURE") >= 0;
+        let throttled = header.indexOf("throttle") >= 0;
+        let btnClass = "btn-primary";
+        let spanClass = "message";
+        let body = `${header}<hr>`;
+        let modalMsg = `<hr>`;
+
+        let id = "";
+        let index = buttonIndex++;
+
+        if (msg) {
+            if (failure) {
+                btnClass = "btn-danger btn-block"
+            } else if (throttled) {
+                btnClass = "btn-warning btn-block"
+            }
+
+            if (msg.startsWith("{") || msg.startsWith("[")) {
+
+                let msgParse = JSON.parse(msg);
+                let arr = msgParse.verb.id.split(/\/|\#/);
+
+                var msgVerb = arr.slice(-1).pop();
+                msg = JSON.stringify(JSON.parse(msg), null, 4)
+                
+                // Replace the URIs with links
+                msg = msg.replace(/http(s?):(\/?\/?)[^\"\s]+[^\"]/gm, match => {
+                    return `<b><a href="${match}" class="text-warning" target="_blank">${match}</a></b>`
+                })
+            }
+
+            <% for (let topic of locals.topics) { %>
+                if (header.includes("<%=topic.name%>")) {
+                    spanClass = `message <%=topic.name%> statement`
+                    btnClass = `btn-<%=topic.bootstrap%>`;
+                }
+            <% } %>
+
+            body = `
+                <button id="statement-${index}" class="btn ${btnClass}" type="button" data-toggle="modal" data-target="#stmtModal" aria-expanded="false" aria-controls="stmtModal">
+                    ${header} : ${msgVerb}
+                </button>
+            `
+            $(output).append(`<span id="span-${index}" class="${spanClass}">${body}</span>`);
+            
+            if (currentFilter != undefined && !header.includes(currentFilter))
+                $(`#span-${index}`).hide();
+
+        } else {
+            $(output).append(`<br><span class="message">${header}</span><br>`);
+        }
+
+        if ($ != undefined) {
+            // Clear modal.
+            let btnElement = $(`#statement-${index}`)
+
+            btnElement.data("body", `<pre><code class="text-light">${msg}</code></pre>`)
+            btnElement.click(() => {
+                $(outputModal).empty();
+                $(outputModal).append(btnElement.data("body"));
+            });
+
+            updateCounter(++messageCount, ++messageTotal);
+
+            // Scroll down if necessary
+            output.scrollTop = output.scrollHeight;
+        }
+    }
+
+    function updateCounter(count, total) {
+        $(messageCounter).val(count);
+        $(mesageCounterTotal).val(total);
+    }
+
+    function connect() {
+
+        if (socket != undefined)
+            return;
+
+        // Get wherever we are now, minus the port
+        var path = window.location.pathname;
+        var address = window.location.origin.replace("http", "ws") + (path.endsWith("/") ? path : path + "/") + "kafka"
+
+        console.log(address);
+
+        // Create WebSocket connection.
+        socket = new WebSocket(address);
+
+        // Connection opened
+        socket.onopen = function (event) {
+            socket.send("<%= locals.password %>");
+        };
+
+        // Listen for messages
+        socket.onmessage = function (event) {
+            if (event.data == "keep-alive") {
+                socket.send("keep-alive");
+                return;
+            }
+
+            let firstBreak = event.data.indexOf("\n")
+            if (firstBreak >= 0) {
+
+                let header = event.data.substr(0, firstBreak);
+                let body = event.data.substr(firstBreak + 1, event.data.length - firstBreak - 1);
+
+                appendLog(header, body);
+
+            } else {
+                appendLog(event.data);
+            }
+        };
+
+        // Tell us when this is dead
+        socket.onclose = function (event) {
+            appendLog("[Socket closed!]");
+            socket = null;
+        };
+    }
+
+    function reconnect() {
+        if (socket != undefined) {
+            appendLog("Already connected!");
+        } else {
+            appendLog("Attempting connection ...");
+            connect();
+        }
+    }
+
+    function disconnect() {
+        if (socket != undefined) {
+            socket.close();
+            appendLog("Disconnected!");
+        }
+    }
+
+    function clear() {
+        output.textContent = '';
+        updateCounter(messageCount = 0, messageTotal);
+    }
+
+    // Periodically clear the old messages
+    setInterval(function () {
+
+        if ($ == undefined)
+            return;
+
+        // Check if we need to remove some things
+        if (messageCount > messageLimit) {
+            let excess = messageCount - messageLimit;
+
+            $(`span.message:lt(${excess})`).remove();
+
+            messageCount -= excess;
+        }
+
+    }, 1000)
+
+    // document.getElementById("topic-filter").addEventListener("change", ev => {
+    //     let topic = ev.target.value
+    //     if (topic == undefined || topic == "")
+    //         $(".statement").show();
+    //     else {
+    //         $(".statement").hide();
+    //         $("." + topic).show();
+    //     }
+    // });
+
+    window.addEventListener("DOMContentLoaded", ev => {
+        $(".xapi-filter").on("change", cev => {
+
+            let topic = cev.target.name
+            if (topic == undefined || topic == "") {
+                $(".statement").show();
+                currentFilter = undefined;
+            }
+            else {
+                $(".statement").hide();
+                $("." + topic).show();
+                currentFilter = topic;
+            }
+
+        });
+    });
+
+</script>
+<!-- Footer -->
+<% include partials/footer.ejs %>
+
+</html>

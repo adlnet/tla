@@ -1,0 +1,24 @@
+{
+  "name": "tla-mail-sorter",
+  "version": "1.0.0",
+  "description": "Resolve authoritative xAPI",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "simple-kafka-consumer": "^0.0.5",
+    "simple-kafka-producer": "^0.1.2",
+    "simple-keycloak-adapter": "^0.0.1",
+    "tla-mom-proto": "^0.13.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "author": "",
+  "license": "ISC"
+}

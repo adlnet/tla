@@ -1,0 +1,31 @@
+<table class="table table-sm">
+    <tbody>
+        <tr>
+            <td>Method</td>
+            <td><%= locals.method %></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td scope="row">Endpoint</td>
+            <td><samp><%= locals.endpoint %></samp></td>
+            <td></td>
+        </tr>
+        
+    </tbody>
+    <tbody>
+        <tr><th><br></th></tr>
+        <tr>
+            <th>Property</th>
+            <th>Required</th>
+            <th>Comment</th>
+        </tr>
+        <% for (let prop of locals.props) { %>
+        <tr>
+            <td><samp><%= prop.name %></samp></td>
+            <td><%= prop.required %></td>
+            <td><%= prop.comment %></td>
+        </tr>
+        <% } %>
+    </tbody>
+</table>
+<p><%= locals.summary %></p>

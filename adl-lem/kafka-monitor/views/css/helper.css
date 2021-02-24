@@ -1,0 +1,52 @@
+/*
+Helper CSS classes for the discovery service.
+*/
+code {
+    color: white;
+}
+
+.message {
+    margin: 2px;
+}
+
+.align-right {
+    margin-right: 0;
+    margin-left: auto;
+    display: block;
+}
+
+.align-center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.example-code {
+    width: 30%;
+    font-size: 10px;
+}
+
+.tla-container {
+    position: relative;
+}
+
+.tla-container svg {
+    position: absolute;
+}
+
+.unselectable {
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+.service-table {
+    margin-right: auto;
+    margin-left: auto;
+    width: 90%;
+}
+
+.hidden {
+    display: none;
+}

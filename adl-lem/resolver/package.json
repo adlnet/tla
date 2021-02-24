@@ -1,0 +1,23 @@
+{
+  "name": "tla-xapi-resolver",
+  "version": "1.0.0",
+  "description": "Resolve learner xAPI",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "btoa": "^1.2.1",
+    "simple-kafka-consumer": "0.0.5",
+    "simple-kafka-producer": "^0.1.2",
+    "tla-mom-proto": "^0.12.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "author": "",
+  "license": "ISC"
+}

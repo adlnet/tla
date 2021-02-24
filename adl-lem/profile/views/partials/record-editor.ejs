@@ -1,0 +1,239 @@
+<% for (let propName of Object.keys(locals.model.props)) { %>
+
+    <% let prop = locals.model.props[propName]; %>
+    <% let readonly = prop.readonly || prop.type.readonly; %>
+
+    <% if (readonly && !locals.showReadOnly) continue; %>
+
+    <% let args = {
+        model: locals.model,
+        options: prop.predefined,
+        // readonly: readOnly,
+        readonly: readonly || prop.type.class == "VIRTUAL" || prop.type.name == "AUTO_ID", // Change this when I'm smarter
+        prop: prop,
+        virtual: prop.type.class == "VIRTUAL",
+        name: prop.name
+    }; %>
+
+    <% if (prop.type.name == "AUTO_ID") { %>
+        <%- include("controls/form-hidden.ejs", args) %>
+    <% } else if  (prop.type.name == "BOOL") { %>
+        <%- include("controls/form-switch.ejs", args) %>
+    <% } else if  (prop.type.name == "TEXT") { %>
+        <%- include("controls/form-text.ejs", args) %>
+    <% } else if (prop.type.name == "ENUM") { %>
+        <%- include("controls/form-select.ejs", args) %>
+    <% } else if (prop.type.name == "FLAGS") { %>
+        <%- include("controls/form-select.ejs", {...args, multiple: true}) %>
+    <% } else if (prop.type.name == "ISO_DATE") { %>
+        <%- include("controls/form-date-picker.ejs", args) %>
+    <% } else if (prop.type.name == "INTEGER" && prop.foreign) { %>
+        <%- include("controls/form-foreign-key.ejs", args) %>
+    <% } %>
+<% } %>
+<br>
+<div class="row">
+    <%- include("controls/common-button.ejs", {
+        id: "add-record",
+        color: "teal",
+        icon: "add",
+        text: "Add as New",
+    }) %>
+    <%- include("controls/common-button.ejs", {
+        id: "update-record",
+        color: "blue-grey",
+        icon: "save",
+        text: "Save Record",
+        extraClasses: ["form-button"]
+    }) %>
+    <%- include("controls/common-button.ejs", {
+        id: "delete-record",
+        color: "red",
+        icon: "remove",
+        text: "Delete Record",
+        extraClasses: ["form-button"]
+    }) %>
+    <%- include("controls/common-button.ejs", {
+        id: "debug",
+        color: "orange",
+        icon: "build",
+        text: "Debug",
+    }) %>
+</div>
+<script>
+    (() => {
+
+        // Disabling the form will apply a disabled property to every control by default, whereas
+        // Enabling will defer to whether that form was supposed to be readonly
+        setInteractive = (enabled) => {
+            $(".form-button").each((index, control) => enableControl(control, enabled))
+            // $(".input-field input").each((index, control) => enableControl(control, enabled))
+        };
+
+        enableControl = (control, enabled) => {
+            $enableControl($(control), enabled);
+        }
+
+        $enableControl = ($control, enabled) => {
+            if (enabled && !$control.data("readonly"))
+                $control.removeAttr("disabled")
+            else
+                $control.attr("disabled", true)
+        }
+
+        populate = (record) => { 
+            setInteractive(false);
+            $(".form-control").each((index, control) => {
+                if (control.type == "checkbox")
+                    $(control).prop("checked", record[control.id])
+                else
+                    $(control).val(record[control.id])
+
+                
+                if (control.nodeName == "SELECT")
+                    $(control).formSelect();
+            })
+
+            setInteractive(true);
+        }
+
+        scrape = () => {
+            let data = {}
+
+            $(".form-control").each((index, control) => {
+
+                let val = $(control).val()
+
+                if (control.type == "checkbox" && control.checked !== undefined)
+                    data[control.id] = control.checked
+                else if (val !== undefined) 
+                    data[control.id] = val
+
+            }); 
+
+            console.log("scraping form:", data);
+
+            return data;
+        }
+        
+        getRecord = (id, callback) => {
+            let modelPath = "<%= locals.root %>/api/<%= locals.model.name %>?where=id=" + id
+            fetch(modelPath, {
+                credentials: 'same-origin',
+            })
+            .then(response => response.json())
+            .then(records => {
+                console.log(records);
+                if (records.length == 1) {
+                    let record = records[0]
+                    callback(null, records[0])
+                } else {
+                    throw Error("Should have received one record, got instead:" + records)
+                }
+            })
+            .catch(error => {
+                callback(error, null)
+            })
+        }
+
+        createRecord = () => {
+
+            let confirmed = confirm(`You are CREATE a record, are you sure?`);
+            if (confirmed) {
+                let modelPath = "<%= locals.root %>/api/<%= locals.model.name %>/create"
+                fetch(modelPath, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(scrape()) 
+                })
+                .then(response => {
+                    window.profile.update();
+                    window.profile.created();
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert("Problem deleting record, check the console.");
+                })
+            }
+        }
+
+        updateRecord = () => {
+
+            let confirmed = confirm(`You are UPDATE a record, are you sure?`);
+            let payload = scrape();
+
+            if (confirmed) {
+                let modelPath = "<%= locals.root %>/api/<%= locals.model.name %>/update"
+                fetch(modelPath, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        ...payload,
+                        where: "id=" + payload.id
+                    }) 
+                })
+                .then(response => response.json())
+                .then(updated => {
+                    window.profile.update();
+                    window.profile.saved(payload.id);
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert("Problem deleting record, check the console.");
+                })
+            }
+        }
+
+        deleteRecord = (id) => {
+            let confirmed = confirm(`You are about to DELETE this record, are you sure?`);
+            if (confirmed) {
+                let modelPath = "<%= locals.root %>/api/<%= locals.model.name %>/delete";
+                fetch(modelPath, {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        where: "id=" + id
+                    }) 
+                })
+                .then(response => response.json())
+                .then(deleted => {
+                    window.profile.update();
+                    window.profile.deleted(id);
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert("Problem deleting record, check the console.");
+                })
+            }
+        }
+
+        window.addEventListener("onSelect", ev => {
+            getRecord(window.profile.currentRecord, (error, record) => {
+                if (error) {
+                    alert("Error getting record, check the console.");
+                    console.error(error);
+                }
+                else
+                    populate(record);
+            })
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setInteractive(false);
+
+            $("#add-record").on("click", createRecord);
+            $("#update-record").on("click", updateRecord);
+            $("#delete-record").on("click", () => deleteRecord(window.profile.currentRecord));
+            $("#debug").on("click", scrape);
+        })
+    })()
+</script>

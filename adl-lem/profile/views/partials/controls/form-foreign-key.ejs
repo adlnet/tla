@@ -1,0 +1,38 @@
+<div class="input-field row input-select" id="<%= locals.name %>Group" data-id="<%= locals.name %>" <% if (locals.multiple) { %> multiple <% } %> >
+
+    <div class="col s4">
+        <p><b><%= locals.name %></b></p>
+    </div>
+    <div class="col s8">
+        <select class="form-control" id="<%= locals.name %>" <% if (locals.readonly) { %> disabled data-readonly="true" <% } %>>
+            <option value="" disabled>Select one ...</option>
+        </select>
+    </div>
+
+</div>
+<script>
+    window.addEventListener("onUpdate", () => {
+        let foreignPath = "<%= locals.root %>/api/<%= locals.prop.foreign.model.name %>"
+        fetch(foreignPath, {
+            credentials: 'same-origin',
+        })
+            .then(response => response.json())
+            .then(records => {
+                $("#<%= locals.name %>").empty();
+                for (let record of records) {
+                    $("#<%= locals.name %>").append($(`<option value="${record.id}">${record.id}</option>`))
+                }
+                (() => {
+                    var elems = document.querySelectorAll('#<%= locals.name %>');
+                    var instances = M.FormSelect.init(elems, {});
+                })()
+            })
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        var elems = document.querySelectorAll('#<%= locals.name %>');
+        var instances = M.FormSelect.init(elems, {});
+
+
+    })
+</script>

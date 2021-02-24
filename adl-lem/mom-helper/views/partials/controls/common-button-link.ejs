@@ -1,0 +1,26 @@
+<a 
+    <% if (locals.id) { %> 
+        id="<%= locals.id %>" 
+    <% } %> 
+    <% if (locals.style) { %> 
+        style="<%= locals.style %>" 
+    <% } %>
+    <% if (locals.external) { %> 
+        target="_blank" 
+    <% } %> 
+    href="<%= locals.path %>" 
+    class="
+        btn 
+        waves-dark 
+        waves-effect 
+        <%= locals.color ? locals.color : "blue-grey" %>
+        <%= locals.darken ? locals.darken : "darken-3" %> 
+        <%= locals.extraClasses ? locals.extraClasses.join(' ') : '' %>
+    "
+    >
+    <% if (locals.icon) { %>
+        <i class="material-icons left" style="line-height: unset;"><%= locals.icon %></i>
+    <% } %>
+
+    <%= locals.text %>
+</a>

@@ -1,0 +1,16 @@
+<%- contentFor("body") %>
+
+<h4 class="header center white-text">MOM Helper Page</h4>
+<div class="row">
+
+    <p class="center white-text">
+        This service provides quick links to common MOM objects and terms, in addition to a personalized statement
+        sender for checking pipe-flow through the system.
+    </p>
+
+    <% for (let section of locals.sections) { %>
+        <div class="col s12 m4">
+            <%- include("partials/card-link.ejs", section) %>
+        </div>
+    <% } %>
+</div>

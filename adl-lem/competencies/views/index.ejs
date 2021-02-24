@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  
+    <title>Learner Profile Competency API</title>
+    <link rel="stylesheet" href="<%= locals.root %>/css/sidebar.css">
+	<link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <%- include("partials/header.ejs") %>
+
+    <style>
+        .padded {
+            padding-top: 4rem;
+        }
+    </style>
+
+    <body>
+
+        <!-- Sidebar -->
+        <div class="w3-sidebar w3-light-grey w3-bar-block padded" style="width:15rem">
+            <br>
+            <h5 class="w3-bar-item">Navigation</h5>
+
+            <br>
+            <a href="#getting-started" class="w3-bar-item w3-button ">Getting Started</a>
+
+            <hr>
+            <a href="#create-comp" class="w3-bar-item w3-button ">Creating a Competency Entry</a>
+
+            <hr>
+            <a href="#read-comp" class="w3-bar-item w3-button ">Reading Single Competency</a>
+            <a href="#read-comps" class="w3-bar-item w3-button ">Reading All Competencies</a>
+
+            <hr>
+            <a href="#update-comp" class="w3-bar-item w3-button ">Updating Competencies</a>
+
+            <hr>
+            <a href="#delete-comp" class="w3-bar-item w3-button ">Deleting Competencies</a>
+        </div>
+            
+        <!-- Page Content -->
+        <div style="margin-left:15rem">
+        
+        <hr>
+        <div class="container">
+
+            <!-- HOW TO USE -->
+            <h3 id="getting-started" class="padded">Getting Started</h3>
+            <p>
+                This page covers the core functionality of the Learner Profile Competency API and how to use it.
+                <br><br>
+                The primary function of this service is to track assertions about learner competencies. While
+                this is fairly straightforward, there are some light security checks in place to ensure
+                that users cannot retrieve or modify competency records for others without proper credentials.
+            </p>
+            <hr><br>
+
+            <!-- Creating -->
+            <h3 id="create-comp" class="padded">Creating/Updating a Competency Entry</h3>
+            <p>
+                Whenever the service receives an assertion statement from the Kafka stream, it caches the
+                Object info (for now, the Competency URI and the confidence level) for the user. If
+                the user already has an entry cached for this Competency, it simply updates the
+                stored confidence level.
+            </p>
+            <!-- <%- include("partials/rest-stub.ejs", {
+                method: "POST", 
+                endpoint: "/goals/api/create",
+                props: [
+                    {name: "user", required: "Yes", comment: "Keycloak UUID for the learner." },
+                    {name: "goal", required: "Yes", comment: "Competency IRI." },
+                    {name: "type", required: "No", comment: "Type of Goal, defaults to 'competency'."},
+                    {name: "status", required: "No", comment: "Status of this goal, defaults to 'inactive'."}
+                ]
+            }); %>
+
+            <%- include("partials/example-form.ejs", {
+                method: "POST", 
+                action: "/goals/api/create", 
+                submit: "Create Goal", include: {
+                    user: true,
+                    goal: true,
+                    status: true
+                }
+            }) %> -->
+
+            <!-- Reading -->
+            <h3 id="read-comp" class="padded">Reading Single Competency</h3>
+            <p>
+                Reading info from a single Competency entry just requires the user and Competency IRI to be
+                specified as query parameters. This displays the name and description of the Competency and
+                the confidence level associated with the user.
+                <br>
+                Note that we can leave 'competency' blank here and we receive an Array instead.
+            </p>
+            <%- include("partials/example-form.ejs", {
+                method: "GET", 
+                action: "/competencies/api/read", 
+                submit: "Read Competencies", include: {
+                    user: true,
+                    competencyID: true
+                }
+            }) %>
+
+            <h3 id="read-comps" class="padded">Reading All Competencies</h3>
+            <p>
+                Reading all Competencies works similarly; notice the lack of a 'competencyID' parameter and the <b>Array</b> being returned.
+            </p>
+            <%- include("partials/example-form.ejs", {
+                method: "GET", 
+                action: "/competencies/api/read", 
+                submit: "Read Competencies", include: {
+                    user: true,
+                    competencyID: false
+                }
+            }) %>
+
+            <!-- Updating -->
+            <h3 id="update-comp" class="padded">Updating a Competency Entry</h3>
+            <p>
+                Naturally, we may wish to update the confidence level of a user's competency.
+                For now, this is done manually.
+            </p>
+            <%- include("partials/rest-stub.ejs", {
+                method: "POST", 
+                endpoint: "/competencies/api/update",
+                props: [
+                    {name: "user", required: "Yes", comment: "Keycloak UUID for the learner." },
+                    {name: "competencyID", required: "Yes", comment: "Competency IRI." },
+                    {name: "confidence", required: "Yes", comment: "Confidence level of this competency.  Must be a number."}
+                ]
+            }); %>
+            <%- include("partials/example-form.ejs", {
+                method: "POST", 
+                action: "/competencies/api/update", 
+                submit: "Update Competency", 
+                include: {
+                    user: true,
+                    competencyID: true,
+                    confidence: true
+                },
+                style: "btn-info"
+            }) %>
+
+            <!-- Deleting -->
+            <h3 id="delete-comp" class="padded">Deleting a Competency Entry</h3>
+            <p>
+                Similarly, we may wish to delete user competency entries.
+                As with reading, we can omit 'competencyID' to remove all competencies from the user.
+
+                This action returns the number of records deleted.
+            </p>
+            <%- include("partials/rest-stub.ejs", {
+                method: "POST", 
+                endpoint: "/competencies/api/delete",
+                props: [
+                    {name: "user", required: "Yes", comment: "Keycloak UUID for the learner." },
+                    {name: "competencyID", required: "Yes", comment: "Competency IRI." },
+                ]
+            }); %>
+            <%- include("partials/example-form.ejs", {
+                method: "POST", 
+                action: "/competencies/api/delete", 
+                submit: "Delete Competency", 
+                include: {
+                    user: true,
+                    competencyID: true,
+                    confidence: false
+                },
+                style: "btn-danger"
+            }) %>
+        </div>
+
+    </body>
+</html>

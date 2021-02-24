@@ -1,0 +1,44 @@
+<div class="text-lighten-2">
+    <b>Available Records</b>
+</div>
+<div id="availableRecords">
+    
+</div>
+<script>
+
+    let updateRecords = () => {
+        let modelPath = "<%= locals.root %>/api/<%= locals.model.name %>"
+        fetch(modelPath, {
+            credentials: 'same-origin',
+        })
+        .then(response => response.json())
+        .then(buildElements)
+        .catch(error => {
+            alert("Problem updating records, check the console.");
+            console.error(error);
+        })
+    }
+
+    let buildElements = (records) => {
+
+        let index = 0;
+        let colors = ["cyan", "green" , "orange", "pink", "blue-grey"]
+        let shades = ["lighten-1", "darken-1", "darken-2", "darken-3"]
+
+        $("#availableRecords").empty();
+        for (let record of records) {
+
+            let color = colors[index % colors.length]
+            let shade = shades[Math.floor(index / shades.length)]
+
+            let recordButton = $(`<button class="btn ${color} ${shade} waves-light waves-effect ">${record.id}</button>`)
+            
+            recordButton.on("click", () => window.profile.select(record.id))
+            $("#availableRecords").append(recordButton);
+
+            index++;
+        }
+    }
+
+    window.addEventListener("onUpdate", updateRecords);
+</script>

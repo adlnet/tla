@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  
+    <title>Goals API</title>
+    <link rel="stylesheet" href="<%= locals.root %>/css/sidebar.css">
+	<link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <%- include("partials/header.ejs") %>
+
+    <style>
+        .padded {
+            padding-top: 4rem;
+        }
+    </style>
+
+    <body>
+
+        <!-- Sidebar -->
+        <div class="w3-sidebar w3-light-grey w3-bar-block padded" style="width:15rem">
+            <br>
+            <h5 class="w3-bar-item">Navigation</h5>
+
+            <br>
+            <a href="#getting-started" class="w3-bar-item w3-button ">Getting Started</a>
+
+            <hr>
+            <a href="#creating-a-goal" class="w3-bar-item w3-button ">Creating a Goal</a>
+
+            <hr>
+            <a href="#reading-single-goal" class="w3-bar-item w3-button ">Reading Single Goal</a>
+            <a href="#reading-goals" class="w3-bar-item w3-button ">Reading All Goals</a>
+
+            <hr>
+            <a href="#update-goal" class="w3-bar-item w3-button ">Updating Goals</a>
+
+            <hr>
+            <a href="#delete-goals" class="w3-bar-item w3-button ">Deleting Goals</a>
+        </div>
+            
+        <!-- Page Content -->
+        <div style="margin-left:15rem">
+        
+        <hr>
+        <div class="container">
+
+            <!-- HOW TO USE -->
+            <h3 id="getting-started" class="padded">Getting Started</h3>
+            <p>
+                This page covers the core functionality of the Goal API and how to use it.
+                <br><br>
+                The primary function of this service is to track goals assigned to learners.  While
+                this is fairly straightforward, there are some light security checks in place to ensure
+                that users cannot retrieve or modify goal records for others without proper credentials.
+            </p>
+            <hr><br>
+
+            <!-- Creating -->
+            <h3 id="creating-a-goal" class="padded">Creating a Goal</h3>
+            <p>
+                Goals are created through the xAPI Kafka integration.  See the MOM profile for info.
+            </p>
+
+            <!-- Reading -->
+            <h3 id="reading-single-goal" class="padded">Reading Single Goal</h3>
+            <p>
+                Reading a single goal just requires the user and goal to be specified as query parameters.
+                <br>
+                Note that we can leave 'goal' blank here and we receive an Array instead.
+            </p>
+            <%- include("partials/example-form.ejs", {
+                method: "GET", 
+                action: "/goals/api/read", 
+                submit: "Read Goals", include: {
+                    user: true,
+                    goal: true,
+                    goalRequired: false,
+                }
+            }) %>
+
+            <h3 id="reading-multiple-goals" class="padded">Reading Multiple Goals</h3>
+            <p>
+                Reading all goals works similarly, notice the lack of a 'goal' parameter and the <b>Array</b> being returned.
+            </p>
+            <%- include("partials/example-form.ejs", {
+                method: "GET", 
+                action: "/goals/api/read", 
+                submit: "Read Goals", include: {
+                    user: true,
+                    goal: false,
+                    status: false
+                }
+            }) %>
+
+            <!-- Updating -->
+            <h3 id="update-goal" class="padded">Updating a Goal</h3>
+            <p>
+                Updating a goal is also done through xAPI Kafka and is not available through CRUD.
+            </p>
+
+            <!-- Deleting -->
+            <h3 id="delete-goals" class="padded">Deleting a Goal</h3>
+            <p>
+                We may wish to delete goals from users.  As with reading, we can omit 'goal' to remove all goals from the user.
+
+                This action returns the number of records deleted.
+            </p>
+            <%- include("partials/rest-stub.ejs", {
+                method: "POST", 
+                endpoint: "/goals/api/delete",
+                props: [
+                    {name: "user", required: "Yes", comment: "Keycloak UUID for the learner." },
+                    {name: "goal", required: "Yes", comment: "Competency IRI." },
+                ]
+            }); %>
+            <%- include("partials/example-form.ejs", {
+                method: "POST", 
+                action: "/goals/api/delete", 
+                submit: "Delete Goal", 
+                include: {
+                    user: true,
+                    goal: true,
+                    goalRequired: false,
+                    status: false
+                },
+                style: "btn-danger",
+            }) %>
+        </div>
+
+    </body>
+</html>

@@ -1,0 +1,71 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="icon" href="<%= locals.root %>/images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="<%= locals.root %>/images/favicon.ico" type="image/x-icon" />
+
+    <link rel="stylesheet" href="<%= locals.root %>/css/sidebar.css">
+    <link rel="stylesheet" href="<%= locals.root %>/css/materialize.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Helper css for this site -->
+    <link href="<%= locals.root %>/css/helper.css" rel="stylesheet">
+
+    <nav class="grey darken-2" role="navigation" style="height: auto" >
+        <div class="nav-wrapper">
+                
+            <div class="row">
+                <div class="col s2">
+                    <%- include("controls/common-button-link.ejs", {
+                        path: locals.root,
+                        text: "Profile API",
+                        color: "blue-grey",
+                        darken: "darken-1"
+                    }) %>
+                </div>
+                <div class="col s9"> 
+                    <% for (let index in locals.models) { %>
+
+                        <% let model = locals.models[index]; %>
+                        <%- include("controls/common-button-link.ejs", {
+                            path: locals.root + "/docs/" + model.name,
+                            text: model.prettyName,
+                            color: "blue-grey",
+                            darken: "darken-3"
+                        }) %>
+                    <% } %>
+                    
+                    <%- include("controls/common-button-link.ejs", {
+                        path: locals.root + "/view/",
+                        text: "My View",
+                        color: "green",
+                        darken: "darken-3"
+                    }) %>
+
+                    <%- include("controls/common-button-link.ejs", {
+                        path: locals.root + "/me/",
+                        text: "My Data",
+                        color: "pink",
+                        darken: "darken-3",
+                        external: true
+                    }) %>
+
+                    </div>
+                <div class="col s1">
+                    <%- include("controls/common-button-link.ejs", {
+                        path: locals.root + "/logout",
+                        text: "Logout",
+                        color: "blue-grey",
+                        darken: "darken-3"
+                    }) %>
+                </div>
+            </div>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+</head>

@@ -1,0 +1,26 @@
+{
+    "name": "goals-service",
+    "version": "1.0.0",
+    "description": "Example Goal service for TRI 2019",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "test": "mocha"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "ejs": "^2.7.1",
+        "express": "^4.17.1",
+        "simple-kafka-consumer": "^0.0.5",
+        "simple-keycloak-adapter": "0.0.1",
+        "sqlite3": "^4.1.0",
+        "tla-mom-proto": "^0.13.1"
+    },
+    "devDependencies": {
+        "chai": "^4.2.0",
+        "mocha": "^7.0.1"
+    }
+}

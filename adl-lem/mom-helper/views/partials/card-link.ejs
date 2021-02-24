@@ -1,0 +1,11 @@
+<a href="<%= locals.path %>" 
+    class="waves-effect" 
+    <% if (locals.data) { %> target="_blank" <% } %> >
+    
+    <div class="card blue-grey darken-2">
+        <div class="card-content white-text">
+            <span class="card-title"><i class="material-icons left"><%= locals.icon %></i> <%= locals.title %></span>
+            <p><%= locals.text %></p>
+        </div>
+    </div>
+</a>

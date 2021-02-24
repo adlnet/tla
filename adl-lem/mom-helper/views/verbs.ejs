@@ -1,0 +1,42 @@
+<%- contentFor("body") %>
+
+<h4 class="header center white-text">MOM Verbs</h4>
+<h6 class="center white-text">This page contains a list of all MOM verbs within the TLA spec.</h6>
+<div class="row">
+    <table class="highlight responsive-table white-text">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>ID</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody id="verbTable">
+
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async() => {
+            let response = await fetch("<%= locals.root %>/api/verbs", { credentials: "same-origin"})
+            let verbs = await response.json();
+
+            let verbNames = Object.keys(verbs).sort()
+
+            let tbody = $("#verbTable")
+            for (let verbName of verbNames) {
+                let verb = verbs[verbName]
+
+                tbody.append(`
+                    <tr>
+                        <td>${verbName}</td>
+                        <td>${verb.id}</td>
+                        <td>
+                            <a href="<%= locals.root %>/api/verbs/${verbName}" class="btn blue-grey waves-effect" target="_blank">JSON<a>
+                        </td>
+                    </tr>
+                `);
+            }
+        })
+    </script>
+</div>

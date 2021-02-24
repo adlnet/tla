@@ -1,0 +1,30 @@
+{
+  "name": "pending-api",
+  "version": "0.0.1",
+  "description": "Small API to manage Scheduled Tasks and Pending Approvals for the FY19 Reference Implementation.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "mocha"
+  },
+  "author": "Trey Hayden",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "btoa": "^1.2.1",
+    "cors": "^2.8.5",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "simple-kafka-consumer": "^0.0.5",
+    "simple-keycloak-adapter": "^0.0.1",
+    "sqlite3": "^4.1.1",
+    "sqliter-models": "^0.0.6",
+    "sqliter-routing": "^0.0.4",
+    "tla-mom-proto": "^0.13.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  }
+}

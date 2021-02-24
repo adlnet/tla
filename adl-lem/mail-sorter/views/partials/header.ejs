@@ -1,0 +1,27 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="icon" href="<%= locals.root %>/images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="<%= locals.root %>/images/favicon.ico" type="image/x-icon" />
+
+    <!-- Bootstrap core CSS -->
+    <link href="<%= locals.root %>/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<%= locals.root %>/css/jumbotron.css" rel="stylesheet">
+
+    <!-- Helper css for this site -->
+    <link href="<%= locals.root %>/css/helper.css" rel="stylesheet">
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <h1 class="nav-element navbar-brand unselectable">TLA Mail Sorting Service</h1>
+        <ul class="nav-element navbar-nav mr-auto">
+            <%- include('partials/nav-item', {href:"#", title:"Home", active:true})  %>
+        </ul>
+        <form class="form-inline">
+            <div class="nav-link" >Hello, Trey</div>
+            <button class="nav-element btn btn-outline-warning my-2 my-sm-0" type="submit">Logout</button>
+        </form>
+    </nav>
+</head>

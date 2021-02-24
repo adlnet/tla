@@ -1,0 +1,31 @@
+<div class="input-field row input-select" id="<%= locals.name %>Group" data-id="<%= locals.name %>" <% if (locals.multiple) { %> multiple <% } %> >
+
+    <div class="col s4">
+        <p><b><%= locals.name %></b></p>
+    </div>
+    <div class="col s8">
+        <select id="<%= locals.name %>" 
+            class="form-control"  
+            <% if (locals.multiple) { %> multiple <% } %> 
+            <% if (locals.readonly) { %> disabled data-readonly="true" <% } %>
+            >
+            <option value="" disabled>Select one ...</option>
+    
+            <% for (let option of locals.options) { %>
+            <option value="<%= option %>"><%= option %></option>
+            <% } %>
+    
+        </select>
+    </div>
+
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var elems = document.querySelectorAll('#<%= locals.name %>');
+        var instances = M.FormSelect.init(elems, {});
+        
+        $("#<%= locals.name %>Group").data("populate", value => {
+            $("#<%= locals.name %>").val(value);
+        })
+    });
+</script>

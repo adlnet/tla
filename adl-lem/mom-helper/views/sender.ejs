@@ -1,0 +1,184 @@
+<%- contentFor("body") %>
+
+<h4 class="header center white-text">MOM Statement Sender</h4>
+<h6 class="center white-text"> Use this page to send simple xAPI statements about the current user with the MOM vocabulary. </h6>
+
+<div class="row">
+    <div class="col s12 m4">
+        <%- include("partials/controls/card-select.ejs", {
+            id: "selectActor", 
+            title: "Select Actor",
+            description: "Select an Actor for this statement."
+        }) %>
+    </div>
+    
+    <div class="col s12 m4">
+        <%- include("partials/controls/card-select.ejs", {
+            id: "selectVerb", 
+            title: "Select Verb",
+            description: "Select the Verb for this statement.  Only MOM verbs are available."
+        }) %>
+    </div>
+        
+    <div class="col s12 m4">
+        <%- include("partials/controls/card-select.ejs", {
+            id: "selectObject", 
+            title: "Select Object",
+            description: "Select the Object for this statement."
+        }) %>
+    </div>
+</div>
+<div class="row">
+    <ul class="right">
+        <%- include("partials/controls/common-button.ejs", {
+            id: "sendButton",
+            icon: "send",
+            text: "Send Statement",
+            color: "orange",
+            darken: "darken-2",
+            disabled: true,
+            extraClasses: ["btn-large"]
+        }) %>
+    </ul>
+</div>
+<div class="row">
+
+    <pre><code id="statement" class="white-text" style="font-size: small;">
+
+    </code></pre>
+</div>
+
+<script>
+
+    var ping = new Audio('<%= locals.root %>/audio/ping.mp3');
+
+    let statement = {}
+    let actor = {
+        account: {
+            name: "<%= locals.actor.account.name %>",
+            homePage: "<%= locals.actor.account.homePage %>"
+        }
+    }
+    let verbKeyMap = {}
+    let objectKeyMap = {}
+
+    let getActors = async() => {
+        let response = await fetch(`<%= locals.keycloak.root %>/helper/api/users?secret=<%= locals.secret %>`)
+        return await response.json()
+    }
+
+    let getVerbs = async() => {
+        let response = await fetch("<%= locals.root %>/api/verbs", { credentials: "same-origin"})
+        return await response.json()
+    }
+
+    let getActivities = async() => {
+        let response = await fetch(`<%= locals.endpoints.xi %>/learningexperience`)
+        return await response.json()
+    }
+
+    let init = async() => {
+
+        let actors = await getActors()
+        let verbMap = await getVerbs()
+
+        let verbNames = Object.keys(verbMap).sort()
+        let verbs = verbNames.map(name => verbMap[name])
+
+        for (let verbName of verbNames) {
+            verbKeyMap[verbMap[verbName].id] = verbMap[verbName]
+        }
+        
+        populateSelect("selectActor", actors, actor => actor.id, actor => actor.username, "<%= locals.user.id %>")
+        populateSelect("selectVerb", verbs, verb => verb.id, verb => verb.display["en-US"])
+
+        let objects = await getActivities()
+
+        populateSelect("selectObject", objects.rows, obj => obj.handle, obj => obj.description)
+    }
+
+    let populateSelect = async(id, options, valueMap, textMap, value = "") => {
+        let selector = $("#" + id)
+        for (let option of options) {
+            let optionElement = $(`<option value="${valueMap(option)}">${textMap(option)}</option>`)
+            selector.append(optionElement)
+        }
+
+        selector.on("change", async(ev) => {
+            let statement = await buildStatement()
+            showStatement(statement);
+        })
+
+        selector.val(value);
+        selector.formSelect();
+    }
+
+    let buildStatement = async() => {
+        actor.account.name = $("#selectActor").val();
+        let currentVerb = $("#selectVerb").val();
+        let currentObject = $("#selectObject").val();
+
+        if (currentVerb && currentObject && actor.account.name)
+            $("#sendButton").attr("disabled", false)
+        else
+            $("#sendButton").attr("disabled", true)
+
+        return {
+            actor: (actor.account.name) ? actor : undefined,
+            verb: (currentVerb) ? verbKeyMap[currentVerb] : undefined,
+            object: (currentObject) ? { id: currentObject } : undefined
+        };
+    }
+
+    let showStatement = async(statement) => {
+        statement = statement;
+        
+        let output = JSON.stringify(statement, null, 4)
+        $("#statement").text(output)
+    }
+
+    let sendStatement = async(statement) => {
+
+        console.log(statement)
+
+        let response = await fetch("<%= locals.lrs.endpoint %>statements", {
+            method: "POST",
+            headers: {
+                "Authorization": "Basic " + btoa("<%= locals.lrs.user %>" + ":" + "<%= locals.lrs.pass %>"),
+                "Content-Type": "application/json",
+                "X-Experience-API-Version": "1.0.3"
+            },
+            body: JSON.stringify(statement)
+        })
+
+        let data = await response.text()
+
+        if (response.status == 200) {
+            notify("Statement sent: " + JSON.parse(data)[0], "green")
+        } else {
+            notify("Problem with statement, check console", "red")
+            console.log("Statement Failed: ", data)
+        }
+    }
+
+    let notify = async(text, color, sound) => {
+        if (M) {
+            M.toast({html: `${text}`, classes: color})
+            ping.play();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', async() => {
+        
+        var elems = document.querySelectorAll('select');
+        var instances = M.FormSelect.init(elems, {});
+
+        $("#sendButton").on("click", async(ev) => {
+            let statement = await buildStatement()
+            if (statement.actor && statement.verb && statement.object)
+                sendStatement(statement)
+        })
+
+        await init();
+    })
+</script>

@@ -4,7 +4,7 @@ Codebase for the ADL's TLA reference implementation.  This project is under deve
 Current resource checklist:
 - ✅ Keycloak server 
 - ✅ Kafka Cluster 
-- ❌ Experience Index
+- ❌ Basic Experience Index
 - ✅ LRS w/ Kafka Forwarding
 - ✅ Content Hosting Server
 - ✅ Basic Learner Profile

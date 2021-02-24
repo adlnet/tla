@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y git fabric \
 	python-setuptools python-dev python-virtualenv \
 	libxml2-dev libxslt1-dev libpq-dev upstart-sysv gcc gettext
 
-RUN easy_install
+RUN easy_install pip
 
 # Clone the repo
 RUN mkdir /opt/lrs

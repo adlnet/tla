@@ -6,6 +6,6 @@ Current resource checklist:
 - ✅ Kafka Cluster 
 - ❌ Experience Index
 - ✅ LRS w/ Kafka Forwarding
-- ❌ Content Hosting Server
+- ✅ Content Hosting Server
 - ❌ Basic Learner Profile
 - ❌ Basic LEM Services

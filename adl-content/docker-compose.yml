@@ -66,6 +66,8 @@ services:
       KEYCLOAK_REALM: ${KEYCLOAK_REALM}
       KEYCLOAK_CLIENT: ${KEYCLOAK_CLIENT}
       PORT: 3000
+    volumes:
+      - ./content:/usr/src/app/files/content
    
 networks:
   public: 

@@ -1,0 +1,81 @@
+version: "3"
+services:
+
+  # Nginx instance controlling traffic to each service.
+  nginx:
+    restart: always
+    build:
+      context: nginx
+      args:
+        - HOSTNAME=${HOSTNAME}
+    ports:
+      - 80:80
+      - 443:443
+    container_name: nginx
+    volumes:
+      - ./nginx/letsencrypt:/usr/share/nginx/html
+      - ./certbot/etc:/usr/share/keys
+    networks:
+      - public
+
+  # Certbot for SSL automation.
+  certbot:
+    container_name: certbot
+    image: certbot/certbot
+    volumes:
+      - ./keys:/var/lib/letsencrypt
+      - ./nginx/letsencrypt:/data/letsencrypt
+      - ./certbot/etc:/etc/letsencrypt
+      - ./certbot/log:/var/log/letsencrypt
+    networks:
+      - public
+    depends_on:
+      - nginx
+
+  mongo:
+    build:
+      context: mongo
+    container_name: ${DB_CONTAINER}
+    restart: always
+    volumes:
+      - ./mongo/data:/data/db
+    ports:
+      - 127.0.0.1:27017:27017
+    networks:
+      - public
+    stdin_open: true
+    tty: true
+    restart: always
+    networks:
+      - public
+
+  xi:
+    build:
+      context: xi
+    container_name: xi
+    depends_on:
+      - "mongo"
+    environment:
+      APP_PORT: 5000
+      HOSTNAME: ${HOSTNAME}
+      ROOT: ${SITE_ROOT}
+      SITE_NAME: ${SITE_NAME}
+      SITE_COLOR: ${SITE_COLOR}
+
+      DB_CONTAINER: ${DB_CONTAINER}
+      DB_NAME: ${DB_NAME}
+      COLLECTION_NAME: ${COLLECTION_NAME}
+
+      KEYCLOAK_URL: ${KEYCLOAK_URL}
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+      KEYCLOAK_CLIENT: ${KEYCLOAK_CLIENT}
+
+      API_SECRET : ${API_SECRET}
+      EXACT_RESOLUTION_MATCH: ${EXACT_RESOLUTION_MATCH}
+    networks:
+      - public
+    restart: on-failure
+
+networks:
+  public:
+    driver: bridge

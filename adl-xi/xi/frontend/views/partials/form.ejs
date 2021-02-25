@@ -1,0 +1,92 @@
+<div class="container">
+    <!-- Button to Open the Modal -->
+    <button id="formbutton" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#testModal">
+        Add Courses
+    </button>
+
+    <!-- The Modal -->
+    <div class="modal" id="testModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Course Entry Form</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form id="addForm">
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label" for="name">id</label>
+                            <div class="col-8">
+                                <input id="_id" name="name" disabled placeholder="" type="text" readonly style="width: 100%;">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-4 col-form-label" for="name">Course Name</label>
+                            <div class="col-8">
+                                <input id="name" name="name" placeholder="Course Name" type="text" class="form-control"
+                                    required="required">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="courseCode" class="col-4 col-form-label">Course Code</label>
+                            <div class="col-8">
+                                <input id="courseCode" name="courseCode" placeholder="e.g. CS101 or 6.001" type="text"
+                                    class="form-control" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="description" class="col-4 col-form-label">Description</label>
+                            <div class="col-8">
+                                <input id="description" name="description" placeholder="Course Description" type="text"
+                                    class="form-control" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="thumbnailUrl" class="col-4 col-form-label">Thumbnail URL</label>
+                            <div class="col-8">
+                                <input id="thumbnailUrl" name="thumbnailUrl"
+                                    placeholder="https://api.army.mil/e2/c/-images/2009/05/20/38704/size0-army.mil-38704-2009-05-29-160552.jpg"
+                                    type="text" class="form-control" required="required">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="courseUrl" class="col-4 col-form-label">Content URL</label>
+                            <div class="col-8">
+                                <div class="row">
+                                    <input id="courseUrl" name="courseUrl"
+                                        placeholder="https://api.army.mil/e2/c/-images/2009/05/20/38704/size0-army.mil-38704-2009-05-29-160552.jpg"
+                                        type="text" class="form-control">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="educationalAlignment" class="col-4 col-form-label">Competency</label>
+                            <div class="col-8" id="competencyArray">  
+                                <!-- Competency rows added here -->
+                            </div>
+                            <button type="button" onclick="addComp()" class="btn btn-success btn-sm m-auto" >
+                                <span >Add Alignment</span>
+                            </button>
+                        </div>
+                        <div class="form-group row">
+                        </div>
+                        <param id="_id" name="_id" value="">
+                        
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button name="submit" class="btn btn-success" type="submit">Submit</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <script src="js/form.js"></script> -->

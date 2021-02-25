@@ -1,0 +1,28 @@
+{
+  "name": "xi",
+  "version": "0.0.1",
+  "description": "No description provided.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "exit 0",
+    "lint": "jshint src/*"
+  },
+  "license": "Unlicense",
+  "private": true,
+  "dependencies": {
+    "body-parser-csv": "^1.0.0",
+    "cors": "^2.8.5",
+    "csvtojson": "^2.0.10",
+    "ejs": "^3.1.5",
+    "esm": "3.2.25",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "jshint": "2.11.0",
+    "mongodb": "^3.5.7",
+    "path": "^0.12.7",
+    "simple-keycloak-adapter": "0.0.4",
+    "uuid": "^3.3.3"
+  },
+  "author": ""
+}

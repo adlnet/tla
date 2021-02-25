@@ -1,0 +1,32 @@
+body {
+    padding-top: 50px;
+    /* background-image: url('../img/blue-topo.svg'); */
+    
+    /* background: rgb(176,176,176);
+    background: linear-gradient(167deg, rgba(176,176,176,1) 6%, rgba(0,102,153,0.7847339619441527) 74%);  */
+    /* background: rgb(0,102,153);
+    /* background: linear-gradient(180deg, rgba(0,102,153,0.7735294801514356) 33%, rgba(245,252,255,0.7847339619441527) 100%); */
+    
+    background: linear-gradient(175deg, rgba(250,250,250,1) 32%, rgba(240,240,240,0.7847339619441527) 95%);
+    background-size: cover;
+}
+
+
+
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}
+
+.btn-outline-primary {
+    /* background-color: #006699; */
+    border-color: #006699;
+    text-decoration: #006699;
+    text-decoration-color: #006699;
+    color: #006699;
+}
+
+.dropdown-toggle {
+    color: #006699;
+}

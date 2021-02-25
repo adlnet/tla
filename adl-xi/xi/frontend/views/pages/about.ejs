@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body class="container">
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+
+    <main>
+        <div class="jumbotron rounded mt-5">
+            <h1 class="display-4">Our Schema</h1>
+            <p class="lead">We only need a subset of the schema.org propeties</p>
+        </div>
+
+        <table class="table table-hover w-auto">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Property</th>
+                    <th scope="col">Expected Type</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">from</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>name</td>
+                    <td>Text</td>
+                    <td>The name of the item.</td>
+                    <td><a href="https://schema.org/Thing" class="btn btn-primary w-100">Schema.org/Thing</a></td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>courseCode</td>
+                    <td>Text</td>
+                    <td>The identifier for the Course used by the course provider (e.g. CS101 or 6.001).</td>
+                    <td><a href="https://schema.org/Course" class="btn btn-primary w-100">Schema.org/Course</a></td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>description</td>
+                    <td>Text</td>
+                    <td>The description of the item.</td>
+                    <td><a href="https://schema.org/Thing" class="btn btn-primary w-100">Schema.org/Thing</a></td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
+                    <td>thumbnailUrl</td>
+                    <td>Text</td>
+                    <td>A thumbnail image relevant to the Thing.</td>
+                    <td><a href="https://schema.org/CreativeWork" class="btn btn-primary w-100">Schema.org/CreativeWork</a></td>
+                </tr>
+                <tr>
+                    <th scope="row">5</th>
+                    <td>url</td>
+                    <td>Text</td>
+                    <td>URL of the item or course.</td>
+                    <td><a href="https://schema.org/Thing" class="btn btn-primary w-100">Schema.org/Thing</a></td>
+                </tr>
+                <tr>
+                    <th scope="row">6</th>
+                    <td>educationalAlignment</td>
+                    <td>AlignmentObject[]</td>
+                    <td>
+                        The competencies associated with this index entry.
+                        <br><br>
+                        These values are comprised of a <b>competency</b> URI and a <b>weight</b> value between 0 and 1.
+                    </td>
+                    <td><a href="https://schema.org/Thing" class="btn btn-primary w-100">Schema.org/Thing</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+
+</body>
+
+</html>

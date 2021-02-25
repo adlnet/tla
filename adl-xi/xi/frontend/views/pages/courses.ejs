@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head'); %>
+</head>
+
+<body class="container">
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+
+    <main>
+        <div class="jumbotron rounded mt-5">
+            <h1 class="display-4">Experience Index</h1>
+            <p class="lead">Example Catalog of Schema.org compliant courses.</p>
+            <!-- add / update buttons -->
+            <%- include('../partials/form', { type: "add" }) %>
+        </div>
+
+        <div class="row" id="card-body">
+            <!-- This is where the cards will be populated -->
+        </div>
+    </main>
+
+    <footer>
+        <%- include('../partials/footer'); %>
+    </footer>
+</body>
+
+<script src="js/main.js"></script>
+
+</html>

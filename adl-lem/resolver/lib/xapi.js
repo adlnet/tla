@@ -58,6 +58,8 @@ module.exports = {
                 }
             })
 
+            console.log(resp.data)
+
             return resp.data
         } 
 

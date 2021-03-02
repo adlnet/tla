@@ -124,6 +124,10 @@ app.use("*", function (req, res, next) {
         next();
 });
 
+// Adding Keycloak middleware
+app.use(keycloak.init(config.keycloak, config.root + "/logout", config.root));
+app.use(routing.protect())
+
 // Main page.
 app.get(config.root, function (req, res, next) {
     res.render("index.ejs", {

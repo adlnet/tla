@@ -34,6 +34,16 @@ module.exports = {
     websocket: {
         password: (process.env.WS_PASSWORD || "ws-password")
     },
+    
+    keycloak: {
+        "realm": (process.env.KEYCLOAK_REALM || "tla"),
+        "auth-server-url": (process.env.KEYCLOAK_ENDPOINT || "https://tla-dev-auth.url.example/auth"),
+        "root": (process.env.KEYCLOAK_ROOT || "https://tla-dev-auth.url.example"),
+        "ssl-required": "none",
+        "resource": (process.env.KEYCLOAK_CLIENT || "default"),
+        "public-client": true,
+        "confidential-port": 0
+    },
 
     kafka: {
         brokers: (process.env.KAFKA_BROKERS || [

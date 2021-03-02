@@ -46,8 +46,11 @@ module.exports = {
     },
 
     sendStatements: async(statements) => {
+
+        let url = config.lrs.endpoint + "statements";
+        
         try {
-            let resp = await axios.post(config.lrs.endpoint + "statements", statements, {
+            let resp = await axios.post(url, statements, {
                 headers: {
                     "X-Experience-API-Version": "1.0.3",
                     "Authorization": `Basic ${auth}`,

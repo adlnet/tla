@@ -6,6 +6,7 @@ const http = require("http")
 const WebSocket = require('ws');
 const express = require("express");
 const kafkaConsumer = require("simple-kafka-consumer");
+const keycloak = require("simple-keycloak-adapter");
 
 const config = require("./config");
 
@@ -126,7 +127,7 @@ app.use("*", function (req, res, next) {
 
 // Adding Keycloak middleware
 app.use(keycloak.init(config.keycloak, config.root + "/logout", config.root));
-app.use(routing.protect())
+app.use(keycloak.protect({}))
 
 // Main page.
 app.get(config.root, function (req, res, next) {

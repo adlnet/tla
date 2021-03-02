@@ -47,7 +47,7 @@ module.exports = {
 
     sendStatements: async(statements) => {
 
-        let url = config.lrs.endpoint + "statements";
+        let url = config.lrs.endpoint + "/statements";
         
         try {
             let resp = await axios.post(url, statements, {

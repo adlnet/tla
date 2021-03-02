@@ -24,7 +24,7 @@ const xi = {
         //
         // Rows should also be an array, so we need to check for that too.
         //
-        let res = await axios.get(`${config.xi.endpoint}learningexperience`).catch(console.error)
+        let res = await axios.get(`${config.xi.endpoint}/learningexperience`).catch(console.error)
         if (res && res.data && Array.isArray(res.data.rows))
             current = res.data.rows
         else

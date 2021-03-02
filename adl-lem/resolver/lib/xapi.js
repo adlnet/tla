@@ -68,7 +68,9 @@ module.exports = {
                 console.error("REQUEST ERROR:", error.request);
               else 
                 console.error("SETUP ERROR:", error.message);
-              
+            
+            console.error(error);
+
             return null
         }        
     } 

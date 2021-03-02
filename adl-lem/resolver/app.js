@@ -61,7 +61,7 @@ kafkaConsumer.initConsumer(async(topic, offset, message) => {
         })
 
         let ids = await xapi.sendStatements(derivations)
-        if (ids)
+        if (Array.isArray(ids))
             console.log(`[Resolver] Sent statements for ${sourceId}: \n  -`, ids.join("\n  -"))
         else {
             console.log(`[Resolver] Problem with statement ${sourceId}`)

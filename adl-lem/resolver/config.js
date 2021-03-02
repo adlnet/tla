@@ -31,6 +31,6 @@ module.exports = {
     lrs: {
         user: (process.env.LRS_USER || "tom"),
         pass: (process.env.LRS_PASS || "1234"),
-        endpoint: (process.env.LRS_ENDPOINT || "https://tla-dev-lrs.usalearning.net/xAPI/")
+        endpoint: (process.env.LRS_ENDPOINT || "https://tla-dev-lrs.usalearning.net/xAPI")
     },
 }

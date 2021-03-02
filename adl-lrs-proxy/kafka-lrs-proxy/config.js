@@ -1,7 +1,7 @@
 module.exports = {
     proxyTarget: (process.env.PROXY_LRS_ROOT || "http://lrs:8000/xAPI"),
     kafka: {
-        brokers: (process.env.KAFKA_BROKERS || [
+        brokers: (process.env.KAFKA_BROKER || [
             "kafka-server.usalearning.net:19092",
             "kafka-server.usalearning.net:29092",
             "kafka-server.usalearning.net:39092"

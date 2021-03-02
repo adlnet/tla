@@ -44,7 +44,7 @@ services:
     environment: 
       API_SECRET: "${API_SECRET}"
 
-      KAFKA_BROKERS: "${KAFKA_BROKER}"
+      KAFKA_BROKER: "${KAFKA_BROKER}"
       KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
       KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
 
@@ -64,7 +64,7 @@ services:
       context: kafka-monitor
     container_name: monitor
     environment:
-      KAFKA_BROKERS: "${KAFKA_BROKER}"
+      KAFKA_BROKER: "${KAFKA_BROKER}"
       KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
       KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
 
@@ -90,7 +90,7 @@ services:
     environment:
       API_SECRET: "${API_SECRET}"
 
-      KAFKA_BROKERS: "${KAFKA_BROKER}"
+      KAFKA_BROKER: "${KAFKA_BROKER}"
       KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
       KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
 
@@ -146,7 +146,7 @@ services:
     environment: 
       API_SECRET: "${API_SECRET}"
 
-      KAFKA_BROKERS: "${KAFKA_BROKER}"
+      KAFKA_BROKER: "${KAFKA_BROKER}"
       KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
       KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
 
@@ -172,7 +172,7 @@ services:
 
       XI_ENDPOINT: "${XI_ENDPOINT}"
 
-      KAFKA_BROKERS: "${KAFKA_BROKER}"
+      KAFKA_BROKER: "${KAFKA_BROKER}"
       KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
       KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
 
@@ -194,7 +194,7 @@ services:
     environment:
       API_SECRET: "${API_SECRET}"
 
-      KAFKA_BROKERS: "${KAFKA_BROKER}"
+      KAFKA_BROKER: "${KAFKA_BROKER}"
       KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
       KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
 

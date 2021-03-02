@@ -4,7 +4,7 @@ module.exports = {
     secret: (process.env.API_SECRET || "some-long-secret"),
 
     kafka: {
-        brokers: (process.env.KAFKA_BROKERS || [
+        brokers: (process.env.KAFKA_BROKER || [
             "kafka-server.usalearning.net:19092",
             "kafka-server.usalearning.net:29092",
             "kafka-server.usalearning.net:39092"

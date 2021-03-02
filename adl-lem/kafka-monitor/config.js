@@ -46,7 +46,7 @@ module.exports = {
     },
 
     kafka: {
-        brokers: (process.env.KAFKA_BROKERS || [
+        brokers: (process.env.KAFKA_BROKER || [
             "tla-dev-kafka.usalearning.net:19092",
             "tla-dev-kafka.usalearning.net:29092",
             "tla-dev-kafka.usalearning.net:39092"

@@ -58,7 +58,7 @@ module.exports = {
                 }
             })
 
-            console.log(resp.data)
+            console.log(resp)
 
             return resp.data
         } 

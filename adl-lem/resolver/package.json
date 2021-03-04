@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "0.21.1",
     "btoa": "^1.2.1",
     "simple-kafka-consumer": "^0.0.7",
     "simple-kafka-producer": "^0.1.4",

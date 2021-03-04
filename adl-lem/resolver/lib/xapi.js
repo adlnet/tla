@@ -58,7 +58,7 @@ module.exports = {
                 }
             })
 
-            console.log(resp)
+            // console.log(resp)
 
             return resp.data
         } 
@@ -71,7 +71,7 @@ module.exports = {
               else 
                 console.error("SETUP ERROR:", error.message);
             
-            console.error(error);
+            // console.error(error);
 
             return null
         }        

@@ -1,4 +1,4 @@
-## Automated SSL Renewal
+## Automated SSL Renewal w/ Dockerized Certbot
 ADL services are typically deployed with Docker, with HTTP served by the usual pairing of Nginx with SSL certificates provided by Certbot.  While this has provided a clean way of configuring machines without explicit host OS installs of either, it does complicate the automated SSL renewal usually provided by Certbot.
 
 Instead of the default Certbot cronjob, we run a modified version of our manual SSL renewal script.

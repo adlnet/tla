@@ -15,7 +15,7 @@
         "ejs": "^2.7.1",
         "express": "^4.17.1",
         "simple-kafka-consumer": "^0.0.7",
-        "simple-keycloak-adapter": "0.0.1",
+        "simple-keycloak-adapter": "^0.0.1",
         "sqlite3": "^4.1.0",
         "tla-mom-proto": "^0.13.1"
     },

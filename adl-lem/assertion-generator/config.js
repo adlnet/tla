@@ -7,19 +7,17 @@ module.exports = {
     cacheExpirationMS: 60000,
 
     kafka: {
-        config: {
-            brokers: (process.env.KAFKA_BROKER || [
-                "kafka-server.usalearning.net:19092",
-                "kafka-server.usalearning.net:29092",
-                "kafka-server.usalearning.net:39092"
-            ].join(",")),
+        brokers: (process.env.KAFKA_BROKER || [
+            "kafka-server.usalearning.net:19092",
+            "kafka-server.usalearning.net:29092",
+            "kafka-server.usalearning.net:39092"
+        ].join(",")),
 
-            saslUser: (process.env.KAFKA_SASL_USER || "kafka-user"),
-            saslPass: (process.env.KAFKA_SASL_PASS || "kafka-pass"),
+        saslUser: (process.env.KAFKA_SASL_USER || "kafka-user"),
+        saslPass: (process.env.KAFKA_SASL_PASS || "kafka-pass"),
 
-            consumerGroup: (process.env.KAFKA_CONSUMER_GROUP || "local-assertion-generator"),
-            topics: (process.env.KAFKA_CONSUMER_TOPICS || "resolved-xapi").split(","),
-        },
+        consumerGroup: (process.env.KAFKA_CONSUMER_GROUP || "local-assertion-generator"),
+        topics: (process.env.KAFKA_CONSUMER_TOPICS || "resolved-xapi").split(","),
     },
 
     safety: {

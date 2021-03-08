@@ -2,7 +2,7 @@ version: '3'
 
 services:
 
-  # Nginx instance controlling traffic to each service.
+  ## Nginx instance controlling traffic to each service.
   nginx:
     restart: always
     build:
@@ -19,7 +19,7 @@ services:
     networks:
       - public
 
-  # Certbot for SSL automation.
+  ## Certbot for SSL automation.
   certbot:
     container_name: 'docker_certbot'
     image: certbot/certbot
@@ -33,7 +33,7 @@ services:
     depends_on:
       - nginx
 
-  # Goal service for LEM / LP.
+  ## Goal service for LEM / LP.
   goals:
     restart: always
     build: 
@@ -57,7 +57,7 @@ services:
     volumes:
       - ./goals/data:/usr/src/app/data
       
-  # Kafka monitor.
+  ## Kafka monitor.
   monitor:
     restart: always
     build: 
@@ -81,7 +81,7 @@ services:
     networks:
       - public
       
-  # Sorting service for routing xAPI.
+  ## Sorting service for routing xAPI.
   mail:
     restart: always
     build: 
@@ -109,7 +109,7 @@ services:
     networks:
       - public
 
-  # Goal service for LEM / LP.
+  ## Goal service for LEM / LP.
   profile:
     restart: always
     build: 
@@ -135,7 +135,7 @@ services:
       LRS_USER: "${LRS_USER}"
       LRS_PASS: "${LRS_PASS}"
 
-  # Competency service for LEM / LP.
+  ## Competency service for LEM / LP.
   competencies:
     restart: always
     build: 
@@ -159,7 +159,7 @@ services:
     volumes:
       - ./competencies/data:/usr/src/app/data
       
-  # Resolution service for LRP xAPI.
+  ## Resolution service for LRP xAPI.
   resolver:
     restart: always
     build: 
@@ -169,7 +169,6 @@ services:
       - public
     environment:
       API_SECRET: "${API_SECRET}"
-
       XI_ENDPOINT: "${XI_ENDPOINT}"
 
       KAFKA_BROKER: "${KAFKA_BROKER}"
@@ -183,7 +182,7 @@ services:
       LRS_USER: "${LRS_USER}"
       LRS_PASS: "${LRS_PASS}"
 
-  # Scheduler service for LEM / LP.
+  ## Scheduler service for LEM / LP.
   scheduler:
     restart: always  
     build: 
@@ -207,6 +206,33 @@ services:
     volumes:
       - ./scheduler/data:/usr/src/app/data
   
+  ## Placeholder Assertion Generation
+  generator:
+    restart: always
+    build: 
+      context: assertion-generator
+    container_name: generator
+    networks:
+      - public
+    environment: 
+      API_SECRET: "${API_SECRET}"
+      APPROVED_DOMAINS: "${APPROVED_ASSERTION_DOMAINS}"
+
+      KAFKA_BROKER: "${KAFKA_BROKER}"
+      KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
+      KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
+
+      KAFKA_CONSUMER_GROUP: "assertion-generator"
+      KAFKA_CONSUMER_TOPICS: "resolved-xapi"
+      
+      KEYCLOAK_REALM: "${KEYCLOAK_REALM}"
+      KEYCLOAK_CLIENT: "${KEYCLOAK_CLIENT}"
+      KEYCLOAK_ENDPOINT: "${KEYCLOAK_URL}"
+
+      LRS_ENDPOINT: "${LRS_ENDPOINT}"
+      LRS_USER: "${LRS_USER}"
+      LRS_PASS: "${LRS_PASS}"
+
   mom:
     restart: always
     build: 
@@ -215,10 +241,15 @@ services:
     networks:
       - public
     environment:
+      XI_ENDPOINT: "${XI_ENDPOINT}"
+      
+      KEYCLOAK_REALM: "${KEYCLOAK_REALM}"
+      KEYCLOAK_CLIENT: "${KEYCLOAK_CLIENT}"
+      KEYCLOAK_ENDPOINT: "${KEYCLOAK_URL}"
+
       LRS_ENDPOINT: "${LRS_ENDPOINT}"
       LRS_USER: "${LRS_USER}"
       LRS_PASS: "${LRS_PASS}"
-      APP_PORT: 3000
 
 networks:
   public: 

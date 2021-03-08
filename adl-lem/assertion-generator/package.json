@@ -1,0 +1,29 @@
+{
+  "name": "kafka-web-socket",
+  "version": "1.0.0",
+  "description": "Example app to send data to Kafka",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.18.3",
+    "btoa": "^1.2.1",
+    "cors": "^2.8.4",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "node-fetch": "^2.6.0",
+    "simple-kafka-consumer": "^0.0.2",
+    "simple-keycloak-adapter": "^0.0.1",
+    "tla-mom-proto": "^0.13.1",
+    "ws": "^6.1.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^7.1.0"
+  }
+}

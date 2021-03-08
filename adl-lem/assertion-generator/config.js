@@ -1,4 +1,4 @@
-const dotenv = require("dovenv").config();
+const dotenv = require("dotenv").config();
 
 module.exports = {
     

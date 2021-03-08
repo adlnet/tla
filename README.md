@@ -9,3 +9,4 @@ Current resource checklist:
 - ✅ Content Hosting Server
 - ✅ Basic Learner Profile
 - ✅ Basic LEM Services
+- ❌ Competency Processor / Server

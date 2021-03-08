@@ -7,7 +7,7 @@ const topicDetails = [
     {
         "name": (process.env.KAFKA_XAPI_PENDING || "resolve-pending"),
         "pretty": "Resolution Needed",
-        "bootstrap": "info"
+        "bootstrap": "secondary"
     },
     {
         "name": (process.env.KAFKA_XAPI_TRANSACTIONAL || "resolved-xapi"),

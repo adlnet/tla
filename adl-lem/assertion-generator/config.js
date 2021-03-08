@@ -21,7 +21,7 @@ module.exports = {
     },
 
     safety: {
-        approvedDomains: (process.env.APPROVED_DOMAINS || "https://credentialengine.org,https://credreg.net").split(",")
+        approvedDomains: (process.env.APPROVED_ASSERTION_DOMAINS || "https://credentialengine.org,https://credreg.net").split(",")
     },
 
     lrs: {

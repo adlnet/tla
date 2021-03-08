@@ -31,14 +31,18 @@ const mapping = {
      * @returns {Alignment[]} Array of competency alignments.
      */
      getAllowedAlignments: async(alignments) => {
+
+        console.log()
         
         return alignments.filter(alignment => {
-            for (let approvedDomains of config.safety.approvedDomains) {
-                if (alignment.competency.startsWith(approvedDomains))
+            for (let approvedDomain of config.safety.approvedDomains) {
+                if (alignment.competency.startsWith(approvedDomain)) { 
+                    console.log(` - ${alignment.competency} to ${approvedDomain} ...`);
                     return true;
-
-                return false;
+                }
             }
+
+            return false;
         });
     },
 

@@ -7,7 +7,7 @@ const auth = btoa(`${config.lrs.user}:${config.lrs.pass}`)
 const xapi = {
     sendStatements: async(payload) => {
         try {
-            let resp = await axios.post(config.lrs.endpoint + "statements", payload, {
+            let resp = await axios.post(config.lrs.endpoint + "/statements", payload, {
                 headers: {
                     "X-Experience-API-Version": "1.0.3",
                     "Authorization": `Basic ${auth}`,

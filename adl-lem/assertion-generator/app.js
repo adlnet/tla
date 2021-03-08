@@ -3,6 +3,7 @@
 // This is a NodeJS Express application 
 //
 const express = require("express");
+const axios = require("axios").default;
 const mom = require("tla-mom-proto")
 const APP_PORT = (process.env.APP_PORT || 3000);
 
@@ -39,11 +40,15 @@ const main = async() => {
         if (relevant == false)
             return
         
+        console.log(`[Assrtions] Processing relevant statement: ${evidentiaryStatement.id}`);
+    
         let alignments = await mapping.getStatementAlignments(evidentiaryStatement)
         if (alignments) {
 
+            console.log(` - has ${alignments.length} alignments ...`);
+
             // Filter our alignments based on whether or not they are from allowed domains.
-            let allowedAlignments = mapping.getAllowedAlignments(alignments);
+            let allowedAlignments = await mapping.getAllowedAlignments(alignments);
             let definitionPromises = allowedAlignments.map(alignment => axios.get(alignment.competency));
             let definitionResponses = await Promise.all(definitionPromises);
             let competencyDefinitions = definitionResponses.map(res => res.data);
@@ -56,7 +61,7 @@ const main = async() => {
             for (let k=0; k<allowedAlignments.length; k++) {
                 let alignment = allowedAlignments[k];
                 let definition = competencyDefinitions[k];
-                
+
                 let assertion = factory.buildAssertion(evidentiaryStatement, alignment, definition);
                 assertions.push(assertion)
             }
@@ -68,21 +73,21 @@ const main = async() => {
             if (validAssertions.length > 0) {
                 let lrsResponse = await xapi.sendStatements(validAssertions)
                 let count = validAssertions.length
-                console.log(`[Assertions] Asserted ${count} competenc${count == 1 ? "y" : "ies"} from ${evidentiaryStatement.id}:`)
-                console.log("   - " + validAssertions.map(statement => statement.object.id).join("\n   - "))
+                console.log(` - Asserted ${count} competenc${count == 1 ? "y" : "ies"} from ${evidentiaryStatement.id}:`)
+                console.log(" - " + validAssertions.map(statement => statement.object.id).join("\n   - "))
             }
 
             // We might've gotten some bad alignments, so let's go ahead and print those here
             let badIndices = assertions.map((assertion, index) => assertion == null ? index : null).filter(index => index != null)
             if (badIndices.length > 0) {
-                console.error(`[Assertions] Bad Alignments: `)
+                console.error(` - [Error] Bad Alignments: `)
                 for (let badIndex of badIndices)
                     console.error(" -", alignments[badIndex].competency)
             }
         }
 
         else {
-            console.log("No alignments for statement: " + evidentiaryStatement.id)
+            console.log(" - no alignments found.")
         }
     })
 

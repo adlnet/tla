@@ -47,10 +47,10 @@ const factory = {
                     definition: {
                         type: mom.activityTypes.competency,
                         name: {
-                            "en-US": definition.name
+                            "en-US": competencyDefinition.name
                         },
                         description: {
-                            "en-US": definition.description
+                            "en-US": competencyDefinition.description
                         }
                     }
                 },

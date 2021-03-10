@@ -3,7 +3,6 @@
 echo "" >> ~/renew.log
 date >> ~/renew.log
 echo "Checking $1 for SSL renewals ..." >> ~/renew.log
-echo "
 
 docker-compose -f $1/docker-compose.yml run certbot \
 	renew --webroot \

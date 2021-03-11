@@ -46,12 +46,12 @@ const factory = {
                     id: alignment.competency,
                     definition: {
                         type: mom.activityTypes.competency,
-                        name: {
+                        name: competencyDefinition.name ? {
                             "en-US": competencyDefinition.name
-                        },
-                        description: {
+                        } : undefined,
+                        description: competencyDefinition.description ? {
                             "en-US": competencyDefinition.description
-                        }
+                        } : undefined
                     }
                 },
                 context: {

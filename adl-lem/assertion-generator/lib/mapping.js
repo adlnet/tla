@@ -32,12 +32,9 @@ const mapping = {
      */
      getAllowedAlignments: async(alignments) => {
 
-        console.log()
-        
         return alignments.filter(alignment => {
             for (let approvedDomain of config.safety.approvedDomains) {
                 if (alignment.competency.startsWith(approvedDomain)) { 
-                    console.log(` - ${alignment.competency} to ${approvedDomain} ...`);
                     return true;
                 }
             }

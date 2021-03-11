@@ -40,12 +40,12 @@ const main = async() => {
         if (relevant == false)
             return
         
-        console.log(`[Assrtions] Processing relevant statement: ${evidentiaryStatement.id}`);
+        console.log(`[Assertions] Processing relevant statement: ${evidentiaryStatement.id}`);
     
         let alignments = await mapping.getStatementAlignments(evidentiaryStatement)
         if (alignments) {
 
-            console.log(` - has ${alignments.length} alignments ...`);
+            console.log(` ✔️ Statement has ${alignments.length} alignments ...`);
 
             // Filter our alignments based on whether or not they are from allowed domains.
             let allowedAlignments = await mapping.getAllowedAlignments(alignments);
@@ -73,21 +73,21 @@ const main = async() => {
             if (validAssertions.length > 0) {
                 let lrsResponse = await xapi.sendStatements(validAssertions)
                 let count = validAssertions.length
-                console.log(` - Asserted ${count} competenc${count == 1 ? "y" : "ies"} from ${evidentiaryStatement.id}:`)
-                console.log(" - " + validAssertions.map(statement => statement.object.id).join("\n   - "))
+                console.log(` ✔️ Asserted ${count} competenc${count == 1 ? "y" : "ies"} from ${evidentiaryStatement.id}:`)
+                console.log(" 📚 " + validAssertions.map(statement => statement.object.id).join("\n 📚 "))
             }
 
             // We might've gotten some bad alignments, so let's go ahead and print those here
             let badIndices = assertions.map((assertion, index) => assertion == null ? index : null).filter(index => index != null)
             if (badIndices.length > 0) {
-                console.error(` - [Error] Bad Alignments: `)
+                console.error(` 🔥 [Error] Bad Alignments: `)
                 for (let badIndex of badIndices)
-                    console.error(" -", alignments[badIndex].competency)
+                    console.error("   ❌ ", alignments[badIndex].competency)
             }
         }
 
         else {
-            console.log(" - no alignments found.")
+            console.log(" 👻 no alignments found.")
         }
     })
 

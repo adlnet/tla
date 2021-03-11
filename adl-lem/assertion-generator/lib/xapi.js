@@ -20,12 +20,14 @@ const xapi = {
 
         catch (error) {
             if (error.response) 
-                console.error("RESPONSE ERROR:", error.response.status);
+                console.error("RESPONSE ERROR:", error.request);
             else if (error.request)
                 console.error("REQUEST ERROR:", error.request);
             else 
                 console.error("SETUP ERROR:", error.message);
             
+            console.log("Error With:", JSON.stringify(payload, null, 2));
+
             return null
         }        
     },

@@ -27,7 +27,7 @@ module.exports = {
     lrs: {
         user: (process.env.LRS_USER || "tla-user"),
         pass: (process.env.LRS_PASS || "tla-pass"),
-        endpoint: (process.env.LRS_ENDPOINT || "https://tla-dev-lrs.usalearning.net/xAPI/")
+        endpoint: (process.env.LRS_ENDPOINT || "https://tla-dev-lrs.usalearning.net/xAPI")
     },
 
     keycloak: {

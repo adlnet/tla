@@ -1,3 +1,5 @@
+const dotenv = require("dotenv").parse();
+
 module.exports = {
     
     root: "/mom",

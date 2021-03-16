@@ -5,7 +5,7 @@ Current resource checklist:
 - ✅ Keycloak server 
 - ✅ Kafka Cluster 
 - ❌ Basic Experience Index
-- ✅ LRS w/ Kafka Forwarding
+- ❌ LRS w/ Kafka Forwarding
 - ✅ Content Hosting Server
 - ✅ Basic Learner Profile
 - ✅ Basic LEM Services

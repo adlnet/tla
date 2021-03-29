@@ -23,13 +23,13 @@ function buildCard(course) {
                   </ul>
                   <div class="card-body">
                     <div class="btn-group" role="group" aria-label="XI Buttons">
-                        <a target="_blank" href="${course['url']}" class="btn btn-success">Launch 🚀</a>
-                        <a target="_blank" href="${course['handle']}" class="btn btn-secondary">View Metadata 🧪</a>
+                        <a target="_blank" href="${course['url']}" class="btn btn-light">Launch 🚀</a>
+                        <a target="_blank" href="${course['handle']}" class="btn btn-light">View Metadata 🧪</a>
                     </div>
                     
                     <div class="btn-group" role="group" aria-label="XI Buttons">
-                        <a onclick="updateCard('${course['_id']}')" class="btn btn-info">Update ✏️</a>
-                        <a onclick="removeEntry('${course['_id']}')" class="btn btn-error">Delete ❌</a>
+                        <a onclick="updateCard('${course['_id']}')" class="btn btn-warning">Update ✏️</a>
+                        <a onclick="removeEntry('${course['_id']}')" class="btn btn-danger">Delete ❌</a>
                     </div>
                   </div>
               </div>

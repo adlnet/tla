@@ -1,4 +1,8 @@
-const dotenv = require("dotenv").config();
+try {
+    require("dotenv").config();
+} catch (err) {
+    console.log("Unable to load local .env file");
+}
 
 module.exports = {
     
@@ -24,6 +28,14 @@ module.exports = {
         approvedDomains: (process.env.APPROVED_ASSERTION_DOMAINS || "https://credentialengine.org,https://credreg.net").split(",")
     },
 
+    xiDomains: [
+        {
+            name: "TLA",
+            endpoint: (process.env.XI_ENDPOINT || "https://tla-dev-acts.usalearning.net/xi/api/v1"),
+            secret: (process.env.XI_SECRET || "some-long-secret"),
+        }
+    ],
+    
     lrs: {
         user: (process.env.LRS_USER || "tla-user"),
         pass: (process.env.LRS_PASS || "tla-pass"),

@@ -88,7 +88,9 @@ app.post(config.ROOT + "/api/v1/experiences", async function (req, res, next) {
             console.error(err);
             res.status(500).json({ message: 'Internal server error' });
         });
-    res.status(200).json(results);
+        
+    res.header("Content-Type",'application/json');
+    res.send(JSON.stringify(results, null, 4));
 });
 
 app.put(config.ROOT + "/api/v1/experiences", async function (req, res, next) {
@@ -96,7 +98,8 @@ app.put(config.ROOT + "/api/v1/experiences", async function (req, res, next) {
 
     console.log(results);
 
-    res.json(results);
+    res.header("Content-Type",'application/json');
+    res.send(JSON.stringify(results, null, 4));
 });
 
 app.get(config.ROOT + "/api/v1/experiences", async function (req, res, next) {
@@ -119,7 +122,8 @@ app.get(config.ROOT + "/api/v1/experiences", async function (req, res, next) {
         result.handle = `https://${config.HOSTNAME}${config.ROOT}/api/v1/experiences/${result._id}`
     }
 
-    res.json(results);
+    res.header("Content-Type",'application/json');
+    res.send(JSON.stringify(results, null, 4));
 });
 
 app.get(config.ROOT + "/api/v1/experiences/:id", async function (req, res, next) {
@@ -133,14 +137,17 @@ app.get(config.ROOT + "/api/v1/experiences/:id", async function (req, res, next)
         
     result.handle = `https://${config.HOSTNAME}${config.ROOT}/api/v1/experiences/${result._id}`
 
-    res.json(result);
+    res.header("Content-Type",'application/json');
+    res.send(JSON.stringify(result, null, 4));
 });
 
 app.delete(config.ROOT + "/api/v1/experiences/:id", async function (req, res, next) {
 
     let id = req.params["id"];
     let results = await mongo.delete(id);
-    res.json(results);
+    
+    res.header("Content-Type",'application/json');
+    res.send(JSON.stringify(results, null, 4));
 });
 
 

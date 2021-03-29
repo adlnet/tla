@@ -60,7 +60,7 @@ const xi = {
         //
         // Rows should also be an array, so we need to check for that too.
         //
-        let res = await axios.get(`${config.xi.endpoint}/experiences?secret=${config.xi.secret}&url=${contentUrl}`).catch(console.error)
+        let res = await axios.get(`${config.xi.endpoint}/experiences?secret=${config.xi.secret}&url=${encodeURIComponent(contentUrl)}`).catch(console.error)
         if (res && res.data && Array.isArray(res.data))
             current = res.data
         else

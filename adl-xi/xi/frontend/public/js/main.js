@@ -178,10 +178,15 @@ async function handleForm(event) {
     }
 
     if (document.getElementById("_id").value == "") {
+        
+        let assignedName = document.getElementById("name").value;
+        let assignedCode = document.getElementById("name").value;
+        let assignedDescription = document.getElementById("name").value;
+
         data = {
-            name: document.getElementById("name").value,
-            courseCode: document.getElementById("courseCode").value,
-            description: document.getElementById("description").value,
+            name: assignedName ? !!assignedName : "Unnamed Entry",
+            courseCode: !!assignedCode ? assignedCode : "No Course Code",
+            description: !!assignedDescription ? assignedDescription : "No Description",
             thumbnailUrl: document.getElementById("thumbnailUrl").value,
             url: document.getElementById("courseUrl").value,
             educationalAlignment: competencyArray
@@ -209,9 +214,9 @@ async function handleForm(event) {
     } else {
 
         data = {
-            name: document.getElementById("name").value,
-            courseCode: document.getElementById("courseCode").value,
-            description: document.getElementById("description").value,
+            name: assignedName ? !!assignedName : "Unnamed Entry",
+            courseCode: !!assignedCode ? assignedCode : "No Course Code",
+            description: !!assignedDescription ? assignedDescription : "No Description",
             thumbnailUrl: document.getElementById("thumbnailUrl").value,
             url: document.getElementById("courseUrl").value,
             educationalAlignment: competencyArray,

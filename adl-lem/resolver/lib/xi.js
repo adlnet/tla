@@ -15,7 +15,7 @@ const xi = {
         // We will use the cache as a backup, in case the XI is either unreachable or 
         // we've made this request recently.
         if (cache.isCached("xi"))
-            return cached
+            return cache.get("xi");
 
         // The XI returns a pretty ugly SQL response with `rows` being what we want.  This
         // request might have failed though, so we're appending the `.catch` to bastardize
@@ -47,12 +47,13 @@ const xi = {
      */
      getExperiencesFor: async(contentUrl) => {
 
+        let cacheKey = `xi@${contentUrl}`;
         let current = null
 
         // We will use the cache as a backup, in case the XI is either unreachable or 
         // we've made this request recently.
-        if (cache.isCached(`xi@${contentUrl}`))
-            return cached
+        if (cache.isCached(cacheKey))
+            return cache.get(cacheKey);
 
         // The XI returns a pretty ugly SQL response with `rows` being what we want.  This
         // request might have failed though, so we're appending the `.catch` to bastardize
@@ -68,11 +69,11 @@ const xi = {
 
         // Assuming we got something, we'll just use that and cache it for next time.
         if (current != null) {
-            cache.set(`xi@${contentUrl}`, current)
+            cache.set(cacheKey, current)
             return current
         }
 
-        let previouslyCachedResult = cache.get(`xi@${contentUrl}`)
+        let previouslyCachedResult = cache.get(cacheKey)
         
         return previouslyCachedResult ? previouslyCachedResult : [];
     },

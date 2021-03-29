@@ -56,10 +56,15 @@ const mapping = {
         })
         let result = res.data
         
-        if (Array.isArray(result) && result.length > 0)
-            return result[0]
-        else
-            return null
+        if (result != null)
+        {
+            if (Array.isArray(result) && result.length > 0)
+                return result[0]
+            else if (Array.isArray(result.educationalAlignment))
+                return result;
+        }
+
+        return null;
     },
 
     /**

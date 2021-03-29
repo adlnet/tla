@@ -4,8 +4,8 @@
 function buildCard(course) {
 
     let displayName = course.name ? course.name : "Unnamed Entry";
-    let displayCode = !!course.courseCode ? course.courseCode : "No Course Code";
-    let displayDescription = !!course.description ? course.description : "No Description";
+    let displayCode = course.courseCode ? course.courseCode : "No Course Code";
+    let displayDescription = course.description ? course.description : "No Description";
 
     return `<div id="${course['_id']}" class="col-sm-4 mb-4">
               <div class="card h-100">
@@ -190,9 +190,9 @@ async function handleForm(event) {
     if (document.getElementById("_id").value == "") {
 
         data = {
-            name: assignedName ? !!assignedName : "Unnamed Entry",
-            courseCode: !!assignedCode ? assignedCode : "No Course Code",
-            description: !!assignedDescription ? assignedDescription : "No Description",
+            name: assignedName ? assignedName : "Unnamed Entry",
+            courseCode: assignedCode ? assignedCode : "No Course Code",
+            description: assignedDescription ? assignedDescription : "No Description",
             thumbnailUrl: document.getElementById("thumbnailUrl").value,
             url: document.getElementById("url").value,
             educationalAlignment: competencyArray
@@ -220,9 +220,9 @@ async function handleForm(event) {
     } else {
 
         data = {
-            name: assignedName ? !!assignedName : "Unnamed Entry",
-            courseCode: !!assignedCode ? assignedCode : "No Course Code",
-            description: !!assignedDescription ? assignedDescription : "No Description",
+            name: assignedName ? assignedName : "Unnamed Entry",
+            courseCode: assignedCode ? assignedCode : "No Course Code",
+            description: assignedDescription ? assignedDescription : "No Description",
             thumbnailUrl: document.getElementById("thumbnailUrl").value,
             url: document.getElementById("url").value,
             educationalAlignment: competencyArray,

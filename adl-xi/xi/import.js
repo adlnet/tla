@@ -24,7 +24,7 @@ let importFile = process.argv[2];
     let overwrite = process.argv[3] != null && process.argv[3].toLowerCase().startsWith("y");
 
     console.log(`[XI Import]: Importing ${fileData.length} records into XI ...`);
-    console.log(`[XI Import]: ... record overwrite IS ${overwrite ? "NOT" : ""} enabled ...`);
+    console.log(`[XI Import]: ... record overwrite IS ${overwrite ? "" : "NOT"} enabled ...`);
 
     await mongo.init(null);
     await mongo.post(fileData, overwrite).catch(console.error);

@@ -23,7 +23,7 @@ const xi = {
         //
         // Rows should also be an array, so we need to check for that too.
         //
-        let res = await axios.get(`${config.xi.endpoint}/experiences`).catch(console.error)
+        let res = await axios.get(`${config.xi.endpoint}/experiences?secret=${config.xi.secret}`).catch(console.error)
         if (res && res.data && Array.isArray(res.data))
             current = res.data
         else
@@ -60,7 +60,7 @@ const xi = {
         //
         // Rows should also be an array, so we need to check for that too.
         //
-        let res = await axios.get(`${config.xi.endpoint}/experiences?url=${contentUrl}`).catch(console.error)
+        let res = await axios.get(`${config.xi.endpoint}/experiences?secret=${config.xi.secret}&url=${contentUrl}`).catch(console.error)
         if (res && res.data && Array.isArray(res.data))
             current = res.data
         else

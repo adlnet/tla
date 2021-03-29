@@ -22,7 +22,10 @@ function buildCard(course) {
                     <li class="list-group-item" id="${course['_id']}-courseCode" >${displayCode}</li>
                   </ul>
                   <div class="card-body">
-                    <a target="_blank" href="${course['url']}" class="btn-success">Launch 🚀</a>
+                    <a target="_blank" href="${course['url']}" class="btn-success">Launch Content 🚀</a>
+                    <br>
+                    <a target="_blank" href="${course['handle']}" class="btn-secondary">Show Metadata 🧪</a>
+                    <br>
                     <a onclick="updateCard('${course['_id']}')" class="btn btn-info">Update ✏️</a>
                     <a onclick="removeEntry('${course['_id']}')" class="btn btn-warning">Delete ❌</a>
                   </div>
@@ -115,7 +118,7 @@ async function updateCard(id) {
     document.getElementById("courseCode").value = entryObj.courseCode;
     document.getElementById("description").value = entryObj.description;
     document.getElementById("thumbnailUrl").value = entryObj.thumbnailUrl;
-    document.getElementById("courseUrl").value = entryObj.url;
+    document.getElementById("url").value = entryObj.url;
     document.getElementById("_id").value = entryObj._id;
 
     document.getElementById("competencyArray").innerHTML = ""
@@ -192,7 +195,7 @@ async function handleForm(event) {
             courseCode: !!assignedCode ? assignedCode : "No Course Code",
             description: !!assignedDescription ? assignedDescription : "No Description",
             thumbnailUrl: document.getElementById("thumbnailUrl").value,
-            url: document.getElementById("courseUrl").value,
+            url: document.getElementById("url").value,
             educationalAlignment: competencyArray
         }
 
@@ -222,7 +225,7 @@ async function handleForm(event) {
             courseCode: !!assignedCode ? assignedCode : "No Course Code",
             description: !!assignedDescription ? assignedDescription : "No Description",
             thumbnailUrl: document.getElementById("thumbnailUrl").value,
-            url: document.getElementById("courseUrl").value,
+            url: document.getElementById("url").value,
             educationalAlignment: competencyArray,
             _id: document.getElementById("_id").value
         }

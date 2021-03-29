@@ -3,6 +3,10 @@
 ***/
 function buildCard(course) {
 
+    let displayName = course.name ? course.name : "No Description";
+    let displayCode = course.courseCode ? course.courseCode : "No Description";
+    let displayDescription = course.description ? course.description : "No Description";
+
     return `<div id="${course['_id']}" class="col-sm-4 mb-4">
               <div class="card h-100">
                 <a target="_blank" href="${course['url']}">
@@ -11,12 +15,12 @@ function buildCard(course) {
                     </object>
                 </a>
                   <div class="card-body" >
-                    <h5 class="card-title" id="${course['_id']}-name" >${course['name']}</h5> 
-                    <p class="card-text" id="${course['_id']}-description" >${course['description']}</p>
+                    <h5 class="card-title" id="${course['_id']}-name" >${displayName}</h5> 
+                    <p class="card-text" id="${course['_id']}-description" >${displayDescription}</p>
                   </div>
                   <ul class="list-group list-group-flush h-auto">
-                    <li class="list-group-item" id="${course['_id']}-courseCode" >${course['courseCode']}</li>
-                    <li class="list-group-item"><a target="_blank" href="${course['url']}" id="${course['_id']}-courseUrl" class="card-link">Course Link</a></li>
+                    <li class="list-group-item" id="${course['_id']}-courseCode" >${displayCode}</li>
+                    <li class="list-group-item"><a target="_blank" href="${course['url']}" id="${course['_id']}-courseUrl" class="card-link">Open Content 🔗</a></li>
                   </ul>
                   <div class="card-body">
                     <a onclick="updateCard('${course['_id']}')" class="btn btn-info">Update</a>

@@ -7,7 +7,8 @@ module.exports = {
     cacheExpirationMS: 10000,
 
     xi: {
-        endpoint: (process.env.XI_ENDPOINT || "https://tla-dev-acts.usalearning.net/")
+        secret: (process.env.XI_SECRET || "some-long-string"),
+        endpoint: (process.env.XI_ENDPOINT || "https://tla-dev-acts.usalearning.net/api/v1")
     },
 
     kafka: {

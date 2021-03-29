@@ -56,8 +56,8 @@ const mapping = {
         })
         let result = res.data
         
-        if (Array.isArray(result.rows) && result.rows.length > 0)
-            return result.rows[0]
+        if (Array.isArray(result) && result.length > 0)
+            return result[0]
         else
             return null
     },

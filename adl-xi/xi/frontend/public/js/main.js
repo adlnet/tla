@@ -3,9 +3,9 @@
 ***/
 function buildCard(course) {
 
-    let displayName = course.name ? course.name : "Unnamed Entry";
-    let displayCode = course.courseCode ? course.courseCode : "No Course Code";
-    let displayDescription = course.description ? course.description : "No Description";
+    let displayName = course.name && course.name != "undefined" ? course.name : "Unnamed Entry";
+    let displayCode = course.courseCode && course.courseCode != "undefined"  ? course.courseCode : "No Course Code";
+    let displayDescription = course.description && course.description != "undefined"  ? course.description : "No Description";
 
     return `<div id="${course['_id']}" class="col-sm-4 mb-4">
               <div class="card h-100">
@@ -113,9 +113,9 @@ async function updateCard(id) {
     let entryObj = await entryRes.json()
 
     /* Set form  */
-    document.getElementById("name").value = entryObj.name;
-    document.getElementById("courseCode").value = entryObj.courseCode;
-    document.getElementById("description").value = entryObj.description;
+    document.getElementById("name").value = entryObj.name ? entryObj.name : "Unnamed Entry";
+    document.getElementById("courseCode").value = entryObj.courseCode ? entryObj.courseCode : "No course code";
+    document.getElementById("description").value = entryObj.description ? entryObj.description : "No description";
     document.getElementById("thumbnailUrl").value = entryObj.thumbnailUrl;
     document.getElementById("url").value = entryObj.url;
     document.getElementById("_id").value = entryObj._id;

@@ -1,4 +1,8 @@
-const dotenv = require("dotenv").parse();
+try {
+    require("dotenv").parse();
+} catch (err) {
+    console.log("Unable to parse an env file: ", err);
+}
 
 module.exports = {
     

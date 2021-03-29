@@ -4,8 +4,8 @@
 function buildCard(course) {
 
     let displayName = course.name ? course.name : "No Description";
-    let displayCode = course.courseCode ? course.courseCode : "No Description";
-    let displayDescription = course.description ? course.description : "No Description";
+    let displayCode = !!course.courseCode ? course.courseCode : "No Description";
+    let displayDescription = !!course.description ? course.description : "No Description";
 
     return `<div id="${course['_id']}" class="col-sm-4 mb-4">
               <div class="card h-100">
@@ -183,12 +183,12 @@ async function handleForm(event) {
         
         competencyArray.push({ competency, weight })
     }
+    
+    let assignedName = document.getElementById("name").value;
+    let assignedCode = document.getElementById("courseCode").value;
+    let assignedDescription = document.getElementById("description").value;
 
     if (document.getElementById("_id").value == "") {
-        
-        let assignedName = document.getElementById("name").value;
-        let assignedCode = document.getElementById("name").value;
-        let assignedDescription = document.getElementById("name").value;
 
         data = {
             name: assignedName ? !!assignedName : "Unnamed Entry",

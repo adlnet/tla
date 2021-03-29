@@ -3,8 +3,8 @@
 ***/
 function buildCard(course) {
 
-    let displayName = course.name ? course.name : "No Description";
-    let displayCode = !!course.courseCode ? course.courseCode : "No Description";
+    let displayName = course.name ? course.name : "Unnamed Entry";
+    let displayCode = !!course.courseCode ? course.courseCode : "No Course Code";
     let displayDescription = !!course.description ? course.description : "No Description";
 
     return `<div id="${course['_id']}" class="col-sm-4 mb-4">

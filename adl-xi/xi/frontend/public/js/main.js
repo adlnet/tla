@@ -22,12 +22,12 @@ function buildCard(course) {
                     <li class="list-group-item" id="${course['_id']}-courseCode" >${displayCode}</li>
                   </ul>
                   <div class="card-body">
-                    <a target="_blank" href="${course['url']}" class="btn btn-success">Launch Content 🚀</a>
-                    <br>
-                    <a target="_blank" href="${course['handle']}" class="btn btn-secondary">Show Metadata 🧪</a>
-                    <br>
-                    <a onclick="updateCard('${course['_id']}')" class="btn btn-info">Update ✏️</a>
-                    <a onclick="removeEntry('${course['_id']}')" class="btn btn-warning">Delete ❌</a>
+                    <div class="btn-group" role="group" aria-label="XI Buttons">
+                        <a target="_blank" href="${course['url']}" class="btn btn-success">Launch 🚀</a>
+                        <a target="_blank" href="${course['handle']}" class="btn btn-secondary">Metadata 🧪</a>
+                        <a onclick="updateCard('${course['_id']}')" class="btn btn-info">Update ✏️</a>
+                        <a onclick="removeEntry('${course['_id']}')" class="btn btn-warning">Delete ❌</a>
+                    </div>
                   </div>
               </div>
           </div>`;

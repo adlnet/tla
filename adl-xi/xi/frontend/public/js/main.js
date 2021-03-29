@@ -22,9 +22,9 @@ function buildCard(course) {
                     <li class="list-group-item" id="${course['_id']}-courseCode" >${displayCode}</li>
                   </ul>
                   <div class="card-body">
-                    <a target="_blank" href="${course['url']}" class="btn-success">Launch Content 🚀</a>
+                    <a target="_blank" href="${course['url']}" class="btn btn-success">Launch Content 🚀</a>
                     <br>
-                    <a target="_blank" href="${course['handle']}" class="btn-secondary">Show Metadata 🧪</a>
+                    <a target="_blank" href="${course['handle']}" class="btn btn-secondary">Show Metadata 🧪</a>
                     <br>
                     <a onclick="updateCard('${course['_id']}')" class="btn btn-info">Update ✏️</a>
                     <a onclick="removeEntry('${course['_id']}')" class="btn btn-warning">Delete ❌</a>

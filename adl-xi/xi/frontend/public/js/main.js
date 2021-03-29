@@ -20,11 +20,11 @@ function buildCard(course) {
                   </div>
                   <ul class="list-group list-group-flush h-auto">
                     <li class="list-group-item" id="${course['_id']}-courseCode" >${displayCode}</li>
-                    <li class="list-group-item"><a target="_blank" href="${course['url']}" id="${course['_id']}-courseUrl" class="card-link">Open Content 🔗</a></li>
                   </ul>
                   <div class="card-body">
-                    <a onclick="updateCard('${course['_id']}')" class="btn btn-info">Update</a>
-                    <a onclick="removeEntry('${course['_id']}')" class="btn btn-warning">Delete</a>
+                    <a target="_blank" href="${course['url']}" class="btn-success">Launch 🚀</a>
+                    <a onclick="updateCard('${course['_id']}')" class="btn btn-info">Update ✏️</a>
+                    <a onclick="removeEntry('${course['_id']}')" class="btn btn-warning">Delete ❌</a>
                   </div>
               </div>
           </div>`;

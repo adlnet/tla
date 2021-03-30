@@ -6,8 +6,8 @@ For more information about the TLA project, visit **[adlnet.gov/tla](https://adl
 Current resource checklist:
 - ✅ Keycloak server 
 - ✅ Kafka Cluster 
-- ❌ Basic Experience Index
-- ❌ LRS w/ Kafka Forwarding
+- ✅ Basic Experience Index
+- ✅ LRS w/ Kafka Forwarding
 - ✅ Content Hosting Server
 - ✅ Basic Learner Profile
 - ✅ Basic LEM Services

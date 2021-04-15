@@ -6,13 +6,12 @@ function buildCard(course) {
     let displayName = course.name && course.name != "undefined" ? course.name : "Unnamed Entry";
     let displayCode = course.courseCode && course.courseCode != "undefined"  ? course.courseCode : "No Course Code";
     let displayDescription = course.description && course.description != "undefined"  ? course.description : "No Description";
+    let thumbnail = course.thumbnailUrl && course.thumbnailUrl != "undefined" ? course.thumbnailUrl : "img/book.png"
 
     return `<div id="${course['_id']}" class="col-sm-4 mb-4">
               <div class="card h-100">
                 <a target="_blank" href="${course['url']}" style="width: 100%">
-                    <object data="${course['thumbnailUrl']}" type="image/png" style="max-width: 100%">
-                        <img src="img/book.png" style="max-width: 100%" alt="">
-                    </object>
+                    <img src="${thumbnail}" type="image/png" style="max-width: 100%">
                 </a>
                   <div class="card-body" >
                     <h5 class="card-title" id="${course['_id']}-name" >${displayName}</h5> 

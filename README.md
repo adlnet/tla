@@ -12,3 +12,4 @@ Current resource checklist:
 - ✅ Basic Learner Profile
 - ✅ Basic LEM Services
 - ❌ Competency Processor / Server
+- 🔨 Landing Page

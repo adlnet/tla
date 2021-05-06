@@ -22,7 +22,7 @@ let getAssertions = async(uuid, competency) => {
     let assertions = []
 
     let promises = config.lrsPool.map(lrs => {
-        return axios.get(lrs.endpoint + "statements" + query, {
+        return axios.get(lrs.endpoint + "/statements" + query, {
             headers: {
                 "Authorization": "Basic " + btoa(`${lrs.user}:${lrs.pass}`),
                 "Content-Type": "application/json",

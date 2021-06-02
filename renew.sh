@@ -14,5 +14,3 @@ docker-compose -f $1/docker-compose.yml run certbot \
 docker-compose -f $1/docker-compose.yml restart nginx
 
 echo "----------------------------------" >> ~/renew.log
-date ~/renew.log
-echo "----------------------------------" >> ~/renew.log

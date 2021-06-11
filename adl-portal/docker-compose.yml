@@ -1,12 +1,14 @@
 version: '3'
 
 services:
+  
   web:
     restart: always
     build:
       context: .
     ports: 
       - 127.0.0.1:3000:3000
+    container_name: docker_portal
     environment:
       PORT: 3000
       KEYCLOAK_URL: ${KEYCLOAK_URL}

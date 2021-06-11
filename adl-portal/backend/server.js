@@ -20,10 +20,6 @@ const PORT = config.port;
 
 app.use(keycloakHelper.init(config.keycloak));
 
-app.get(config.protocol, keycloakHelper.protect(), (req, res, next) => {
-    res.render()
-})
-
 app.use(express.static(path.join(__dirname, 'build')));     
 
 // unprotected routes
@@ -46,4 +42,4 @@ app.get("/test", keycloakHelper.protect(), (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`server started on port ${PORT}`);
-})
+});

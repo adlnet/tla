@@ -15,4 +15,4 @@ WORKDIR /portal/backend
 # copy package.json from backend and install dependencies
 RUN npm install
 
-CMD ["npm start"]
+CMD ["npm" "start"]

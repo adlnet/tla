@@ -11,7 +11,7 @@ Frontend packages installed:
 
 ## How to run the application
 ### Running the application (served through Express):
-1. Copy the '.env.example' file contents into a new file '.env' in the portal root directory
+1. Copy the '.env.example' file contents into a new file '.env' in the portal root directory 
 
 2. In the tla-portal directory, run:
 

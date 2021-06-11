@@ -2,10 +2,15 @@ version: '3'
 
 services:
   web:
+    restart: always
     build:
       context: .
     ports: 
       - 127.0.0.1:3000:3000
+    environment:
+      KEYCLOAK_URL: ${KEYCLOAK_URL}
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+      KEYCLOAK_CLIENT: ${KEYCLOAK_CLIENT}
     networks:
       - public
 

@@ -3,24 +3,29 @@
 ***/
 function buildCard(course) {
 
+    let displayName = course.name && course.name != "undefined" ? course.name : "Unnamed Entry";
+    let displayCode = course.courseCode && course.courseCode != "undefined"  ? course.courseCode : "No Course Code";
+    let displayDescription = course.description && course.description != "undefined"  ? course.description : "No Description";
+    let thumbnail = course.thumbnailUrl && course.thumbnailUrl != "undefined" ? course.thumbnailUrl : "img/book.png"
+
     return `<div id="${course['_id']}" class="col-sm-4 mb-4">
               <div class="card h-100">
-                <a target="_blank" href="${course['url']}">
-                    <object data="${course['thumbnailUrl']}" type="image/png">
-                        <img src="img/book.png" style="width: 100%" alt="">
-                    </object>
+                <a target="_blank" href="${course['url']}" style="width: 100%">
+                    <img src="${thumbnail}" type="image/png" style="max-width: 100%">
                 </a>
                   <div class="card-body" >
-                    <h5 class="card-title" id="${course['_id']}-name" >${course['name']}</h5> 
-                    <p class="card-text" id="${course['_id']}-description" >${course['description']}</p>
+                    <h5 class="card-title" id="${course['_id']}-name" >${displayName}</h5> 
+                    <p class="card-text" id="${course['_id']}-description" >${displayDescription}</p>
                   </div>
                   <ul class="list-group list-group-flush h-auto">
-                    <li class="list-group-item" id="${course['_id']}-courseCode" >${course['courseCode']}</li>
-                    <li class="list-group-item"><a target="_blank" href="${course['url']}" id="${course['_id']}-courseUrl" class="card-link">Course Link</a></li>
+                    <li class="list-group-item" id="${course['_id']}-courseCode" >${displayCode}</li>
                   </ul>
                   <div class="card-body">
-                    <a onclick="updateCard('${course['_id']}')" class="btn btn-info">Update</a>
-                    <a onclick="removeEntry('${course['_id']}')" class="btn btn-warning">Delete</a>
+                    <a target="_blank" href="${course['url']}" class="btn btn-block btn-success">Launch 🚀</a>
+                    <a target="_blank" href="${course['handle']}" class="btn btn-block btn-secondary">View Metadata 🧪</a>
+                
+                    <a onclick="updateCard('${course['_id']}')" class="btn btn-block btn-secondary">Update ✏️</a>
+                    <a onclick="removeEntry('${course['_id']}')" class="btn btn-block btn-danger">Delete ❌</a>
                   </div>
               </div>
           </div>`;
@@ -107,11 +112,11 @@ async function updateCard(id) {
     let entryObj = await entryRes.json()
 
     /* Set form  */
-    document.getElementById("name").value = entryObj.name;
-    document.getElementById("courseCode").value = entryObj.courseCode;
-    document.getElementById("description").value = entryObj.description;
+    document.getElementById("name").value = entryObj.name ? entryObj.name : "Unnamed Entry";
+    document.getElementById("courseCode").value = entryObj.courseCode ? entryObj.courseCode : "No course code";
+    document.getElementById("description").value = entryObj.description ? entryObj.description : "No description";
     document.getElementById("thumbnailUrl").value = entryObj.thumbnailUrl;
-    document.getElementById("courseUrl").value = entryObj.url;
+    document.getElementById("url").value = entryObj.url;
     document.getElementById("_id").value = entryObj._id;
 
     document.getElementById("competencyArray").innerHTML = ""
@@ -176,14 +181,19 @@ async function handleForm(event) {
         
         competencyArray.push({ competency, weight })
     }
+    
+    let assignedName = document.getElementById("name").value;
+    let assignedCode = document.getElementById("courseCode").value;
+    let assignedDescription = document.getElementById("description").value;
 
     if (document.getElementById("_id").value == "") {
+
         data = {
-            name: document.getElementById("name").value,
-            courseCode: document.getElementById("courseCode").value,
-            description: document.getElementById("description").value,
+            name: assignedName ? assignedName : "Unnamed Entry",
+            courseCode: assignedCode ? assignedCode : "No Course Code",
+            description: assignedDescription ? assignedDescription : "No Description",
             thumbnailUrl: document.getElementById("thumbnailUrl").value,
-            url: document.getElementById("courseUrl").value,
+            url: document.getElementById("url").value,
             educationalAlignment: competencyArray
         }
 
@@ -209,11 +219,11 @@ async function handleForm(event) {
     } else {
 
         data = {
-            name: document.getElementById("name").value,
-            courseCode: document.getElementById("courseCode").value,
-            description: document.getElementById("description").value,
+            name: assignedName ? assignedName : "Unnamed Entry",
+            courseCode: assignedCode ? assignedCode : "No Course Code",
+            description: assignedDescription ? assignedDescription : "No Description",
             thumbnailUrl: document.getElementById("thumbnailUrl").value,
-            url: document.getElementById("courseUrl").value,
+            url: document.getElementById("url").value,
             educationalAlignment: competencyArray,
             _id: document.getElementById("_id").value
         }

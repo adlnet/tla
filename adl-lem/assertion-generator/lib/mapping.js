@@ -50,16 +50,37 @@ const mapping = {
      */
     getRelevantExperience: async(statement) => {
 
-        let res = await axios.get(statement.object.id, {
+        let entryUri = statement.object.id;
+        let entryEndpoint = entryUri;
+        
+        for (let xi of config.xiDomains) {
+            if (entryUri.startsWith(xi.endpoint)) {
+                if (entryUri.indexOf("?") >= 0)
+                    entryEndpoint += `&secret=${xi.secret}`
+                else
+                    entryEndpoint += `?secret=${xi.secret}`
+                break;
+            }
+        }
+
+        let res = await axios.get(entryEndpoint, {
             method: 'GET',
             headers: {  'Accept': 'application/json',}
         })
         let result = res.data
-        
-        if (Array.isArray(result.rows) && result.rows.length > 0)
-            return result.rows[0]
-        else
-            return null
+
+        console.log(result);
+        console.log(entryEndpoint);
+
+        if (result != null)
+        {
+            if (Array.isArray(result) && result.length > 0)
+                return result[0]
+            else if (Array.isArray(result.educationalAlignment))
+                return result;
+        }
+
+        return null;
     },
 
     /**
@@ -69,6 +90,9 @@ const mapping = {
     getStatementAlignments: async(statement) => {
 
         let experience = await mapping.getRelevantExperience(statement)
+
+        console.log("STATEMENT HAS EXPERIENCE: ", experience);
+
         if (experience)
             return await mapping.getCompetencyMappings(experience)
         else

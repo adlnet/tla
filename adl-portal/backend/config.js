@@ -36,6 +36,7 @@
 
 module.exports = {
     
+    port: (process.env.PORT || 3000),
     secret: (process.env.API_SECRET || "some-long-secret"),
 
     protected: [

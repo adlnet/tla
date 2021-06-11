@@ -13,19 +13,16 @@
 const express = require("express");
 const path = require("path");
 const keycloakHelper = require("simple-keycloak-adapter");
-const config = require("./keycloak-config");
+const config = require("./config");
 
 const app = express();
-const port = 5000;
+const PORT = config.port;
 
 app.use(keycloakHelper.init(config.keycloak));
 
 app.get(config.protocol, keycloakHelper.protect(), (req, res, next) => {
     res.render()
 })
-
-
-
 
 app.use(express.static(path.join(__dirname, 'build')));     
 
@@ -47,8 +44,6 @@ app.get("/test", keycloakHelper.protect(), (req, res) => {
     res.send("This is to test if a user is authenticated");
 });
 
-//
-
-app.listen(port, () => {
-    console.log(`server started on port ${port}`);
+app.listen(PORT, () => {
+    console.log(`server started on port ${PORT}`);
 })

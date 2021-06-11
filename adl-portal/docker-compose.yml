@@ -8,6 +8,7 @@ services:
     ports: 
       - 127.0.0.1:3000:3000
     environment:
+      PORT: 3000
       KEYCLOAK_URL: ${KEYCLOAK_URL}
       KEYCLOAK_REALM: ${KEYCLOAK_REALM}
       KEYCLOAK_CLIENT: ${KEYCLOAK_CLIENT}

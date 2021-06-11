@@ -25,6 +25,7 @@ services:
         - HOSTNAME=${HOSTNAME}
     ports:
       - 80:80
+      - 443:443
     container_name: docker_nginx
     volumes:
       - ./nginx/letsencrypt:/usr/share/nginx/html

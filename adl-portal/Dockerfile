@@ -8,7 +8,7 @@ COPY ./backend ./backend
 
 WORKDIR /portal/frontend
 
-RUN npm install && npm run build && cp ./build ../backend/build
+RUN npm install && npm run build && cp -r ./build ../backend/build
 
 WORKDIR /portal/backend
 

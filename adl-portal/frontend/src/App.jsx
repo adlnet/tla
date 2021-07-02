@@ -3,8 +3,9 @@ import './App.css';
 import NavBar from './components/NavBar';
 import { Route, Switch} from 'react-router-dom';
 import Visualizer from './containers/Visualizer';
-import Landing from './containers/Landing';
+import LandingPage from './containers/LandingPage';
 import Repository from './containers/Repository';
+import ADLFooter from './containers/ADLFooter';
 import { withCookies } from 'react-cookie';
 
 class App extends Component {
@@ -48,15 +49,13 @@ class App extends Component {
               return <div><Repository/></div>
             }}/>
             <Route path="/" render={()=>{
-              return <div><Landing/></div>
+              return <div><LandingPage/></div>
             }}/>
           </Switch>
         </div>
-        <footer>
-          <div className="footer">
-            
-          </div>
-        </footer>
+        <ADLFooter>
+          
+        </ADLFooter>
       </div>
     );
   }

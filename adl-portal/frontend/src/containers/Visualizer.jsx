@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import HeatMap from '../components/HeatMap.js';
-import RollingAvg from '../components/RollingAvg.js';
-import Histogram from '../components/Histogram.js';
+import HeatMap from '../components/HeatMap';
+import RollingAvg from '../components/RollingAvg';
+import Histogram from '../components/Histogram';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 

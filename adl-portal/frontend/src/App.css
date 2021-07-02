@@ -4,6 +4,35 @@
   text-align: center;
 }
 
+a .card-title {
+  color: #6c757d;
+  text-decoration: none;
+}
+
+a:hover .card-title {
+  text-decoration: #DDDDDD;
+}
+
+h1, h2, h3, h4 {
+  color: #6c757d
+}
+
+.card-columns {
+    column-count: 2 !important;
+}
+
+@media (min-width: 600px) {
+  .card-columns {
+      column-count: 3 !important;
+  }
+}
+
+@media (min-width: 800px) {
+  .card-columns {
+      column-count: 6 !important;
+  }
+}
+
 .landing-prompt {
   margin-top: 30px;
   padding: 20px 20px;

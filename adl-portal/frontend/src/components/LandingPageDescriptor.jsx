@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Media } from "react-bootstrap";
-import nodeTree from './../icons/node-tree.png';
 import keycloak from './../icons/lock.svg';
 import kafka from './../icons/bolt.svg';
 import moodle from './../icons/school.svg';
@@ -26,13 +25,13 @@ export default class LandingPageDescriptor extends Component {
             image = book;
         }
 
-        let closureLine = this.props.hideLine == "true" ? null : <hr/>;
+        let closureLine = this.props.hideLine === "true" ? null : <hr/>;
 
         return (
 
             <div style={{width: "100%"}}>
                 <Media >
-                    <a href={this.props.link} target="_blank">
+                    <a href={this.props.link} target="_blank" rel="noreferrer">
                         <img
                             width={64}
                             height={64}
@@ -42,9 +41,9 @@ export default class LandingPageDescriptor extends Component {
                         />
                     </a>
                     <Media.Body>
-                        <h5 class="text-muted" style={{display: "inline", marginRight: "0.2rem"}}>{this.props.name} -</h5>
-                        <h6 class="text-muted" style={{display: "inline", marginLeft: "0.2rem"}}>{this.props.subtitle}</h6>
-                        <p class="text-muted light"> {this.props.description} </p>
+                        <h5 className="text-muted" style={{display: "inline", marginRight: "0.2rem"}}>{this.props.name} -</h5>
+                        <h6 className="text-muted" style={{display: "inline", marginLeft: "0.2rem"}}>{this.props.subtitle}</h6>
+                        <p className="text-muted light"> {this.props.description} </p>
                     </Media.Body>
                 </Media>
                 {closureLine}

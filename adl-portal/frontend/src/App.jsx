@@ -25,7 +25,7 @@ class App extends Component {
 
   // tests to see that the backend Express server is hooked up
   callExpress = async () => {
-    const response = await fetch('http://localhost:5000/');
+    const response = await fetch(window.location.href);
     const body = await response.json();
     debugger
     if (response.status !== 200) {

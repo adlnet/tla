@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import { Link } from 'react-router-dom';
 import logo from '../images/adl-logo.png';
 
 /*
@@ -14,7 +13,7 @@ export default class NavBar extends Component {
             <div>
                 <Navbar className="bg-color-nav py-3" variant="light" position="top" sticky="top">
                     <Navbar.Brand>
-                        <a class="link-text" target="_blank" href='https://adlnet.gov'>
+                        <a className="link-text" target="_blank" rel="noreferrer" href='https://adlnet.gov'>
                             <img
                                 src={logo}
                                 width="45"

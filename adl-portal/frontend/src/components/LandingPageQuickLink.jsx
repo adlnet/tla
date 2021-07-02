@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import nodeTree from './../icons/node-tree.png';
 import keycloak from './../icons/lock.svg';
 import kafka from './../icons/bolt.svg';
 import moodle from './../icons/school.svg';
@@ -29,7 +27,7 @@ export default class LandingPageQuickLink extends Component {
 
         return (
             <Card className="rounded-xl text-center" text='dark'>
-                <a href="#" style={{width: "100%", height: "100%", padding: "20px"}}>
+                <a href={this.props.link} style={{width: "100%", height: "100%", padding: "20px"}}>
                     <Card.Img variant="top" src={image}/>
                     <Card.Title>
                         {this.props.name}

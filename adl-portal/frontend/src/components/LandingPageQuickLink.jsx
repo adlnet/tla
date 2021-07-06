@@ -27,7 +27,7 @@ export default class LandingPageQuickLink extends Component {
 
         return (
             <Card className="rounded-xl text-center" text='dark'>
-                <a href={this.props.link} style={{width: "100%", height: "100%", padding: "20px"}}>
+                <a href={this.props.link} style={{width: "100%", height: "100%"}}>
                     <Card.Img variant="top" src={image}/>
                     <Card.Title>
                         {this.props.name}

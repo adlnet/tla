@@ -50,6 +50,7 @@ services:
       - public
 
   xi:
+    restart: always
     build:
       context: xi
     container_name: xi

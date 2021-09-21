@@ -1,0 +1,27 @@
+{
+    "name": "kafka-xapi-endpoint",
+    "version": "1.0.0",
+    "description": "Basic LRS-like endpoint for publishing xAPI statements.",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "test": "mocha"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@xapi/xapi": "^1.2.2",
+        "body-parser": "^1.19.0",
+        "btoa": "^1.2.1",
+        "cors": "^2.8.5",
+        "ejs": "^2.7.1",
+        "express": "^4.17.1",
+        "simple-kafka-producer": "^0.1.4",
+        "simple-keycloak-adapter": "^0.0.4",
+        "uuid": "^8.3.2"
+    },
+    "devDependencies": {
+        "chai": "^4.2.0",
+        "mocha": "^7.0.1"
+    }
+}

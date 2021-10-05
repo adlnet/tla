@@ -127,7 +127,7 @@ app.use("*", function (req, res, next) {
 
 // Adding Keycloak middleware
 app.use(keycloak.init(config.keycloak, config.root + "/logout", config.root));
-app.use(keycloak.protect({}))
+app.use(keycloak.protect())
 
 // Main page.
 app.get(config.root, function (req, res, next) {

@@ -120,7 +120,7 @@ app.use(config.root, express.static("views"));
 app.use("*", function (req, res, next) {
 
     if (req.baseUrl.startsWith(config.root) == false)
-        res.redirect(config.root.substr(1) + req.url);
+        res.redirect(config.root + req.url);
     else
         next();
 });

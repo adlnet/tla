@@ -17,7 +17,7 @@
     "ejs": "^3.0.1",
     "express": "^4.17.1",
     "simple-keycloak-adapter": "^0.0.1",
-    "sqlite3": "^4.1.1",
+    "sqlite3": "5.0.2",
     "sqliter-models": "^0.0.6",
     "sqliter-routing": "^0.0.4",
     "tla-mom-proto": "^0.13.1"

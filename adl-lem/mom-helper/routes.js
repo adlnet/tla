@@ -17,12 +17,20 @@ const sections = [
         path: config.root + "/verbs"
     },
     {
-        file: "sender.ejs",
+        file: "mom-sender.ejs",
         title: "MOM Sender",
         text: `A simple page for sending personalized MOM-compliant xAPI statements.
             Use this page to check whether statements produce appropriate responses in other TLA services.`,
         icon: "send",
-        path: config.root + "/sender"
+        path: config.root + "/mom-sender"
+    },
+    {
+        file: "xapi-sender.ejs",
+        title: "xAPI Sender",
+        text: `A simple page for sending generic xAPI statements.
+            Use this page to check whether statements produce appropriate responses in other TLA services.`,
+        icon: "send",
+        path: config.root + "/xapi-sender"
     }
 ]
 
@@ -56,6 +64,7 @@ const routing = {
         app.use(routing.protect())
 
         app.use("*", function (req, res, next) {
+
             res.locals.root = root;
             res.locals.secret = config.secret;
             res.locals.sections = sections;
@@ -98,9 +107,9 @@ const routing = {
 
     protect: () => {
         return (req, res, next) => {
-            if (req.query.secret == config.secret)
-                next()
-            else
+            // if (req.query.secret == config.secret)
+            //     next()
+            // else
                 keycloak.protect()(req, res, next);
         }
     },

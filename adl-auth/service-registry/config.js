@@ -1,7 +1,7 @@
 module.exports = {
     keycloak: {
         "realm": (process.env.KEYCLOAK_REALM || "realm"),
-        "auth-server-url": (process.env.KEYCLOAK_URL || "https://keycloak_server/auth"),
+        "auth-server-url": (process.env.KEYCLOAK_ENDPOINT || "https://keycloak_server/auth"),
         "ssl-required": "none",
         "resource": (process.env.KEYCLOAK_CLIENT || "default"),
         "public-client": true,

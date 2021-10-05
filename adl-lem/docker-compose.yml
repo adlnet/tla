@@ -259,7 +259,7 @@ services:
     restart: always
     build:
       context: kafka-xapi
-    container_name: xapi
+    container_name: xapi-1
     environment:
       BASIC_USERNAME: "${BASIC_USERNAME}"
       BASIC_PASSWORD: "${BASIC_PASSWORD}"
@@ -280,7 +280,7 @@ services:
     restart: always
     build:
       context: kafka-xapi
-    container_name: xapi
+    container_name: xapi-2
     environment:
       BASIC_USERNAME: "${BASIC_USERNAME}"
       BASIC_PASSWORD: "${BASIC_PASSWORD}"
@@ -297,11 +297,11 @@ services:
     networks:
       - public
       
-  xapi-2:
+  xapi-3:
     restart: always
     build:
       context: kafka-xapi
-    container_name: xapi
+    container_name: xapi-3
     environment:
       BASIC_USERNAME: "${BASIC_USERNAME}"
       BASIC_PASSWORD: "${BASIC_PASSWORD}"

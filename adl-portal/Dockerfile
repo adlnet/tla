@@ -1,4 +1,4 @@
-FROM node:14.17-alpine
+FROM node:12.17-alpine
 
 WORKDIR /portal
 

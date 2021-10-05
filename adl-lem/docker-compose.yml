@@ -80,27 +80,6 @@ services:
       KEYCLOAK_ENDPOINT: "${KEYCLOAK_URL}"
     networks:
       - public
-  
-  xapi:
-    restart: always
-    build:
-      context: kafka-xapi
-    container_name: xapi
-    environment:
-      BASIC_USERNAME: "${BASIC_USERNAME}"
-      BASIC_PASSWORD: "${BASIC_PASSWORD}"
-
-      KAFKA_BROKER: "${KAFKA_BROKER}"
-      KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
-      KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
-      KAFKA_XAPI_TOPIC: "${KAFKA_XAPI_TOPIC}"
-
-      KEYCLOAK_REALM: "${KEYCLOAK_REALM}"
-      KEYCLOAK_CLIENT: "${KEYCLOAK_CLIENT}"
-      KEYCLOAK_ENDPOINT: "${KEYCLOAK_URL}"
-      USE_KEYCLOAK: "${USE_KEYCLOAK}"
-    networks:
-      - public
       
   ## Sorting service for routing xAPI.
   mail:
@@ -275,6 +254,69 @@ services:
       LRS_ENDPOINT: "${LRS_ENDPOINT}"
       LRS_USER: "${LRS_USER}"
       LRS_PASS: "${LRS_PASS}"
+
+  xapi-1:
+    restart: always
+    build:
+      context: kafka-xapi
+    container_name: xapi
+    environment:
+      BASIC_USERNAME: "${BASIC_USERNAME}"
+      BASIC_PASSWORD: "${BASIC_PASSWORD}"
+
+      KAFKA_BROKER: "${KAFKA_BROKER}"
+      KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
+      KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
+      KAFKA_XAPI_TOPIC: "${KAFKA_XAPI_TOPIC}"
+
+      KEYCLOAK_REALM: "${KEYCLOAK_REALM}"
+      KEYCLOAK_CLIENT: "${KEYCLOAK_CLIENT}"
+      KEYCLOAK_ENDPOINT: "${KEYCLOAK_URL}"
+      USE_KEYCLOAK: "${USE_KEYCLOAK}"
+    networks:
+      - public
+      
+  xapi-2:
+    restart: always
+    build:
+      context: kafka-xapi
+    container_name: xapi
+    environment:
+      BASIC_USERNAME: "${BASIC_USERNAME}"
+      BASIC_PASSWORD: "${BASIC_PASSWORD}"
+
+      KAFKA_BROKER: "${KAFKA_BROKER}"
+      KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
+      KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
+      KAFKA_XAPI_TOPIC: "${KAFKA_XAPI_TOPIC}"
+
+      KEYCLOAK_REALM: "${KEYCLOAK_REALM}"
+      KEYCLOAK_CLIENT: "${KEYCLOAK_CLIENT}"
+      KEYCLOAK_ENDPOINT: "${KEYCLOAK_URL}"
+      USE_KEYCLOAK: "${USE_KEYCLOAK}"
+    networks:
+      - public
+      
+  xapi-2:
+    restart: always
+    build:
+      context: kafka-xapi
+    container_name: xapi
+    environment:
+      BASIC_USERNAME: "${BASIC_USERNAME}"
+      BASIC_PASSWORD: "${BASIC_PASSWORD}"
+
+      KAFKA_BROKER: "${KAFKA_BROKER}"
+      KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
+      KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
+      KAFKA_XAPI_TOPIC: "${KAFKA_XAPI_TOPIC}"
+
+      KEYCLOAK_REALM: "${KEYCLOAK_REALM}"
+      KEYCLOAK_CLIENT: "${KEYCLOAK_CLIENT}"
+      KEYCLOAK_ENDPOINT: "${KEYCLOAK_URL}"
+      USE_KEYCLOAK: "${USE_KEYCLOAK}"
+    networks:
+      - public
 
 networks:
   public: 

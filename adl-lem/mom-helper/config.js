@@ -1,5 +1,5 @@
 try {
-    require("dotenv").parse();
+    require("dotenv").config();
 } catch (err) {
     console.log("Unable to parse an env file: ", err);
 }

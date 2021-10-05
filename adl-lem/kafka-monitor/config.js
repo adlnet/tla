@@ -1,3 +1,9 @@
+try {
+    require("dotenv").config();
+} catch (err) {
+    console.log("Unable to parse an env file: ", err);
+}
+
 const topicDetails = [
     {
         "name": (process.env.KAFKA_XAPI_NOISY || "learner-xapi"),

@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:14
 
 # Create our NodeJS source directory
 RUN mkdir -p /usr/src/app

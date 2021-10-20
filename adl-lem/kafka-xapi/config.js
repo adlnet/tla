@@ -31,6 +31,11 @@ module.exports = {
         "public-client": true,
         "confidential-port": 0
     },
+
+    statement: {
+        "stored": new Date().toISOString().slice(0, 22),
+        "timestamp": new Date().toISOString().slice(0, 22)
+    },
     
     retryMS: 5000,
 }

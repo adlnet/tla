@@ -1,5 +1,6 @@
 const kafka = require("simple-kafka-producer");
 const config = require("../config");
+const uuid = require("uuid");
 
 const kafkaInterop = {
 
@@ -22,6 +23,13 @@ const kafkaInterop = {
     },
 
     handleStatement: (statement, dryRun = false) => {
+
+        // Check for things that need to be set by the LRS.
+        statement.id = statement.id || uuid.v4();
+        statement.authority = statement.authority || statement.actor; // Default authority as self.
+        statement.stored = statement.stored || config.statement.stored;
+        statement.timestamp = statement.timestamp || config.statement.timestamp;
+
         if (!dryRun)
             kafkaInterop.publishStatement(statement);
         return [statement.id];
@@ -29,9 +37,9 @@ const kafkaInterop = {
 
     handlePayload: (payload, dryRun = false) => {
         if (Array.isArray(payload))
-            kafkaInterop.handleArray(payload, dryRun);
+            return kafkaInterop.handleArray(payload, dryRun);
         else
-            kafkaInterop.handleStatement(payload, dryRun);
+            return kafkaInterop.handleStatement(payload, dryRun);
     },
 
     publishStatement: (statement) => {

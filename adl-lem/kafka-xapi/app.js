@@ -10,7 +10,6 @@ const bodyParser = require("body-parser")
 const config = require("./config");
 const kafka = require("./lib/kafka");
 const auth = require("./lib/auth");
-const uuid = require("uuid");
 
 
 async function main() {
@@ -24,7 +23,7 @@ async function main() {
      * Lastly, configure that express instance to serve this page.
      */
     app.use(cors())
-    app.use(bodyParser.urlencoded({extended: false}))
+    app.use(bodyParser.urlencoded({ extended: false }))
     app.use(bodyParser.json())
     app.set("view engine", "ejs");
     app.use(config.root, express.static("public"));
@@ -47,9 +46,6 @@ async function main() {
 
     app.post(config.root + "/statements", auth.basicAuth, function (req, res, next) {
         let ids = kafka.handlePayload(req.body);
-        if (ids === undefined)
-            ids = uuid.v4();
-        console.log(ids);
         res.status(200).json(ids);
     });
 

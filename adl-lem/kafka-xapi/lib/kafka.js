@@ -1,4 +1,5 @@
 const kafka = require("simple-kafka-producer");
+const helpers = require("./helpers");
 const config = require("../config");
 const uuid = require("uuid");
 
@@ -27,11 +28,12 @@ const kafkaInterop = {
         // Check for things that need to be set by the LRS.
         statement.id = statement.id || uuid.v4();
         statement.authority = statement.authority || statement.actor; // Default authority as self.
-        statement.stored = statement.stored || config.statement.stored;
-        statement.timestamp = statement.timestamp || config.statement.timestamp;
+        statement.stored = statement.stored || helpers.getCurrentISOTime();
+        statement.timestamp = statement.timestamp || helpers.getCurrentISOTime();
 
         if (!dryRun)
             kafkaInterop.publishStatement(statement);
+        
         return [statement.id];
     },
 

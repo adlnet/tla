@@ -259,64 +259,22 @@ services:
     restart: always
     build:
       context: kafka-xapi
-    container_name: xapi-1
+    container_name: xapi-processor-1
     environment:
-      BASIC_USERNAME: "${BASIC_USERNAME}"
-      BASIC_PASSWORD: "${BASIC_PASSWORD}"
+      - BASIC_USERNAME
+      - BASIC_PASSWORD
 
-      KAFKA_BROKER: "${KAFKA_BROKER}"
-      KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
-      KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
-      KAFKA_XAPI_TOPIC: "${KAFKA_XAPI_TOPIC}"
+      - KAFKA_BROKER
+      - KAFKA_SASL_USER
+      - KAFKA_SASL_PASS
+      - KAFKA_XAPI_TOPIC
 
-      KEYCLOAK_REALM: "${KEYCLOAK_REALM}"
-      KEYCLOAK_CLIENT: "${KEYCLOAK_CLIENT}"
-      KEYCLOAK_ENDPOINT: "${KEYCLOAK_URL}"
-      USE_KEYCLOAK: "${USE_KEYCLOAK}"
+      - KEYCLOAK_REALM
+      - KEYCLOAK_CLIENT
+      - KEYCLOAK_ENDPOINT
+      - USE_KEYCLOAK
     networks:
       - public
-      
-  # xapi-2:
-  #   restart: always
-  #   build:
-  #     context: kafka-xapi
-  #   container_name: xapi-2
-  #   environment:
-  #     BASIC_USERNAME: "${BASIC_USERNAME}"
-  #     BASIC_PASSWORD: "${BASIC_PASSWORD}"
-
-  #     KAFKA_BROKER: "${KAFKA_BROKER}"
-  #     KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
-  #     KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
-  #     KAFKA_XAPI_TOPIC: "${KAFKA_XAPI_TOPIC}"
-
-  #     KEYCLOAK_REALM: "${KEYCLOAK_REALM}"
-  #     KEYCLOAK_CLIENT: "${KEYCLOAK_CLIENT}"
-  #     KEYCLOAK_ENDPOINT: "${KEYCLOAK_URL}"
-  #     USE_KEYCLOAK: "${USE_KEYCLOAK}"
-  #   networks:
-  #     - public
-      
-  # xapi-3:
-  #   restart: always
-  #   build:
-  #     context: kafka-xapi
-  #   container_name: xapi-3
-  #   environment:
-  #     BASIC_USERNAME: "${BASIC_USERNAME}"
-  #     BASIC_PASSWORD: "${BASIC_PASSWORD}"
-
-  #     KAFKA_BROKER: "${KAFKA_BROKER}"
-  #     KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
-  #     KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
-  #     KAFKA_XAPI_TOPIC: "${KAFKA_XAPI_TOPIC}"
-
-  #     KEYCLOAK_REALM: "${KEYCLOAK_REALM}"
-  #     KEYCLOAK_CLIENT: "${KEYCLOAK_CLIENT}"
-  #     KEYCLOAK_ENDPOINT: "${KEYCLOAK_URL}"
-  #     USE_KEYCLOAK: "${USE_KEYCLOAK}"
-  #   networks:
-  #     - public
 
 networks:
   public: 

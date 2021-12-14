@@ -18,6 +18,7 @@ services:
       KAFKA_OPTS: -Djava.security.auth.login.config=/var/lib/zookeeper/login-config.txt
         -Dzookeeper.authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
         -Dzookeeper.requiredClientAuthScheme=sasl
+        -Dlog4j2.formatMsgNoLookups=true
     volumes:
       - ./zookeeper/data/zk-1/zk-data:/var/lib/zookeeper/data
       #- ./zookeeper/data/zk-1/zk-logs:/var/lib/zookeeper/log
@@ -45,6 +46,7 @@ services:
       KAFKA_OPTS: -Djava.security.auth.login.config=/var/lib/zookeeper/login-config.txt
         -Dzookeeper.authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
         -Dzookeeper.requiredClientAuthScheme=sasl
+        -Dlog4j2.formatMsgNoLookups=true
     volumes:
       - ./zookeeper/data/zk-2/zk-data:/var/lib/zookeeper/data
       #- ./zookeeper/data/zk-2/zk-logs:/var/lib/zookeeper/log
@@ -71,6 +73,7 @@ services:
       KAFKA_OPTS: -Djava.security.auth.login.config=/var/lib/zookeeper/login-config.txt
         -Dzookeeper.authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
         -Dzookeeper.requiredClientAuthScheme=sasl
+        -Dlog4j2.formatMsgNoLookups=true
     volumes:
       - ./zookeeper/data/zk-3/zk-data:/var/lib/zookeeper/data
       #- ./zookeeper/data/zk-3/zk-logs:/var/lib/zookeeper/log
@@ -102,6 +105,7 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
       KAFKA_OPTS: -Djava.security.auth.login.config=/var/lib/kafka/server-config.txt
         -Dauto.create.topics.enable=false
+        -Dlog4j2.formatMsgNoLookups=true
     volumes:
       - ./kafka/data/broker-1:/var/lib/kafka/data
     extra_hosts:
@@ -132,6 +136,7 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
       KAFKA_OPTS: -Djava.security.auth.login.config=/var/lib/kafka/server-config.txt
         -Dauto.create.topics.enable=false
+        -Dlog4j2.formatMsgNoLookups=true
     volumes:
       - ./kafka/data/broker-2:/var/lib/kafka/data
     extra_hosts:
@@ -162,6 +167,7 @@ services:
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
       KAFKA_OPTS: -Djava.security.auth.login.config=/var/lib/kafka/server-config.txt
         -Dauto.create.topics.enable=false
+        -Dlog4j2.formatMsgNoLookups=true
     volumes:
       - ./kafka/data/broker-3:/var/lib/kafka/data
     extra_hosts:

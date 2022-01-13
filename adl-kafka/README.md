@@ -24,7 +24,7 @@ There are a few scripts included to hopefully streamline the process.
 
 ### TL;DR Initial Setup
 1. `git clone https://github.com/adlnet/tla`
-1. `cd tla-demo-2019/adl-kafka`
+1. `cd tla/adl-kafka`
 1. `sudo ./install-reqs.sh`
 1. `sudo ./rebuild.sh`
 1. `sudo docker logs -f kafka_1`, then wait until the text stops

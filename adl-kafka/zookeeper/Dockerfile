@@ -1,4 +1,4 @@
-FROM confluentinc/cp-zookeeper:5.5.3
+FROM confluentinc/cp-zookeeper:7.0.1
 
 ARG KAFKA_SASL_USER
 ARG KAFKA_SASL_PASS

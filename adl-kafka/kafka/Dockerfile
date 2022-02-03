@@ -1,4 +1,4 @@
-FROM confluentinc/cp-kafka:7.0.1
+FROM confluentinc/cp-kafka:6.1.4
 
 ARG KAFKA_SASL_USER
 ARG KAFKA_SASL_PASS

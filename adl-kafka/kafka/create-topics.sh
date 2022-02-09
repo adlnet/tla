@@ -1,7 +1,4 @@
 #!/bin/bash
-export KAFKA_OPTS="-Djava.security.auth.login.config=/tmp/kafka/client.txt"
-echo $KAFKA_OPTS
-
 while IFS='' read -r line || [[ -n "$line" ]]; do
     
     echo "Creating topic: $line ..."
@@ -13,6 +10,3 @@ while IFS='' read -r line || [[ -n "$line" ]]; do
         --topic $line
 
 done < "/tmp/kafka/tla-topics.txt"
-
-export KAFKA_OPTS="-Djava.security.auth.login.config=/tmp/kafka/server.txt"
-echo $KAFKA_OPTS

@@ -1,8 +1,6 @@
 version: '3'
 services:
  
-  # Nginx instance controlling traffic to each service
-  #
   nginx:
     restart: always
     build:
@@ -19,8 +17,6 @@ services:
     networks:
       - public
 
-  # Certbot for SSL automation
-  #
   certbot:
     container_name: 'docker_certbot'
     image: certbot/certbot
@@ -33,23 +29,6 @@ services:
       - public
     depends_on:
       - nginx
-
-  service-registry:
-    restart: always
-    container_name: docker_registry
-    build: 
-      context: service-registry
-    ports:
-      - "8085"
-    environment:
-      API_SECRET: ${API_SECRET}
-      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
-      KEYCLOAK_CLIENT: ${KEYCLOAK_CLIENT}
-      KEYCLOAK_ENDPOINT: ${KEYCLOAK_ENDPOINT}
-    volumes:
-      - ./service-registry/data:/usr/src/app/scripts/util/data
-    networks:
-      - public
 
   postgres:
     restart: always
@@ -73,8 +52,8 @@ services:
     build: 
       context: keycloak
     ports:
-      - "8080"
-      - "9990"
+      - "127.0.0.1:8080"
+      - "127.0.0.1:9990"
     links:
       - postgres:docker_postgres
     environment:
@@ -90,22 +69,39 @@ services:
     networks:
       - public
 
-  keycloak-db-helper:
-    restart: always
-    container_name: docker_helper
-    build: 
-      context: keycloak-db-helper
-    environment:
-      API_SECRET: ${API_SECRET}
-      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
-      KEYCLOAK_CLIENT: ${KEYCLOAK_CLIENT}
-      KEYCLOAK_ENDPOINT: ${KEYCLOAK_ENDPOINT}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_ENDPOINT: postgres
-    networks:
-      - public
+  # service-registry:
+  #   restart: always
+  #   container_name: docker_registry
+  #   build: 
+  #     context: service-registry
+  #   ports:
+  #     - "8085"
+  #   environment:
+  #     API_SECRET: ${API_SECRET}
+  #     KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+  #     KEYCLOAK_CLIENT: ${KEYCLOAK_CLIENT}
+  #     KEYCLOAK_ENDPOINT: ${KEYCLOAK_ENDPOINT}
+  #   volumes:
+  #     - ./service-registry/data:/usr/src/app/scripts/util/data
+  #   networks:
+  #     - public
+
+  # keycloak-db-helper:
+  #   restart: always
+  #   container_name: docker_helper
+  #   build: 
+  #     context: keycloak-db-helper
+  #   environment:
+  #     API_SECRET: ${API_SECRET}
+  #     KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+  #     KEYCLOAK_CLIENT: ${KEYCLOAK_CLIENT}
+  #     KEYCLOAK_ENDPOINT: ${KEYCLOAK_ENDPOINT}
+  #     POSTGRES_DB: ${POSTGRES_DB}
+  #     POSTGRES_USER: ${POSTGRES_USER}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #     POSTGRES_ENDPOINT: postgres
+  #   networks:
+  #     - public
 
 networks:
   public: 

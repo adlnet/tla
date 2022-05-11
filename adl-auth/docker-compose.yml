@@ -52,8 +52,8 @@ services:
     build: 
       context: keycloak
     ports:
-      - "127.0.0.1:8080"
-      - "127.0.0.1:9990"
+      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:9990:9990"
     links:
       - postgres:docker_postgres
     environment:

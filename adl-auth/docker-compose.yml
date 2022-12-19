@@ -58,14 +58,19 @@ services:
       - postgres:docker_postgres
     environment:
       PROXY_ADDRESS_FORWARDING: "true"
-      DB_VENDOR: POSTGRES
-      DB_ADDR: postgres
-      DB_DATABASE: ${POSTGRES_DB}
-      DB_SCHEMA: public
-      DB_USER: ${POSTGRES_USER}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-      KEYCLOAK_USER: ${KEYCLOAK_USER}
-      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_USER}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_PASSWORD}
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+      KC_DB_USERNAME: ${POSTGRES_USER}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KC_DB_SCHEMA: public
+      KC_HOSTNAME: ${HOSTNAME}
+      KC_HOSTNAME_STRICT: "false"
+      KC_HTTP_ENABLED: "true"
+      KC_METRICS_ENABLED: "true"
+      KC_PROXY: "edge"
+      # KC_FEATURES: token-exchange
     networks:
       - public
 

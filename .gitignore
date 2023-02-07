@@ -2,3 +2,7 @@
 /scratch/
 /adl-lem/resolver/package-lock.json
 /adl-lem/mom-helper
+
+global.env
+**/local.env
+**/.env

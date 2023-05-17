@@ -17,6 +17,7 @@ Like anything else we write, this server uses Docker and Docker Compose.  While 
 1. `cd tla/adl-auth`
 1. `sudo ./install-reqs.sh`
 1. `sudo ./init-ssl.sh <domain-name>`
+1. Copy example env file to `.env`
 1. `sudo ./rebuild.sh`
 1. `sudo ./certbot/generate.sh <domain-name>`
 

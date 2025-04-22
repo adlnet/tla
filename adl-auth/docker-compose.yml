@@ -1,6 +1,4 @@
-version: '3'
-services:
- 
+services: 
   nginx:
     restart: always
     build:
@@ -18,7 +16,7 @@ services:
       - public
 
   certbot:
-    container_name: 'docker_certbot'
+    container_name: 'auth_certbot'
     image: certbot/certbot
     volumes:
       - ./keys:/var/lib/letsencrypt
@@ -52,7 +50,7 @@ services:
     build: 
       context: keycloak
     ports:
-      - "127.0.0.1:8080:8080"
+      - "8080:8080"
       - "127.0.0.1:9990:9990"
     links:
       - postgres:docker_postgres

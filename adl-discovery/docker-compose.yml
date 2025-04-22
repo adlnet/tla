@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   #CouchDB instance to act as the discovery service API
   #
@@ -18,50 +16,43 @@ services:
       - couchdb_data:/bitnami/couchdb
     restart: always
 
-
   # Nginx instance controlling traffic to each service
   #
   nginx:
-    restart: always
-    build:
-      context: nginx
-      args:
-        - HOSTNAME=${HOSTNAME}
-    ports:
-      - 80:80
-      - 443:443
+    image: adl-discovery-nginx
     container_name: docker_nginx
+    ports:
+      - "8083:80"
+      - "8443:443"
     volumes:
-      - ./nginx/letsencrypt:/usr/share/nginx/html
+      - ./nginx_logs:/var/log/nginx
       - ./certbot/etc:/usr/share/keys
+    depends_on:
+      - couchdb  # Changed from adl-discovery-couchdb-1
     networks:
       - public
 
   # Certbot for SSL automation
   #
   certbot:
-    container_name: 'docker_certbot'
+    container_name: 'discovery_certbot'
     image: certbot/certbot
     volumes:
       - ./keys:/var/lib/letsencrypt
       - ./nginx/letsencrypt:/data/letsencrypt
       - ./certbot/etc:/etc/letsencrypt
       - ./certbot/log:/var/log/letsencrypt
-    networks:
-      - public
     depends_on:
       - nginx
-    ports:
-      - 8080:8080
-
+    networks:
+      - public
 
 #volumes for CouchDB
 volumes:
   couchdb_data:
     driver: local
 
-
 #Network for the nginx server
 networks:
-  public: 
+  public:
     driver: bridge

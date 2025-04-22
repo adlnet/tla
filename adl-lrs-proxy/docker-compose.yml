@@ -1,4 +1,3 @@
-version: '3'
 services:
 
   # Database for LRS statements
@@ -6,7 +5,7 @@ services:
     restart: always
     build: 
       context: postgres
-    container_name: docker_postgres
+    container_name: lrs_postgres
     environment: 
       POSTGRES_DB: lrs
       POSTGRES_USER: lrs_owner
@@ -40,11 +39,11 @@ services:
         SMTP_USE_SSL: "${SMTP_USE_SSL}"
         SMTP_USE_TLS: "${SMTP_USE_TLS}"
     container_name: docker_lrs
-    links:
+    depends_on:
       - postgres
       - amqp
     ports:
-      - 127.0.0.1:8000:8000
+      - 8000:8000
   
   nginx:
     restart: always
@@ -54,18 +53,22 @@ services:
         PROXY_LRS_ROOT: "${PROXY_LRS_ROOT}"
         PROXY_HOST_NAME: "${PROXY_HOST_NAME}"
         PROXY_PORT: "${PROXY_PORT}"
-    container_name: docker_nginx
+    container_name: lrs_nginx
     volumes:
       - ./nginx/letsencrypt:/usr/share/nginx/html
       - ./certbot/etc:/usr/share/keys
     ports:
-      - 80:80
-      - 443:443
+      - 8084:80
+      - 8444:443
+    environment:
+      - PROXY_PORT_1=${PROXY_PORT_1}
+      - PROXY_PORT_2=${PROXY_PORT_2}
+      - PROXY_PORT_3=${PROXY_PORT_3}
 
   # Certbot for SSL automation
   #
   certbot:
-    container_name: 'docker_certbot'
+    container_name: 'lrs_certbot'
     image: certbot/certbot
     volumes:
       - ./keys:/var/lib/letsencrypt
@@ -81,13 +84,15 @@ services:
       context: kafka-lrs-proxy
     container_name: proxy_1
     environment:
-      PORT: "${PROXY_PORT}"
+      PORT: "${PROXY_PORT_1}"
       PROXY_INFER: "${PROXY_INFER}"
       PROXY_LRS_ROOT: "${PROXY_LRS_ROOT}"
       KAFKA_BROKER: "${KAFKA_BROKER}"
       KAFKA_XAPI_TOPIC: "${KAFKA_XAPI_TOPIC}"
       KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
       KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
+    ports:
+      - "${PROXY_PORT_1}:${PROXY_PORT_1}"
 
   lrs-proxy-2:
     restart: always
@@ -95,13 +100,15 @@ services:
       context: kafka-lrs-proxy
     container_name: proxy_2
     environment:
-      PORT: "${PROXY_PORT}"
+      PORT: "${PROXY_PORT_2}"
       PROXY_INFER: "${PROXY_INFER}"
       PROXY_LRS_ROOT: "${PROXY_LRS_ROOT}"
       KAFKA_BROKER: "${KAFKA_BROKER}"
       KAFKA_XAPI_TOPIC: "${KAFKA_XAPI_TOPIC}"
       KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
       KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
+    ports:
+      - "${PROXY_PORT_2}:${PROXY_PORT_2}"
 
   lrs-proxy-3:
     restart: always
@@ -109,10 +116,17 @@ services:
       context: kafka-lrs-proxy
     container_name: proxy_3
     environment:
-      PORT: "${PROXY_PORT}"
+      PORT: "${PROXY_PORT_3}"
       PROXY_INFER: "${PROXY_INFER}"
       PROXY_LRS_ROOT: "${PROXY_LRS_ROOT}"
       KAFKA_BROKER: "${KAFKA_BROKER}"
       KAFKA_XAPI_TOPIC: "${KAFKA_XAPI_TOPIC}"
       KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
       KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
+    ports:
+      - "${PROXY_PORT_3}:${PROXY_PORT_3}"
+
+
+
+
+

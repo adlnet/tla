@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 
 ARG SMTP_HOST
 ARG SMTP_PORT
@@ -7,14 +7,28 @@ ARG SMTP_PASSWORD
 ARG SMTP_USE_SSL
 ARG SMTP_USE_TLS
 
-ENV UWSGI_PIP_VERSION 2.0.13.1 
+ENV UWSGI_PIP_VERSION 2.0.13.1
+
+# Set time zone non-interactively
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=US/Eastern
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Install our reqs
-RUN apt-get update && apt-get install -y git fabric \
-	python-setuptools python-dev python-virtualenv \
-	libxml2-dev libxslt1-dev libpq-dev upstart-sysv gcc gettext
-
-RUN easy_install pip
+RUN apt-get update && apt-get install -y \
+    git \
+    fabric \
+    python3 \
+    python3-dev \
+    python3-venv \
+    python3-pip \
+    libxml2-dev \
+    libxslt1-dev \
+    libpq-dev \
+    postgresql-client \
+    nano \
+    gcc \
+    gettext
 
 # Clone the repo
 RUN mkdir /opt/lrs
@@ -28,16 +42,20 @@ COPY settings.ini /opt/lrs/ADL_LRS/adl_lrs/settings_temp.ini
 COPY modified-fabfile.py /opt/lrs/ADL_LRS/fabfile.py
 
 RUN cat /opt/lrs/ADL_LRS/adl_lrs/settings_temp.ini \
-	| envsubst '$SMTP_HOST' \
-	| envsubst '$SMTP_PORT' \
-	| envsubst '$SMTP_USERNAME' \
-	| envsubst '$SMTP_PASSWORD' \
-	| envsubst '$SMTP_USE_TLS' \
-	| envsubst '$SMTP_USE_SSL' \
-	| tee /opt/lrs/ADL_LRS/adl_lrs/settings.ini
+        | envsubst '$SMTP_HOST' \
+        | envsubst '$SMTP_PORT' \
+        | envsubst '$SMTP_USERNAME' \
+        | envsubst '$SMTP_PASSWORD' \
+        | envsubst '$SMTP_USE_TLS' \
+        | envsubst '$SMTP_USE_SSL' \
+        | tee /opt/lrs/ADL_LRS/adl_lrs/settings.ini
 
 # We'll need to run the setup
+COPY wait-for-postgres.sh /bin/wait-for-postgres.sh
 COPY setup-lrs.sh /bin/setup-lrs.sh
 COPY test-lrs.sh /bin/test-lrs.sh
+
+# Make scripts executable
+RUN chmod +x /bin/wait-for-postgres.sh /bin/setup-lrs.sh /bin/test-lrs.sh
 
 CMD ["/bin/setup-lrs.sh"]

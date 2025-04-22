@@ -6,3 +6,25 @@
 global.env
 **/local.env
 **/.env
+
+
+# Logs
+*.log
+
+# Data directories
+**/data/
+**/postgres/data/
+**/nginx_logs/
+
+# Temporary files
+**/=*
+**/node_modules/
+**/bitcoin*
+
+# Backup files
+*.bak
+
+# Node.js dependencies
+core-js*
+craco
+tla-portal*

@@ -1,172 +1,296 @@
-version: '3'
-
 services:
   zoo-1:
-    build: 
+    build:
       context: zookeeper
       args:
         KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
         KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
     container_name: zoo_1
-    network_mode: host
     restart: always
     environment:
       ZOOKEEPER_SERVER_ID: 1
-      ZOOKEEPER_CLIENT_PORT: 12181
+      ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-      ZOOKEEPER_SERVERS: localhost:22888:23888;localhost:32888:33888;localhost:42888:43888
+      ZOOKEEPER_SERVERS: zoo-1:2888:3888;zoo-2:2888:3888;zoo-3:2888:3888
       KAFKA_OPTS: -Djava.security.auth.login.config=/var/lib/zookeeper/login-config.txt
         -Dzookeeper.authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
         -Dzookeeper.requiredClientAuthScheme=sasl
         -Dlog4j2.formatMsgNoLookups=true
     volumes:
       - ./zookeeper/data/zk-1/zk-data:/var/lib/zookeeper/data
-      #- ./zookeeper/data/zk-1/zk-logs:/var/lib/zookeeper/log
-    extra_hosts:
-      - "moby:127.0.0.1"
+    command: >
+      sh -c "
+      echo 'Server {
+        org.apache.kafka.common.security.plain.PlainLoginModule required
+        username=\"$$KAFKA_SASL_USER\"
+        password=\"$$KAFKA_SASL_PASS\"
+        user_$$KAFKA_SASL_USER=\"$$KAFKA_SASL_PASS\";
+      };' > /var/lib/zookeeper/login-config.txt &&
+      /etc/confluent/docker/run
+      "
+    ports:
+      - 12181:2181
+      - 22888:2888
+      - 23888:3888
+    networks:
+      - kafka_network
+    healthcheck:
+      test: ["CMD", "pgrep", "java"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    depends_on: []
 
   zoo-2:
-    build: 
+    build:
       context: zookeeper
       args:
         KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
         KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
     container_name: zoo_2
-    network_mode: host
     restart: always
-    depends_on:
-      - zoo-1
     environment:
       ZOOKEEPER_SERVER_ID: 2
-      ZOOKEEPER_CLIENT_PORT: 22181
+      ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-      ZOOKEEPER_SERVERS: localhost:22888:23888;localhost:32888:33888;localhost:42888:43888
+      ZOOKEEPER_SERVERS: zoo-1:2888:3888;zoo-2:2888:3888;zoo-3:2888:3888
       KAFKA_OPTS: -Djava.security.auth.login.config=/var/lib/zookeeper/login-config.txt
         -Dzookeeper.authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
         -Dzookeeper.requiredClientAuthScheme=sasl
         -Dlog4j2.formatMsgNoLookups=true
     volumes:
       - ./zookeeper/data/zk-2/zk-data:/var/lib/zookeeper/data
-      #- ./zookeeper/data/zk-2/zk-logs:/var/lib/zookeeper/log
-    extra_hosts:
-      - "moby:127.0.0.1"
+    command: >
+      sh -c "
+      echo 'Server {
+        org.apache.kafka.common.security.plain.PlainLoginModule required
+        username=\"$$KAFKA_SASL_USER\"
+        password=\"$$KAFKA_SASL_PASS\"
+        user_$$KAFKA_SASL_USER=\"$$KAFKA_SASL_PASS\";
+      };' > /var/lib/zookeeper/login-config.txt &&
+      /etc/confluent/docker/run
+      "
+    ports:
+      - 22181:2181
+      - 32888:2888
+      - 33888:3888
+    networks:
+      - kafka_network
+    healthcheck:
+      test: ["CMD", "pgrep", "java"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    depends_on:
+      zoo-1:
+        condition: service_healthy
 
   zoo-3:
-    build: 
+    build:
       context: zookeeper
       args:
         KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
         KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
     container_name: zoo_3
-    network_mode: host
     restart: always
-    depends_on:
-      - zoo-1
-      - zoo-2
     environment:
       ZOOKEEPER_SERVER_ID: 3
-      ZOOKEEPER_CLIENT_PORT: 32181
+      ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-      ZOOKEEPER_SERVERS: localhost:22888:23888;localhost:32888:33888;localhost:42888:43888
+      ZOOKEEPER_SERVERS: zoo-1:2888:3888;zoo-2:2888:3888;zoo-3:2888:3888
       KAFKA_OPTS: -Djava.security.auth.login.config=/var/lib/zookeeper/login-config.txt
         -Dzookeeper.authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
         -Dzookeeper.requiredClientAuthScheme=sasl
         -Dlog4j2.formatMsgNoLookups=true
     volumes:
       - ./zookeeper/data/zk-3/zk-data:/var/lib/zookeeper/data
-      #- ./zookeeper/data/zk-3/zk-logs:/var/lib/zookeeper/log
-    extra_hosts:
-      - "moby:127.0.0.1"
+    command: >
+      sh -c "
+      echo 'Server {
+        org.apache.kafka.common.security.plain.PlainLoginModule required
+        username=\"$$KAFKA_SASL_USER\"
+        password=\"$$KAFKA_SASL_PASS\"
+        user_$$KAFKA_SASL_USER=\"$$KAFKA_SASL_PASS\";
+      };' > /var/lib/zookeeper/login-config.txt &&
+      /etc/confluent/docker/run
+      "
+    ports:
+      - 32181:2181
+      - 42888:2888
+      - 43888:3888
+    networks:
+      - kafka_network
+    healthcheck:
+      test: ["CMD", "pgrep", "java"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    depends_on:
+      zoo-2:
+        condition: service_healthy
 
   kafka-1:
-    build: 
+    build:
       context: kafka
       args:
         KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
         KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
     container_name: kafka_1
-    network_mode: host
     restart: always
-    depends_on:
-      - zoo-1
-      - zoo-2
-      - zoo-3
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: localhost:12181,localhost:22181,localhost:32181
-      KAFKA_ADVERTISED_HOST_NAME: "${KAFKA_HOST}"
-      KAFKA_ADVERTISED_LISTENERS: "SASL_PLAINTEXT://${KAFKA_HOST}:19092"
+      KAFKA_ZOOKEEPER_CONNECT: zoo-1:2181,zoo-2:2181,zoo-3:2181
+      KAFKA_ADVERTISED_HOST_NAME: kafka-1
+      KAFKA_ADVERTISED_LISTENERS: "SASL_PLAINTEXT://kafka-1:19092"
       KAFKA_SECURITY_INTER_BROKER_PROTOCOL: SASL_PLAINTEXT
       KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
       KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
-      KAFKA_OPTS: -Djava.security.auth.login.config=/var/lib/kafka/server-config.txt
+      KAFKA_ZOOKEEPER_PROTOCOL: SASL
+      KAFKA_SASL_MECHANISM: PLAIN
+      KAFKA_OPTS: -Djava.security.auth.login.config=/etc/kafka/kafka-jaas.conf
         -Dauto.create.topics.enable=false
         -Dlog4j2.formatMsgNoLookups=true
     volumes:
-      - ./kafka/data/broker-1:/var/lib/kafka/data
-    extra_hosts:
-      - "moby:127.0.0.1"
-      
+      - ./fix-permissions.sh:/fix-permissions.sh
+      - ./kafka/data/kafka-1:/var/lib/kafka/data
+    command: >
+      sh -c "
+      echo 'Client {
+        org.apache.kafka.common.security.plain.PlainLoginModule required
+        username=\"$$KAFKA_SASL_USER\"
+        password=\"$$KAFKA_SASL_PASS\";
+      };
+      KafkaServer {
+        org.apache.kafka.common.security.plain.PlainLoginModule required
+        username=\"$$KAFKA_SASL_USER\"
+        password=\"$$KAFKA_SASL_PASS\"
+        user_$$KAFKA_SASL_USER=\"$$KAFKA_SASL_PASS\";
+      };' > /etc/kafka/kafka-jaas.conf &&
+      /fix-permissions.sh
+      "
+    ports:
+      - 19092:19092
+    depends_on:
+      zoo-1:
+        condition: service_healthy
+      zoo-2:
+        condition: service_healthy
+      zoo-3:
+        condition: service_healthy
+    networks:
+      - kafka_network
+
   kafka-2:
-    build: 
+    build:
       context: kafka
       args:
         KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
         KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
     container_name: kafka_2
-    network_mode: host
     restart: always
-    depends_on:
-      - zoo-1
-      - zoo-2
-      - zoo-3
     environment:
       KAFKA_BROKER_ID: 2
-      KAFKA_ZOOKEEPER_CONNECT: localhost:12181,localhost:22181,localhost:32181
-      KAFKA_ADVERTISED_HOST_NAME: "${KAFKA_HOST}"
-      KAFKA_ADVERTISED_LISTENERS: "SASL_PLAINTEXT://${KAFKA_HOST}:29092"
+      KAFKA_ZOOKEEPER_CONNECT: zoo-1:2181,zoo-2:2181,zoo-3:2181
+      KAFKA_ADVERTISED_HOST_NAME: kafka-2
+      KAFKA_ADVERTISED_LISTENERS: "SASL_PLAINTEXT://kafka-2:29092"
       KAFKA_SECURITY_INTER_BROKER_PROTOCOL: SASL_PLAINTEXT
       KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
       KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
-      KAFKA_OPTS: -Djava.security.auth.login.config=/var/lib/kafka/server-config.txt
+      KAFKA_ZOOKEEPER_PROTOCOL: SASL
+      KAFKA_SASL_MECHANISM: PLAIN
+      KAFKA_OPTS: -Djava.security.auth.login.config=/etc/kafka/kafka-jaas.conf
         -Dauto.create.topics.enable=false
         -Dlog4j2.formatMsgNoLookups=true
     volumes:
-      - ./kafka/data/broker-2:/var/lib/kafka/data
-    extra_hosts:
-      - "moby:127.0.0.1"
+      - ./fix-permissions.sh:/fix-permissions.sh
+      - ./kafka/data/kafka-2:/var/lib/kafka/data
+    command: >
+      sh -c "
+      echo 'Client {
+        org.apache.kafka.common.security.plain.PlainLoginModule required
+        username=\"$$KAFKA_SASL_USER\"
+        password=\"$$KAFKA_SASL_PASS\";
+      };
+      KafkaServer {
+        org.apache.kafka.common.security.plain.PlainLoginModule required
+        username=\"$$KAFKA_SASL_USER\"
+        password=\"$$KAFKA_SASL_PASS\"
+        user_$$KAFKA_SASL_USER=\"$$KAFKA_SASL_PASS\";
+      };' > /etc/kafka/kafka-jaas.conf &&
+      /fix-permissions.sh
+      "
+    ports:
+      - 29092:29092
+    depends_on:
+      zoo-1:
+        condition: service_healthy
+      zoo-2:
+        condition: service_healthy
+      zoo-3:
+        condition: service_healthy
+    networks:
+      - kafka_network
 
   kafka-3:
-    build: 
+    build:
       context: kafka
       args:
         KAFKA_SASL_USER: "${KAFKA_SASL_USER}"
         KAFKA_SASL_PASS: "${KAFKA_SASL_PASS}"
     container_name: kafka_3
-    network_mode: host
     restart: always
-    depends_on:
-      - zoo-1
-      - zoo-2
-      - zoo-3
     environment:
       KAFKA_BROKER_ID: 3
-      KAFKA_ZOOKEEPER_CONNECT: localhost:12181,localhost:22181,localhost:32181
-      KAFKA_ADVERTISED_HOST_NAME: "${KAFKA_HOST}"
-      KAFKA_ADVERTISED_LISTENERS: "SASL_PLAINTEXT://${KAFKA_HOST}:39092"
+      KAFKA_ZOOKEEPER_CONNECT: zoo-1:2181,zoo-2:2181,zoo-3:2181
+      KAFKA_ADVERTISED_HOST_NAME: kafka-3
+      KAFKA_ADVERTISED_LISTENERS: "SASL_PLAINTEXT://kafka-3:39092"
       KAFKA_SECURITY_INTER_BROKER_PROTOCOL: SASL_PLAINTEXT
       KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
       KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
-      KAFKA_OPTS: -Djava.security.auth.login.config=/var/lib/kafka/server-config.txt
+      KAFKA_ZOOKEEPER_PROTOCOL: SASL
+      KAFKA_SASL_MECHANISM: PLAIN
+      KAFKA_OPTS: -Djava.security.auth.login.config=/etc/kafka/kafka-jaas.conf
         -Dauto.create.topics.enable=false
         -Dlog4j2.formatMsgNoLookups=true
     volumes:
-      - ./kafka/data/broker-3:/var/lib/kafka/data
-    extra_hosts:
-      - "moby:127.0.0.1"
+      - ./fix-permissions.sh:/fix-permissions.sh
+      - ./kafka/data/kafka-3:/var/lib/kafka/data
+    command: >
+      sh -c "
+      echo 'Client {
+        org.apache.kafka.common.security.plain.PlainLoginModule required
+        username=\"$$KAFKA_SASL_USER\"
+        password=\"$$KAFKA_SASL_PASS\";
+      };
+      KafkaServer {
+        org.apache.kafka.common.security.plain.PlainLoginModule required
+        username=\"$$KAFKA_SASL_USER\"
+        password=\"$$KAFKA_SASL_PASS\"
+        user_$$KAFKA_SASL_USER=\"$$KAFKA_SASL_PASS\";
+      };' > /etc/kafka/kafka-jaas.conf &&
+      /fix-permissions.sh
+      "
+    ports:
+      - 39092:39092
+    depends_on:
+      zoo-1:
+        condition: service_healthy
+      zoo-2:
+        condition: service_healthy
+      zoo-3:
+        condition: service_healthy
+    networks:
+      - kafka_network
+
+networks:
+  kafka_network:
+    driver: bridge

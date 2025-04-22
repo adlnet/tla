@@ -1,6 +1,4 @@
-version: '3'
 services:
-  
   # Nginx instance controlling traffic to each service
   #
   nginx:
@@ -10,9 +8,9 @@ services:
       args:
         - CONTENT_HOST=${CONTENT_HOST}
     ports:
-      - 80:80
-      - 443:443
-    container_name: docker_nginx
+      - 8081:80  # Map host port 8081 to container port 80
+      - 8441:443 # Map host port 8441 to container port 443
+    container_name: content_nginx
     volumes:
       - ./nginx/letsencrypt:/usr/share/nginx/html
       - ./certbot/etc:/usr/share/keys
@@ -22,7 +20,7 @@ services:
   # Certbot for SSL automation
   #
   certbot:
-    container_name: 'docker_certbot'
+    container_name: 'content_certbot'
     image: certbot/certbot
     volumes:
       - ./keys:/var/lib/letsencrypt
@@ -38,7 +36,7 @@ services:
   #
   players:
     restart: always
-    build: 
+    build:
       context: players
     container_name: docker_players
     environment:
@@ -56,7 +54,7 @@ services:
   #
   content:
     restart: always
-    build: 
+    build:
       context: static-content
     container_name: docker_content
     networks:
@@ -68,7 +66,7 @@ services:
       PORT: 3000
     volumes:
       - ./content:/usr/src/app/files/content
-   
+
 networks:
-  public: 
+  public:
     driver: bridge

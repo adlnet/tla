@@ -1,7 +1,4 @@
-version: '3'
-
 services:
-  
   web:
     restart: always
     build:
@@ -28,7 +25,7 @@ services:
     ports:
       - 80:80
       - 443:443
-    container_name: docker_nginx
+    container_name: portal_nginx
     volumes:
       - ./nginx/letsencrypt:/usr/share/nginx/html
       - ./certbot/etc:/usr/share/keys
@@ -47,8 +44,7 @@ services:
       - ./certbot/log:/var/log/letsencrypt
     networks:
       - public
-    depends_on:
-      - nginx
+    command: tail -f /dev/null
 
 networks:
   public: 
